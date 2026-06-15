@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/font-awesome/css/all.min.css') }}">
     <style>
-        body { min-height: 100vh; display: grid; place-items: center; background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%); }
+        body { min-height: 100vh; display: grid; place-items: center; background: linear-gradient(135deg, #f6f8fd 100%); }
         .login-box { max-width: 460px; width: 100%; background: #fff; border-radius: 1rem; box-shadow: 0 28px 75px rgba(0,0,0,.15); }
         .login-header { background: #1e3a8a; color: #fff; border-top-left-radius: 1rem; border-top-right-radius: 1rem; padding: 2rem; }
     </style>
@@ -37,7 +37,7 @@
                     <input class="form-check-input" type="checkbox" name="remember" id="remember">
                     <label class="form-check-label" for="remember">Ingat saya</label>
                 </div>
-                <button type="submit" class="btn btn-primary w-100">Masuk</button>
+                <button type="submit" class="btn w-100" style="background-color: #1e3a8a; color: white;">Masuk</button>
             </form>
         </div>
     </div>

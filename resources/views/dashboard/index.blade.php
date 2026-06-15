@@ -195,14 +195,15 @@
         new Chart(chartBorrowings, {
             type: 'bar',
             data: {
-                labels: @json($borrowingsMonthly->pluck('month')->map(fn($m) => 
-                    DateTime.fromISO(`${new Date().getFullYear()}-${String($m).padStart(2, '0')}-01`).toLocaleString({ month: 'short' })) ),
-                datasets: [{
-                    label: 'Peminjaman',
-                    data: @json($borrowingsMonthly->pluck('total')),
-                    backgroundColor: 'rgba(37, 99, 235, 0.7)',
-                    borderColor: 'rgba(30, 58, 138, 1)',
-                    borderWidth: 1
+            labels: @json($borrowingsMonthly->pluck('month')->map(fn($m) => 
+                "DateTime.fromISO(`${new Date().getFullYear()}-${String($m).padStart(2, '0')}-01`).toLocaleString({ month: 'short' })"
+            )),
+            datasets: [{
+                label: 'Peminjaman',
+                data: @json($borrowingsMonthly->pluck('total')),
+                backgroundColor: 'rgba(37, 99, 235, 0.7)',
+                borderColor: 'rgba(30, 58, 138, 1)',
+                borderWidth: 1
                 }]
             },
             options: {

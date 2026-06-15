@@ -27,26 +27,26 @@
     <div class="col-md-4">
         <div class="mb-3">
             <label class="form-label">Tanggal Pinjam</label>
-            <input type="date" name="tanggal_pinjam" value="{{ old('tanggal_pinjam', optional($borrowing->tanggal_pinjam)->format('Y-m-d')) }}" class="form-control" required>
+            <input type="date" name="tanggal_pinjam" value="{{ old('tanggal_pinjam', isset($borrowing) && $borrowing->tanggal_keluar ? \Carbon\Carbon::parse($borrowing->tanggal_keluar)->format('Y-m-d') : '') }}" class="form-control">
             @error('tanggal_pinjam')<div class="text-danger mt-1">{{ $message }}</div>@enderror
         </div>
     </div>
     <div class="col-md-4">
         <div class="mb-3">
             <label class="form-label">Tanggal Kembali</label>
-            <input type="date" name="tanggal_kembali" value="{{ old('tanggal_kembali', optional($borrowing->tanggal_kembali)->format('Y-m-d')) }}" class="form-control">
+            <input type="date" name="tanggal_kembali" value="{{ old('tanggal_kembali', isset($borrowing) && $borrowing->tanggal_kembali ? \Carbon\Carbon::parse($borrowing->tanggal_kembali)->format('Y-m-d') : '') }}" class="form-control">
             @error('tanggal_kembali')<div class="text-danger mt-1">{{ $message }}</div>@enderror
         </div>
     </div>
     <div class="col-md-4">
         <div class="mb-3">
             <label class="form-label">Status</label>
-            <select name="status" class="form-select" required>
-                <option value="dipinjam" {{ old('status', $borrowing->status ?? '') == 'dipinjam' ? 'selected' : '' }}>Dipinjam</option>
-                <option value="selesai" {{ old('status', $borrowing->status ?? '') == 'selesai' ? 'selected' : '' }}>Selesai</option>
-                <option value="ditolak" {{ old('status', $borrowing->status ?? '') == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
+            <select name="status_pinjam" class="form-select" required>
+                <option value="dipinjam" {{ old('status_pinjam', $borrowing->status_pinjam ?? '') == 'dipinjam' ? 'selected' : '' }}>Dipinjam</option>
+                <option value="dikembalikan" {{ old('status_pinjam', $borrowing->status_pinjam ?? '') == 'dikembalikan' ? 'selected' : '' }}>Dikembalikan</option>
+                <option value="terlambat" {{ old('status_pinjam', $borrowing->status_pinjam ?? '') == 'terlambat' ? 'selected' : '' }}>Terlambat</option>
             </select>
-            @error('status')<div class="text-danger mt-1">{{ $message }}</div>@enderror
+            @error('status_pinjam')<div class="text-danger mt-1">{{ $message }}</div>@enderror
         </div>
     </div>
     <div class="col-12">

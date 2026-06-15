@@ -11,6 +11,8 @@ class Borrowing extends Model
 {
     use HasFactory;
 
+    protected $table = 'peminjaman_arsip';
+
     protected $casts = [
         'tanggal_pinjam' => 'date',
         'tanggal_kembali' => 'date',
