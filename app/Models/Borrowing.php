@@ -2,29 +2,29 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-#[Fillable(['archive_id', 'user_id', 'nama_peminjam', 'nip', 'unit_kerja', 'tanggal_pinjam', 'tanggal_kembali', 'status', 'keterangan'])]
 class Borrowing extends Model
 {
     use HasFactory;
 
     protected $table = 'peminjaman_arsip';
 
-    protected $casts = [
-        'tanggal_pinjam' => 'date',
-        'tanggal_kembali' => 'date',
+    protected $fillable = [
+        'arsip_id', 
+        'nama_peminjam', 
+        'divisi_peminjam', 
+        'tanggal_keluar', 
+        'petugas_keluar_id', 
+        'tanggal_masuk', 
+        'petugas_masuk_id', 
+        'status_pinjam', 
+        'keterangan_kondisi'
     ];
 
     public function archive()
     {
-        return $this->belongsTo(Archive::class);
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Archive::class, 'arsip_id');
     }
 }

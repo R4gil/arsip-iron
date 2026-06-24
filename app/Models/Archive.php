@@ -11,6 +11,10 @@ class Archive extends Model
 {
     use HasFactory;
 
+    protected $table = 'arsip';
+    protected $fillable = [
+        'nama_arsip', 'nomor_surat', 'status_ketersediaan', // sesuaikan dengan kolom Anda
+    ];
     protected $casts = [
         'tanggal_arsip' => 'date',
     ];

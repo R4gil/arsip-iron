@@ -1,22 +1,39 @@
-@extends('layouts.dashboard')
-
-@section('title', 'Perbarui Peminjaman')
-@section('subtitle', 'Ubah tanggal, arsip, atau status peminjaman sesuai kondisi terbaru.')
-
-@section('content')
-    <div class="card card-soft shadow-sm">
-        <div class="card-header card-header-soft">
-            <h5 class="mb-0">Edit Transaksi Peminjaman</h5>
-        </div>
-        <div class="card-body">
-            <form action="{{ route('borrowings.update', $borrowing) }}" method="POST">
-                @method('PUT')
-                @include('borrowings.form')
-                <div class="mt-4">
-                    <a href="{{ route('borrowings.index') }}" class="btn btn-outline-secondary">Batal</a>
-                    <button type="submit" class="btn btn-primary">Perbarui Peminjaman</button>
-                </div>
-            </form>
+@csrf
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group mb-3">
+            <label class="form-label font-weight-bold">Arsip</label>
+            <select name="arsip_id" class="form-control select2" required>
+                <option value="">-- Pilih Arsip --</option>
+                @foreach($archives as $archive)
+                    <option value="{{ $archive->id }}" {{ old('arsip_id', $borrowing->arsip_id ?? '') == $archive->id ? 'selected' : '' }}>
+                        {{ $archive->nama_arsip }}
+                    </option>
+                @endforeach
+            </select>
         </div>
     </div>
-@endsection
+
+    <div class="col-md-6">
+        <div class="form-group mb-3">
+            <label class="form-label font-weight-bold">Nama Peminjam</label>
+            <input type="text" name="nama_peminjam" value="{{ old('nama_peminjam', $borrowing->nama_peminjam ?? '') }}" class="form-control" required>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group mb-3">
+            <label class="form-label font-weight-bold">Divisi</label>
+            <input type="text" name="divisi_peminjam" value="{{ old('divisi_peminjam', $borrowing->divisi_peminjam ?? '') }}" class="form-control" required>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group mb-3">
+            <label class="form-label font-weight-bold">Tanggal Pinjam</label>
+            <input type="date" name="tanggal_keluar" value="{{ old('tanggal_keluar', isset($borrowing->tanggal_keluar) ? \Carbon\Carbon::parse($borrowing->tanggal_keluar)->format('Y-m-d') : '') }}" class="form-control" required>
+        </div>
+    </div>
+</div>

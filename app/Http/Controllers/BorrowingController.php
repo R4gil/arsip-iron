@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\BorrowingStoreRequest;
 use App\Models\Archive;
 use App\Models\Borrowing;
 use App\Models\User;
@@ -10,74 +9,76 @@ use Illuminate\Http\Request;
 
 class BorrowingController extends Controller
 {
+    
+    public function create()
+    {
+        // Ambil data arsip
+        $archives = \DB::table('arsip')->where('status_ketersediaan', 'tersedia')->get();
+
+        // Ambil data pengguna
+        $users = User::all();
+
+        // TAMBAHKAN INI: Ambil data unit kerja
+        $units = \DB::table('users')->select('unit_kerja')->whereNotNull('unit_kerja')->distinct()->get();
+
+        // Kirim ketiganya ke view
+        return view('borrowings.create', compact('archives', 'users', 'units'));
+    }
+
     public function index(Request $request)
     {
-        $query = Borrowing::with(['archive', 'user']);
+        $query = Borrowing::with(['archive']);
 
         if ($request->filled('search')) {
             $query->where(function ($q) use ($request) {
                 $q->where('nama_peminjam', 'like', "%{$request->search}%")
-                    ->orWhereHas('archive', fn ($q) => $q->where('nomor_arsip', 'like', "%{$request->search}%")
-                        ->orWhere('nama_arsip', 'like', "%{$request->search}%"));
+                  ->orWhereHas('archive', fn($q) => $q->where('nama_arsip', 'like', "%{$request->search}%"));
             });
         }
 
-        $borrowings = $query->latest('tanggal_pinjam')->paginate(15)->withQueryString();
+        $borrowings = $query->latest('tanggal_keluar')->paginate(15)->withQueryString();
 
         $stats = [
-            'dipinjam' => Borrowing::where('status_pinjam', 'dipinjam')->count(),
-            'dikembalikan' => Borrowing::where('status_pinjam', 'dikembalikan')->count(),
-            'terlambat' => Borrowing::where('status_pinjam', 'terlambat')->count(),
+            'dipinjam' => Borrowing::where('status_pinjam', 'Dipinjam')->count(),
+            'dikembalikan' => Borrowing::where('status_pinjam', 'Dikembalikan')->count(),
+            'terlambat' => Borrowing::where('status_pinjam', 'Terlambat')->count(),
         ];
 
         return view('borrowings.index', compact('borrowings', 'stats'));
     }
 
-    public function create()
+    public function store(Request $request)
     {
+        $validated = $request->validate([
+            'arsip_id'        => 'required|exists:arsip,id',
+            'nama_peminjam'   => 'required|string|max:150',
+            'divisi_peminjam' => 'required|string|max:100',
+            'tanggal_keluar'  => 'required|date',
+        ]);
         
-        $archives = \DB::table('arsip')
-             ->where('status_ketersediaan', 'tersedia')
-             ->orderBy('nama_arsip') // <-- Jika nama kolomnya bukan 'nama_arsip', ganti dengan kolom yang sesuai di tabel kamu (misalnya 'id')
-             ->get();
-
-        $users = \App\Models\User::orderBy('username')->get();
-
-        return view('borrowings.create', compact('archives', 'users'));
-    }
-
-    public function store(BorrowingStoreRequest $request)
-    {
-        $borrowing = Borrowing::create(array_merge($request->validated(), [
-            'id' => auth()->id(),
-            'status_pinjam' => 'dipinjam',
+        Borrowing::create(array_merge($validated, [
+            'petugas_keluar_id' => auth()->id(),
+            'status_pinjam'     => 'Dipinjam',
         ]));
 
-        $borrowing->archive->update(['status_pinjam' => 'dipinjam']);
+        // Update status di tabel arsip
+        \DB::table('arsip')->where('id', $request->arsip_id)
+            ->update(['status_ketersediaan' => 'dipinjam']);
 
         return redirect()->route('borrowings.index')->with('success', 'Peminjaman arsip berhasil disimpan.');
-    }
-
-    public function show(Borrowing $borrowing)
-    {
-        return view('borrowings.show', compact('borrowing'));
-    }
-
-    public function edit(Borrowing $borrowing)
-    {
-        $archives = Archive::where(function ($query) use ($borrowing) {
-            $query->where('status_pinjam', 'tersedia')->orWhere('id', $borrowing->archive_id);
-        })->orderBy('nama_arsip')->get();
-        $users = User::orderBy('username')->get();
-
-        return view('borrowings.edit', compact('borrowing', 'archives', 'users'));
     }
 
     public function update(Request $request, Borrowing $borrowing)
     {
         if ($request->filled('action') && $request->action === 'return') {
-            $borrowing->update(['status_pinjam' => 'dikembalikan', 'tanggal_kembali' => now()->toDateString()]);
-            $borrowing->archive->update(['status_pinjam' => 'tersedia']);
+            $borrowing->update([
+                'status_pinjam'   => 'Dikembalikan', 
+                'tanggal_masuk'   => now(),
+                'petugas_masuk_id' => auth()->id()
+            ]);
+
+            \DB::table('arsip')->where('id', $borrowing->arsip_id)
+                ->update(['status_ketersediaan' => 'tersedia']);
 
             return redirect()->route('borrowings.index')->with('success', 'Arsip berhasil dikembalikan.');
         }
@@ -87,8 +88,9 @@ class BorrowingController extends Controller
 
     public function destroy(Borrowing $borrowing)
     {
-        if ($borrowing->status_pinjam === 'dipinjam') {
-            $borrowing->archive->update(['status_pinjam' => 'tersedia']);
+        if ($borrowing->status_pinjam === 'Dipinjam') {
+            \DB::table('arsip')->where('id', $borrowing->arsip_id)
+                ->update(['status_ketersediaan' => 'tersedia']);
         }
 
         $borrowing->delete();

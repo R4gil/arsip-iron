@@ -219,9 +219,23 @@
                                                 <i class="fas fa-plus-circle" style="font-size: 10px; margin-right: 5px;"></i> Tambah Arsip
                                             </a>
                                         </li>
-                                        <li class="{{ request()->routeIs('borrowings.*') ? 'active' : '' }}">
+                                    </ul>
+                                </li>
+
+                                <li class="nav-parent {{ request()->routeIs('borrowings.*') ? 'nav-expanded nav-active' : '' }}">
+                                        <a class="nav-link" href="#">
+                                            <i class="fas fa-book" aria-hidden="true"></i>
+                                            <span>Peminjaman Arsip</span>
+                                        </a>
+                                    <ul class="nav nav-children" style="background: rgba(0, 0, 0, 0.15); border-radius: 4px;">
+                                        <li class="{{ request()->routeIs('borrowings.index') ? 'active' : '' }}">
                                             <a href="{{ route('borrowings.index') }}" style="color: #f8fafc !important; font-size: 12px; padding-left: 25px;">
-                                                <i class="fas fa-hand-holding" style="font-size: 10px; margin-right: 5px;"></i> Peminjaman Arsip
+                                                <i class="fas fa-list-ul" style="font-size: 10px; margin-right: 5px;"></i> Daftar Peminjaman
+                                            </a>
+                                        </li>
+                                        <li class="{{ request()->routeIs('borrowings.create') ? 'active' : '' }}">
+                                             <a href="{{ route('borrowings.create') }}" style="color: #f8fafc !important; font-size: 12px; padding-left: 25px;">
+                                                 <i class="fas fa-plus-circle" style="font-size: 10px; margin-right: 5px;"></i> Tambah Peminjaman
                                             </a>
                                         </li>
                                     </ul>

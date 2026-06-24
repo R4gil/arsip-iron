@@ -1,0 +1,726 @@
+,
+Kode,Keterangan
+PR,Perencanaan
+PR.01,Program dan Anggaran
+PR.01.01,Rencana Strategis
+PR.01.02,Trilateral Meeting
+PR.01.03,Rencana Kerja
+PR.01.04,Rencana Kerja dan Anggaran
+PR.02,Evaluasi
+PR.02.01,Unit Utama
+PR.02.02,Kantor Wilayah
+PR.03,Laporan Akuntabilitas Kinerja Instansi Pemerintah (LAKIP)
+PR.04,Pelaporan
+PR.04.01,Laporan Tetap
+PR.04.02,Laporan Insidentil
+PR.05,Rapat Kerja
+PR.05.01,Dengan Dewan Perwakilan Rakyat (DPR)
+PR.05.02,Tingkat Kementerian
+PR.05.03,Tingkat Unit Utama (Rapat Kerja Teknis)
+PR.05.04,Tingkat Kantor Wilayah
+PR.05.05,Rapat Pimpinan dan Rapat Staf
+PR.06,Sidang Kabinet
+PR.06.01,Sidang Kabinet Terbatas
+PR.06.02,Sidang Kabinet Paripurna
+KU,Keuangan
+KU.01,Pelaksanaan Anggaran
+KU.01.01,"Pedoman, Petunjuk, dan Administrasi Pelaksanaan Anggaran"
+KU.01.02,Daftar Isian Pelaksanaan Anggaran (DIPA)
+KU.01.03,Penerimaan Negara Bukan Pajak (PNBP)
+KU.02,Tata Usaha Keuangan
+KU.02.01,Pedoman dan Petunjuk Administrasi Keuangan
+KU.02.02,Penatausahaan Hibah
+KU.02.03,Pejabat Perbendaharaan Negara
+KU.02.04,Penyelesaian Kerugian Negara
+KU.02.05,Penatausahaan Rekening Pemerintah
+KU.03,Perbendaharaan
+KU.03.01,Dokumen Pertanggungjawaban Belanja
+KU.03.02,Buku Kas Umum dan Buku Pembantu
+KU.03.03,Laporan Pertanggungjawaban (LPJ) Bendahara Pengeluaran
+KU.03.04,LPJ Bendahara Penerimaan
+KU.03.05,Penerimaan Negara Pajak
+KU.04,Akuntansi dan Pelaporan
+KU.04.01,Laporan Keuangan
+KU.04.02,Rekonsiliasi dan Data Laporan Keuangan
+KU.04.03,Penyelesaian Tindak Lanjut Temuan Hasil Pemeriksaan BPK dan Inspektorat Jenderal.
+OT,Organisasi DAN TATA Laksana
+OT.01,Organisasi dan Tata Kerja
+OT.01.01,Organisasi dan Tata Kerja Kementerian
+OT.01.02,Organisasi dan Tata Kerja Kantor Wilayah
+OT.01.03,Organisasi dan Tata Kerja Unit Pelaksana Teknis (UPT)
+OT.01.04,Evaluasi Kelembagaan
+OT.02,Ketatalaksanaan
+OT.02.01,Standarisasi Sarana Kerja
+OT.02.02,"Sistem, Prosedur dan Metode Kerja"
+OT.02.03,Analisa dan Uraian Jabatan
+OT.03,Reformasi Birokrasi
+OT.03.01,Penilaian Mandiri Pelaksanaan Reformasi Birokrasi (PMPRB)
+OT.03.02,Zona Integritas (ZI)
+OT.03.03,Evaluasi Reformasi Birokrasi
+OT.04,Instruksi Menteri
+SA,Sumber DAYA Manusia (SDM) Aparatur
+SA.01,Formasi SDM Aparatur
+SA.01.01,Inventarisasi Jabatan/Peta Jabatan
+SA.01.02,Evaluasi Jabatan
+SA.01.03,Usulan Formasi
+SA.01.04,Alokasi Formasi
+SA.02,Penerimaan/Pengadaan SDM Aparatur
+SA.02.01,Proses Penerimaan SDM Aparatur
+SA.02.02,Berkas Lamaran Yang Tidak Diterima
+SA.02.03,Surat Keputusan Calon Pegawai Negeri Sipil (CPNS)/Pegawai Negeri Sipil (PNS) Kolektif
+SA.02.04,Penerimaan SDM Aparatur dari Politeknik Ilmu Pemasyarakatan dan Politeknik Imigrasi
+SA.02.05,Ujian Dinas dan Ujian Penyesuaian Ijazah
+SA.03,Pengangkatan SDM Aparatur
+SA.03.01,Pengangkatan CPNS
+SA.03.02,Pengangkatan PNS
+SA.03.03,Pengangkatan Jabatan Struktural
+SA.03.04,Pengangkatan Jabatan Fungsional
+SA.04,Mutasi SDM Aparatur
+SA.04.01,Alih Tugas/Diperbantukan/Dipekerjakan/Pelaksana
+SA.04.02,Pelaksana Harian/Pelaksana Tugas
+SA.04.03,Pencantuman gelar Akademik
+SA.04.04,Kenaikan Gaji Berkala (KGB)
+SA.04.05,Kenaikan Pangkat (KP)/Golongan
+SA.04.06,Peninjauan Masa Kerja
+SA.04.07,Berkas Badan Pertimbangan Jabatan dan Kepangkatan (Baperjakat)
+SA.04.08,Pengaktifan Kembali dari Cuti Luar Tanggungan Negara (CTLN) dan Hukuman Disiplin
+SA.05,Pembinaan SDM Aparatur
+SA.05.01,Penilaian Prestasi Kerja Pegawai (PPKP)
+SA.05.02,Pembinaan Disiplin dan Kode Etik
+SA.05.03,Pemberian Penghargaan dan Tanda Jasa
+SA.06,Pengembangan SDM Aparatur
+SA.06.01,Pengembangan Kompetensi Jabatan Pimpinan Tinggi dan
+SA.06.02,Pengembangan Kompetensi Fungsional
+SA.06.03,Pengiriman Peserta Diklat
+SA.06.04,Bea Siswa
+SA.07,Hukuman Disiplin
+SA.07.01,"Tingkat Ringan (Pernyataan Tidak Puas, Teguran Lisan, Teguran"
+SA.07.02,"Tingkat Sedang (Penundaan KGB, KP dan Penurunan Gaji)"
+SA.07.03,"Tingkat Berat (Penurunan Pangkat, Pembebasan Jabatan, Pemberhentian Dengan Hormat/Tidak Dengan Hormat)"
+SA.08,Tata Usaha SDM Aparatur
+SA.08.01,Data SDM Aparatur
+SA.08.02,"Identitas Pegawai (Kartu Pegawai, Kartu Suami, Kartu Istri)"
+SA.08.03,"Izin Kepegawaian (Izin Belajar, Tugas Belajar Dalam Negeri dan Luar Negeri)"
+SA.08.04,Keanggotaan SDM Aparatur Dalam Organisasi Sosial
+SA.08.05,Daftar Hadir/Absensi SDM Aparatur
+SA.09,Kesejahteraan SDM Aparatur
+SA.09.01,Kesehatan
+SA.09.02,"Perumahan (Tabungan Perumahan (TAPERUM), Biaya Uang Muka)"
+SA.09.03,Tabungan dan Asuransi Pegawai Negeri (TASPEN)
+SA.09.04,Cuti
+SA.09.05,Uang Duka Tewas
+SA.09.06,Pembekalan Purnabakti
+SA.09.07,Mutasi Keluarga
+SA.09.08,Laporan Kekayaan (Laporan Pajak-Pajak Pribadi (LP2P) dan Laporan Harta Kekayaan Penyelenggara Negara (LHKPN))
+SA.10,Pembinaan Jabatan Fungsional
+SA.10.1001,Jabatan Fungsional Umum (JFU)
+SA.10.1002,Jabatan Fungsional Tertentu (JFT)
+SA.11,Pemberhentian SDM Aparatur
+SA.11.01,Pemberhentian Atas Permintaan Sendiri
+SA.11.02,Pemberhentian Karena Batas Usia Pensiun
+SA.11.03,Pemberhentian Karena Keuzuran/Kondisi Jasmani dan Rohani
+SA.11.04,Pemberhentian Karena Hilang
+SA.11.05,Pemberhentian Sementara
+SA.11.06,Pensiun Janda/Duda dan Anak
+SA.12,Berkas PNS
+SA.13,"Berkas Perseorangan Menteri, Wakil Menteri dan Pejabat Negara lainnya"
+SA.14,Organisasi Non Kedinasan
+SA.14.1401,Korpri
+SA.14.1402,Dharma Wanita
+SA.14.1403,Koperasi
+PB,Pengelolaan Barang MILIK Negara
+PB.01,Perencanaan Barang Milik Negara
+PB.01.01,Usulan Rencana Kebutuhan BMN
+PB.01.02,Rencana Kebutuhan BMN Kementerian
+PB.01.03,Hasil Analisis Kebutuhan BMN
+PB.01.04,Rencana Kebutuhan Aset Berwujud
+PB.01.05,Rencana Kebutuhan Aset tak Berwujud
+PB.02,Pengadaan Barang Milik Negara (Layanan Pengadaan)
+PB.02.01,Pengelolaan Pengadaan Barang/Jasa
+PB.02.02,Pengelolaan layanan pengadaan secara elektronik dan data informasi pengadaan barang/jasa
+PB.02.03,"Pembinaan, Bimbingan, Pendampingan, dan Konsultasi Teknis Pengadaan Barang/Jasa"
+PB.02.04,Tindaklanjut Hasil Pemeriksaan
+PB.02.05,Laporan Pengadaan Barang/Jasa
+PB.02.06,Telaahan Permasalahan Pengadaan Barang/Jasa
+PB.02.07,Unit Kerja Pengadaan Barang dan Jasa (UKPBJ)
+PB.02.08,Pendistribusian Barang Milik Negara
+PB.03,Penetapan Status dan Pengamanan Barang Milik Negara (BMN)
+PB.03.01,Penggunaan Barang Milik Negara (BMN)
+PB.03.02,Pemanfaatan Barang Milik Negara
+PB.03.03,Pengamanan dan Pemeliharaan
+PB.03.04,Rumah Negara
+PB.04,Penatausahaan Barang Milik Negara
+PB.04.01,Pencatataan Barang Milik Negara
+PB.04.02,Inventarisasi
+PB.04.03,Opname fisik
+PB.04.04,Rekonsiliasi data Barang Milik Negara
+PB.04.05,Pengawasan dan Pengedalian BMN
+PB.04.06,Laporan Barang Milik Negara
+PB.05,Pemindahtanganan dan Penghapusan
+PB.05.01,Penjualan
+PB.05.02,Tukar Menukar
+PB.05.03,Hibah
+PB.05.04,Pemusnahan
+PB.05.05,Penghapusan
+HK,HUKUM DAN KERJA SAMA
+HK.01,Kerja Sama/Hubungan Lembaga dan Organisasi Kemasyarakatan
+HK.01.01,Lembaga Tinggi Negara (dalam negeri dan luar negeri)
+HK.01.02,Lembaga Pemerintah (dalam negeri dan luar negeri)
+HK.01.03,Organisasi Kemasyarakatan/Lembaga Swasta (dalam negeri dan luar negeri)
+HK.01.04,Perguruan Tinggi/Sekolah (dalam negeri dan luar negeri)
+HK.01.05,Penyusunan Dokumen Kerja Sama (dalam negeri dan luar negeri)
+HK.01.06,Permintaan dan Pengelolaan Data Kerja Sama (dalam negeri dan luar negeri)
+HK.01.07,"Audiensi/Kunjungan (Kementerian/Lembaga, Organisasi"
+HK.01.08,Pemantauan dan Evaluasi
+HK.01.09,Administrasi Kerja Sama
+HK.02,Layanan Advokasi Hukum
+HK.02.01,Advokasi Hukum Litigasi
+HK.02.02,Advokasi Hukum Non Litigasi
+HK.02.03,Pengaduan Hukum
+HK.02.04,Bantuan Hukum
+HK.02.05,Layanan Aspirasi Dan Pengaduan Online Rakyat (LAPOR)
+HK.02.06,Sistem Informasi Pelayanan Publik (SIPP)
+HK.03,Penyusunan Peraturan Perundang-undangan
+HK.03.01,Penyusunan Rencana Pembentukan Perundang-undangan
+HK.03.02,"Penyusunan, Penetapan dan Pengundangan"
+UM,UMUM
+UM.01,Ketatausahaan
+UM.01.01,Persuratan
+UM.01.02,Ucapan Terima Kasih/Ucapan Selamat
+UM.02,Kearsipan
+UM.02.01,Pemindahan Arsip
+UM.02.02,Pemusnahan Arsip
+UM.02.03,Penyerahan
+UM.02.04,Pembinaan Kearsipan
+UM.02.05,Pengawasan Kearsipan
+UM.02.06,Monitoring dan Evaluasi
+UM.03,Kerumahtanggaan
+UM.03.01,Penggunaan Ruang dan Peralatan Kantor
+UM.03.02,Penggunaan dan Penghunian Rumah Negara
+UM.03.03,Penggunaan dan Pemeliharaan Kendaraan Dinas
+UM.03.04,Penggunaan dan Pemeliharaan Barang Elektronik serta Mesin
+UM.03.05,Pemeliharaan Gedung dan Bangunan serta Area Kantor
+UM.03.06,Pemeliharaan Alat Kesehatan
+UM.03.07,Perjalanan Dinas (Dalam Negeri/Luar Negeri)
+UM.03.08,Penghematan Energi dan air
+UM.04,Keprotokolan
+UM.04.01,Penyelenggaraan Upacara
+UM.04.02,"Pelayanan Tamu, Acara Kedinasan, Jamuan dan Ramah Tamah"
+UM.04.03,Daftar Nama Pejabat dan Alamat
+UM.05,Pengamanan
+UM.05.01,Pengamanan Personil (VVIP/VIP)
+UM.05.02,"Pengamanan Lingkungan, Fisik dan Instalasi"
+UM.05.03,Pengamanan Dokumen dan Informasi Rahasia
+UM.05.04,Laporan Keamanan
+UM.05.05,Laporan Kejadian
+UM.05.06,Bantuan Pengamanan
+UM.06,Pembinaan Sikap Mental dan Layanan Kesehatan
+UM.06.01,Layanan Keagamaan dan Sosial
+UM.06.02,Layanan Kesehatan Jasmani
+UM.06.03,Pelayanan Kesehatan
+UM.07,Kepustakaan
+UM.07.01,Akusisi
+UM.07.02,Pegolahan Bahan Pustaka
+UM.07.03,Pangkalan Data Koleksi
+UM.07.04,Layanan Perpustakaan
+UM.07.04,Pengembangan TI Perpustakaan
+UM.07.04,"Naskah yang berkaitan dengan pengembangan website perpustakaan, kemas ulang informasi dalam format multimedia, pengembangan aplikasi perpustakaan, dan pengembangan pangkalan data digital"
+UM.07.04,Penanyangan Bahan Pustaka
+UM.07.05,Preservasi Bahan Pustaka
+UM.07.05,Perawatan Bahan Pustaka
+UM.07.05,Naskah yang berkaitan dengan kegiatan pelaksanaan teknis konservasi dalam perawatan dan pengawetan bahan pustaka.
+UM.07.05,Perbaikan Bahan Pustaka
+UM.07.05,Naskah yang berkaitan dengan kegiatan pelaksanaan teknis konservasi dalam perbaikan bahan pustaka.
+UM.07.05,Penjilidan
+UM.07.05,Naskah yang berkaitan dengan kegiatan pelaksanaan teknis konservasi dalam penjilidan bahan pustaka.
+UM.07.05,Reproduksi Foto
+UM.07.05,Naskah yang berkaitan dengan kegiatan reproduksi foto ke dalam bentuk digital serta pemeliharaan dan penyimpanannya.
+UM.07.06,Pengembangan Perpustakaan
+UM.07.06,Standar Nasional Perpustakaan
+UM.07.06,Naskah yang berkaitan dengan penyusunan standar nasional perpustakaan khusus.
+UM.07.06,Pedoman Perpustakaan
+UM.07.06,Naskah yang berkaitan dengan penyusunan pedoman perpustakaan khusus.
+UM.07.06,Akreditasi Perpustakaan
+UM.07.06,Naskah yang berkaitan dengan kelengkapan permintaan atau pemberian akreditasi perpustakaan.
+UM.07.06,Pengkajian Perpustakaan
+UM.07.06,"Naskah yang berkaitan dengan kegiatan pengkajian perpustakaan, mulai dari rapat persiapan, studi referensi, penyusunan instrumen penelitian, pengumpulan data/survei, analisis data, pembahasan hasil survei, penyusunan draf awal, ekspose, penyusunan draf akhir, hingga pencetakan hasil kajian."
+UM.07.06,"Promosi Perpustakaan (publikasi, pameran)"
+UM.07.06,Naskah yang berkaitan dengan promosi perpustakaan.
+UM.07.07,Pendidikan dan Pelatihan Perpustakaan
+UM.07.07,Naskah yang berkaitan dengan analisa/perencanaan kebutuhan penyelenggaraan diklat serta kerja sama dengan instansi lain.
+UM.07.08,Tenaga Perpustakaan
+UM.07.08,Sertifikasi Tenaga Perpustakaan
+UM.07.08,Naskah yang berkaitan dengan pelaksanaan sertifikasi kompetensi pustakawan.
+UM.07.08,Pembinaan Tenaga Perpustakaan
+UM.07.08,"Naskah yang berkaitan dengan kegiatan bimbingan teknis tenaga perpustakaan, bimbingan teknis tim penilai pustakawan, dan pengembangan profesi pustakawan (seminar, workshop)."
+UM.07.08,Penilaian Jabatan Fungsional Pustakawan
+UM.07.08,Naskah yang berkaitan dengan kegiatan penilaian pustakawan.
+PW,Pengawasan
+PW.01,Perencanaan
+PW.01.01,Kebijakan Pengawasan
+PW.01.02,Perjanjian Kinerja
+PW.01.03,Program Kerja Pengawasan Tahunan (PKPT)
+PW.01.04,Program Kerja Administrasi Umum (PKAU)
+PW.01.05,Rapat Koordinasi Pengawasan (RAKORWAS)
+PW.01.06,Ikhtisar Hasil Pengawasan
+PW.02,Pelaksanaan Pengawasan
+PW.02.01,"Audit Kinerja & Informasi, Reviu dan Evaluasi"
+PW.02.02,Audit Tujuan Tertentu / Khusus
+PW.02.03,Pemantauan / Monitoring
+PW.02.03,Badan Pemeriksa Keuangan Republik Indonesia (BPK RI)
+PW.02.03,Badan Pengawasan Keuangan dan Pembangunan Republik Indonesia (BPKP RI)
+PW.02.03,Ombudsman Republik Indonesia (ORI)
+PW.02.03,Inspektorat Jenderal
+PW.02.04,"Pengawasan lainnya, Pendampingan, Sosialisasi, Perjanjian Kerja Sama"
+PW.03,Pelaporan
+PW.03.01,"Laporan Hasil Audit Kinerja (LHA/LHP), Informasi Data Pendukung Pemeriksaan Dalam Negeri dan Luar Negeri"
+PW.03.01,
+PW.03.02,Laporan Hasil Audit Tujuan Tertentu (Audit Khusus)
+PW.03.03,"Pemantauan/Monitoring Badan Pemeriksan Keuangan (BPK RI),"
+PW.03.03,Badan Pengawasan Keuangan dan Pembangunan Republik
+PW.03.03,"Indonesia (BPKP RI), Ombudsman Republik Indonesia (ORI), Inspektorat Jenderal"
+PW.03.04,"Pengawasan lainnya, Pendampingan, Sosialisasi, Perjanjian Kerja Sama"
+PW.03.05,Inspektorat Jenderal
+PW.04,Tindak Lanjut
+PW.04.01,Laporan Tindak Lanjut Hasil Audit Kinerja
+PW.04.02,Laporan Tindak Lanjut Hasil Audit Khusus
+PW.04.03,"Tindak Lanjut BPKP RI, BPK RI, ITJEN"
+PW.05,Reviu dan Tindak Lanjut Reviu
+PW.05.01,Reviu
+PW.05.02,Tindak Lanjut Reviu
+PW.06,Tindak Lanjut Pengaduan
+PW.06.01,Whistle Blowing System (WBS)
+PW.06.02,Gratifikasi
+PW.06.03,"Pengaduan Tertulis (SMS Gateway, PO BOX 3489, Email ITJEN)"
+PW.06.05,Pengaduan melalui aplikasi LAPOR (Layanan Pengaduan Secara Online Rakyat)
+PW.06.06,Pengaduan Ombusman
+PW.07,Tindak Lanjut Atensi dan Telaahan
+PW.07.01,Tanggapan/Telaahan Hukuman Disiplin Yang Tidak Ditindaklanjuti
+PW.07.02,Tanggapan/Telaahan Hukuman Disiplin Yang Ditindaklanjuti
+PW.07.03,Daftar nama Pegawai Kementerian Imigrasi dan Pemasyarakatan yang dikenakan sanksi Hukuman disiplin/kartu cela
+TI.07,Teknologi DAN Informasi
+TI.01,Pengamanan Data
+TI.01,"Kuesioner, Data Pendukung, dan Analisis"
+TI.02,Pengamanan Jaringan
+TI.02,"Pemeliharaan Jaringan, Audit Jaringan, dan Laporan Hasil Audit"
+TI.03,Standarisasi
+TI.03.01,Standarisasi Teknologi dan Informasi
+TI.03.01,"Penyusunan Regulasi Standarisasi Teknologi dan Informasi yang berkaitan dengan Peraturan Menteri, Keputusan Menteri dan SOP"
+TI.03.02,Implementasi Aplikasi
+TI.03.02,"Naskah yang berkaitan dengan surat perencanaan Komite TIK,"
+TI.03.02,"Aplikasi Satu Data, Digital Signature, Sertifikat Elektronik"
+TI.03.03,"Implementasi Situs Internet, Portal Internet dan Surat Elektronik"
+TI.03.03,"Naskah yang berkaitan dengan pelaksanaan implementasi situs internet, portal internet dan surat elektronik"
+TI.03.04,Uji Coba Infrastruktur
+TI.04,Kerja sama
+TI.04.01,Kerja sama Internal
+TI.04.01,Kerja sama Pengelolaan Data Pusat Data dan Teknologi
+TI.04.01,Informasi dengan unit eselon satu;
+TI.04.01,Pengelolaan Data Center Kementerian Imigrasi dan Pemasyarakatan.
+TI.04.02,Kerja sama Eksternal
+TI.04.02,Memorandum of Understanding dengan
+TI.04.02,Kementerian/Lembaga;
+TI.04.02,Naskah Kerja Sama dengan Kementerian/Lembaga.
+TI.05,Perencanaan Pengembangan Teknologi Informasi
+TI.05.01,Penyusunan Program Perencanaan Teknologi dan Informasi
+TI.05.01,Perencanaan Server dan jaringan
+TI.05.02,Pengembangan Infrastruktur Teknologi dan Informasi
+TI.05.02,Pengembangan Data Center dan Server Kementerian Imigrasi dan Pemasyarakatan
+TI.05.03,Pengembangan Aplikasi
+TI.05.03,Pengembangan Sistem SDM dan website
+TI.05.04,"Pengembangan Database, Situs Internet dan Surat Elektronik"
+TI.05.04,Naskah yang berkaitan dengan Pelaksanaan Pengembangan
+TI.05.04,"Database, Situs Internet dan Surat Elektronik"
+TI.06,Pengelolaan Sistem Teknologi Informasi
+TI.06.01,Pengelolaan Jaringan
+TI.06.02,Pengelolaan Jaringan Sistem Informasi
+TI.06.03,Pengelolaan Database
+TI.06.04,"Pengelolaan Situs Internet, Portal Internet dan Surat Elektronik"
+TI.06.05,Pengelolaan Aplikasi
+TI.06.06,Pengelolaan Alat Pendukung
+TI.07,Layanan Sistem Teknologi dan Informasi
+TI.07.01,Naskah Layanan Keluhan LPSE (Layanan Pengadaan Secara
+TI.07.01,Elektronik)
+TI.07.02,Tindak Lanjut Keluhan
+TI.07.03,Monitoring/Pemantauan Layanan Keluhan tentang Software/Hardware
+TI.07.04,Evaluasi (Hasil evaluasi TI)
+TI.08,Informasi dan Komunikasi Publik
+TI.08.01,"Media Massa (Cetak, Elektronik, Media Sosial)"
+TI.08.02,Sosialisasi dan Diseminasi
+TI.08.03,Pejabat Pengelola Informasi dan Dokumentasi (PPID)
+TI.08.04,Badan Koordinasi Hubungan Masyarakat (Bakohumas)
+TI.08.05,Peliputan
+TI.08.06,Konferensi Pers
+TI.08.07,Siaran Pers
+TI.09,Dokumentasi
+TI.09.01,"Produk Informasi (Media Cetak, Elektronik, Media Sosial)"
+TI.09.01,"Film, Foto, Video Grafis, Narasi Tunggal Media Massa Elektronik,"
+TI.09.01,"Info Grafis (Poster, Banner), Surat Penyerahan (Bingkai Foto),"
+TI.09.01,"Konten Video Revolusi Media Digital, dan Konten Media Sosial"
+TI.09.02,Rekapitulasi Pemberitaan
+PK,Pemasyarakatan
+PK.01,Pelayanan Pemasyarakatan
+PK.01.01,Registrasi Tahanan dan Anak
+PK.01.01,Naskah yang berkaitan dengan kegiatan:
+PK.01.01,pemeriksaan kelengkapan dokumen serta berkas Tahanan yang diberikan oleh Kejaksaan dan Kepolisian;
+PK.01.01,pencatatan penerimaan Tahanan di Rutan dan Anak di Lembaga
+PK.01.01,Penempatan Anak Sementara (LPAS) yang terdiri dari pembuatan
+PK.01.01,"surat perintah atau surat penetapan Tahanan dan Anak, pembuatan biodata diri, dan data barang bawaan Tahanan dan"
+PK.01.01,Anak;
+PK.01.01,pemeriksaan Kesehatan;
+PK.01.01,pembuatan pas foto;
+PK.01.01,pembuatan sidik jari/dokumentasi sidik jari; dan
+PK.01.01,pembuatan berita acara serah terima tahanan.
+PK.01.02,Registasi Narapidana dan Anak Binaan
+PK.01.02,Naskah yang berkaitan dengan kegiatan:
+PK.01.02,"pemeriksaan kelengkapan dokumen serta berkas Narapidana dan Anak Binaan yang diberikan oleh Kejaksaan, Pengadilan, dan"
+PK.01.02,Kepolisian;
+PK.01.02,"pencatatan penerimaan Narapidana dan Anak Binaan di Lapas yang terdiri dari pembuatan surat perintah atau surat penetapan Narapidana dan Anak Binaan, pembuatan biodata diri, dan data barang bawaan Narapidana dan Anak Binaan;"
+PK.01.02,pemeriksaan Kesehatan;
+PK.01.02,pembuatan pas foto;
+PK.01.02,pembuatan sidik jari/dokumentasi sidik jari; dan
+PK.01.02,pembuatan berita acara serah terima Narapidana.
+PK.01.03,Registrasi Klien Pemasyarakatan
+PK.01.03,Naskah yang berkaitan dengan kegiatan:
+PK.01.03,Pemeriksaan kelengkapan dokumen serta berkas
+PK.01.03,Tahanan/Narapidana/Klien Pemasyarakatan yang diberikan oleh
+PK.01.03,Kejaksaan dan Kepolisian;
+PK.01.03,Pencatatan penerimaan Tahanan/Narapidana/Klien Pemasyarakatan di Rutan/Lapas/Bapas yang terdiri dari pembuatan surat perintah atau surat penetapan
+PK.01.03,"Tahanan/Narapidana/Klien Pemasyarakatan, pembuatan biodata diti, data barang bawaan Tahanan/ Narapidana/Klien"
+PK.01.03,Pemasyarakatan;
+PK.01.03,Pemeriksaan Kesehatan;
+PK.01.03,Pembuatan pas foto;
+PK.01.03,Pembuatan sidik jari/dokumentasi sidik jari; dan
+PK.01.03,Pembuatan berita acara serah terima tahanan /Narapidana/Klien Pemasyarakatan (PAS).
+PK.01.04,Registrasi Titipan
+PK.01.04,Naskah yang berkaitan dengan kegiatan:
+PK.01.04,Pemeriksaan kelengkapan dokumen serta berkas orang titipan yang diberikan oleh pihak terkait sesuai ketentuan peraturan peraturan perundang-undangan;
+PK.01.04,"Pencatatan penerimaan orang titipan yang terdiri dari pembuatan surat perintah atau surat penetapan, pembuatan biodata diri, dan data barang bawaan;"
+PK.01.04,Pemeriksaan Kesehatan;
+PK.01.04,Pembuatan pas foto;
+PK.01.04,Pembuatan sidik jari/dokumentasi sidik jari; dan
+PK.01.04,Pembuatan berita acara serah terima orang titipan .
+PK.01.05,Administrasi Pelayanan Tahanan di luar Rutan
+PK.01.05,Naskah yang berkaitan dengan pelaksanaan administrasi pelayanan tahanan di luar Rutan
+PK.01.06,Peminjaman/Bon Narapidana dan Anak Binaan
+PK.01.06,"Naskah yang berkaitan dengan kegiatan peminjaman Narapidana dan Anak Binaan untuk kepentingan penyidikan, menghadiri sidang Peninjauan Kembali (PK) dan lainnya yang dianggap perlu dan sifatnya sementara."
+PK.02,Asesmen DAN Klasifikasi
+PK.02.01,Admisi Orientasi
+PK.02.01,"Naskah yang berkaitan dengan Admisi Orientasi bagi Tahanan, Anak, Narapidana dan Anak Binaan"
+PK.02.02,Asesmen dan Klasifikasi
+PK.02.02,"Naskah yang berkaitan dengan kegiatan pelaksanaan asesmen dan klasifikasi Tahanan, Anak, dan Warga Binaan."
+PK.03,Mutasi
+PK.03.01,Mutasi Tahanan dan Anak
+PK.03.01,Naskah yang berkaitan dengan kegiatan:
+PK.03.01,"pemindahan Tahanan dan Anak untuk kepentingan keamanan dan/atau keperluan proses peradila/peminjaman Tahanan dan Anak untuk kepentingan penyidikan, menghadiri sidang PK dan lainnya yang dianggap perlu dan sifatnya sementara, dan pelaksanaan administrasi pembantaran dan penangguhan penahanan."
+PK.03.02,Mutasi Narapidana dan Anak Binaan
+PK.03.02,Naskah yang berkaitan dengan kegiatan mutasi/pemindahan
+PK.03.02,"Narapidana dan Anak Binaan untuk kepentingan keamanan, Pembinaan, dan/atau keperluan proses peradilan."
+PK.03.03,Mutasi Klien Pemasyarakatan
+PK.03.03,"Naskah yang berkaitan dengan kegiatan mutasi/pemindahan Klien Pemasyarakatan untuk kepentingan pembimbingan kemasyarakatan, keamanan, Pembinaan, dan/atau keperluan proses peradilan."
+PK.04,Bimbingan Kemasyarakatan DAN Pengentasan ANAK
+PK.04.01,Layanan Kepribadian
+PK.04.01,"Naskah yang berkaitan dengan kegiatan bimbingan mental, spiritual, kesadaran berbangsa dan bernegara, dan pendidikan, dan layanan kemandirian seperti bimbingan keterampilan kerja."
+PK.04.02,Layanan Kemandirian
+PK.04.02,Naskah yang berkaitan dengan kegiatan layanan kemandirian seperti bimbingan keterampilan kerja.
+PK.04.03,Layanan Pelindungan Hukum Tahanan dan Anak
+PK.04.03,"Naskah yang berkaitan dengan kegiatan Fasilitasi pemberian bantuan hukum litigasi dan nonlitigasi, Upaya rehabilitasi, Klarifikasi status hukum, Pencegahan penahanan melebihi masa tahanan, dan Pemantauan penahanan di luar Rutan."
+PK.04.04,Pengeluaran Tahanan dan Anak
+PK.04.04,Naskah yang berkaitan dengan pelaksanaan pengeluaran Tahanan dalam hal proses peradilan telah selesai atau meninggal dunia dan demi hukum atau telah habis masa penahanan atau perpanjangan penahanannya.
+PK.04.05,Tim Pertimbangan Pemasyarakatan Pelayanan Tahanan dan Anak
+PK.04.05,Naskah yang berkaitan dengan kegiatan pelaksanaan sidang Tim Pertimbangan Pemasyarakatan dalam penyelenggaraan Pelayanan Tahanan dan Anak.
+PK.05,Pembinaan Narapidana DAN ANAK Binaan
+PK.05.01,Pembinaan Kepribadian
+PK.05.01,"Naskah yang berkaitan dengan kegiatan Keagamaan, Kesadaran berbangsa dan bernegara, Pendidikan, dan Kegiatan-kegiatan yang masuk dalam kategori kepribadian."
+PK.05.02,Pembinaan Kemandirian
+PK.05.02,Naskah yang berkaitan dengan kegiatan:
+PK.05.02,"Pengembangan kewirausahaan (keterampilan/minat bakat, tenaga kerja, upah/premi) dan Kegiatan-kegiatan yang masuk dalam kategori kemandirian."
+PK.05.03,Asimilasi dan Integrasi Narapidana dan Anak Binaan
+PK.05.03,"Naskah yang berkaitan dengan kegiatan proses usulan sampai dengan Surat Keputusan pemberian Pembebasan Bersyarat (PB), Cuti Menjelang Bebas (CMB), Cuti Bersyarat (CB), Cuti Mengunjungi dan Dikunjungi Keluarga, dan Asimilasi."
+PK.05.04,Pengeluaran Narapidana dan Anak Binaan
+PK.05.04,Naskah yang berkaitan dengan pelaksanaan pengeluaran Narapidana dan Anak Binaan yang sifatnya tetap
+PK.05.05,Tim Pertimbangan Pemasyarakatan Pembinaan Narapidana dan Anak Binaan
+PK.05.05,Naskah yang berkaitan dengan kegiatan pelaksanaan sidang Tim
+PK.05.05,Pertimbangan Pemasyarakatan dalam penyelenggaraan Pembinaan Narapidana dan Anak Binaan
+PK.06,Pembimbingan Kemasyarakatan
+PK.06.01,Penelitian Kemasyarakatan
+PK.06.01,Naskah yang berkaitan dengan kegiatan:
+PK.06.01,"Pembuatan Penelitian Kemasyarakatan untuk warga binaan yang akan bebas bersyarat, cuti menjelang bebas, cuti mengunjungi keluarga, asimilasi dan pembinaan dalam/mutase, dan pendampingan anak yang berhadapan dengan hukum."
+PK.06.02,Pendampingan Klien Pemasyarakatan dan Upaya Keadilan Restoratif Pemasyarakatan
+PK.06.02,"Naskah yang berkaitan dengan Pendampingan Pra ajudikasi, ajudikasi, dan pasca ajudikasi serta Upaya Keadilan Restoratif Pemasyarakatan."
+PK.06.03,Pembimbingan Klien Pemasyarakatan
+PK.06.03,"Naskah yang berkaitan dengan kegiatan Bimbingan Kepribadian Klien, Bimbingan Kemandirian, Bimbingan Klien/Home Visit, Bimbingan Penyuluhan/Konseling, dan Keluarga Asuh/Anak Asuh serta bimbingan lanjutan"
+PK.06.04,Pengawasan Klien Pemasyarakatan
+PK.06.04,"Naskah yang berkaitan dengan kegiatan Pengawasan program pendampingan dan pembimbingan, Investigasi pelanggaran, Penghentian program, dan Pelibatan masyarakat dalam upaya reintegrasi sosial."
+PK.06.05,Tim Pertimbangan Pemasyarakatan Pembimbingan Klien Pemasyarakatan
+PK.06.05,
+PK.06.05,Naskah yang berkaitan dengan kegiatan pelaksanaan sidang Tim Pertimbangan Pemasyarakatan dalam penyelenggaraan Pembimbingan Klien Pemasyarakatan
+PK.07,Perawatan Kesehatan DAN Rehabilitasi
+PK.07.01,Perawatan Kesehatan Dasar
+PK.07.01,"Naskah yang berkaitan dengan kegiatan: penyuluhan kesehatan, pengelolaan fasilitasi pelayanan kesehatan, dan perawatan kelompok kebutuhan khusus"
+PK.07.02,Perawatan Kesehatan Lanjutan
+PK.07.02,"Naskah yang berkaitan dengan kegiatan Kesehatan mental, Perawatan rujukan, dan Perawatan paliatif dan pemulasaraan."
+PK.07.03,Perawatan Kesehatan Khusus
+PK.07.03,"Naskah yang berkaitan dengan kegiatan rehabilitasi ketergantungan narkotika, dan perawatan pencegahan penyakit menular."
+PK.07.04,Kebutuhan Dasar dan Kesehatan Lingkungan
+PK.07.04,"Naskah yang berkaitan dengan kegiatan Pemenuhan kebutuhan dasar, Pemenuhan kebutuhan gizi, Penyelenggaraan makanan, dan Kesehatan lingkungan."
+PK.08,Pengamanan DAN Intelijen
+PK.08.01,Intelijen Pemasyarakatan
+PK.08.01,Naskah yang berkaitan dengan kegiatan:
+PK.08.01,"Manajemen dan operasional intelijen, Laporan atensi intelijen, Profiling tahanan, anak dan warga binaan, Diseminasi gangguan, dan Laporan triwulan"
+PK.08.02,Pencegahan Gangguan Keamanan dan Pemeliharaan Keamanan
+PK.08.02,"Naskah yang berkaitan dengan kegiatan pengelolaan kerawanan, penyusunan strategi pengamanan, rencana kontijensi, penanggulangan bencana, pemeliharaan keamanan pada lembaga pemasyarakatan dan rumah tahanan negara, pengamatan dan penegakan disiplin pada lembaga pembinaan khusus anak dan lembaga penempatan anak sementara."
+PK.08.03,Penindakan dan Pemulihan
+PK.08.03,Naskah yang berkaitan dengan kegiatan:
+PK.08.03,"Penindakan, tanggap darurat, Pemulihan, dan Pengelolaan crisis center."
+PK.09,Kepatuhan Internal
+PK.09.01,Pencegahan dan Pengendalian
+PK.09.01,"Naskah yang berkaitan dengan kegiatan pembinaan mental pegawai, edukasi pencegahan korupsi, edukasi pencegahan pelanggaran kode etik dan perilaku, disiplin pegawai, pengendalian gratifikasi, pemantauan atas perilaku, gaya hidup pegawai, pemantauan pemenuhan kewajiban pegawai dalam pelaporan harta kekayaan dan perpajakan, pemantauan Zona Integritas, pengolahan dan analisis, penyajian, pelaporan data dan informasi pegawai Direktorat Jenderal Pemasyarakatan, dan survei Kinerja Organisasi Direktorat Jenderal Pemasyarakatan."
+PK.09.02,Fasilitasi Advokasi dan Investigasi Internal
+PK.09.02,"Naskah yang berkaitan dengan kegiatan pengawasan kepatuhan pelaksanaan tugas pelayanan dan pengawasan Pemasyarakatan, dan administrasi dan fungsi lain Direktorat Jenderal Pemasyarakatan."
+PK.10,Pengelolaan DATA DAN Informasi Pemasyarakatan
+PK.10.01,Pengelolaan Data dan informasi
+PK.10.01,Naskah yang berkaitan dengan pelaksanaan pengelolaan data dan informasi seperti analisis data dan informasi dan pertukaran data dan informasi.
+PK.10.02,Statistik Tahanan dan Anak
+PK.10.02,Naskah yang berkaitan dengan preskripsi dan data statistik Tahanan dan Anak.
+PK.10.03,Statistik Narapidana dan Anak Binaan
+PK.10.03,Naskah yang berkaitan dengan preskripsi dan data statistik Narapidana dan Anak Binaan.
+PK.10.04,Statistik Klien Pemasyarakatan
+PK.10.04,Naskah yang berkaitan dengan preskripsi dan data statistik Klien Pemasyarakatan.
+PK.10.05,Statistik Titipan
+PK.10.05,Naskah yang berkaitan dengan preskripsi dan data statistik Orang Titipan.
+GR,Keimigrasian
+GR.01,Direktorat Visa dan Dokumen Perjalanan
+GR.01.01,Kebijakan Imigrasi meliputi kebijakan di bidang: Lalu Lintas
+GR.01.01,"Keimigrasian, Izin Tinggal Orang Asing dan Status Keimigrasian,"
+GR.01.01,"Penindakan Keimigrasian dan Pendetensian, Kerja sama"
+GR.01.01,"Keimigrasian, Pembinaan bidang Keimigrasian, Intelijen Keimigrasian, Lintas Informasi Keimigrasian, dan Data Elektronik Personal Keimigrasian."
+GR.01.01,"Naskah yang berkaitan dengan kebijakan Imigrasi meliputi kebijakan di bidang: Lalu Lintas Keimigrasian, Izin Tinggal Orang Asing dan Status Keimigrasian, Penindakan Keimigrasian dan Pendetensian, Kerja sama Keimigrasian, Pembinaan bidang Keimigrasian, Intelijen Keimigrasian, Lintas Informasi Keimigrasian, dan Data Elektronik Personal Keimigrasian."
+GR.01.02,Dokumen Perjalanan Republik Indonesia (DPRI)
+GR.01.02,"Naskah yang berkaitan dengan Dokumen Perjalanan Republik Indonesia (fotocopy KTP, Kartu Keluarga, Akte Lahir, Ijazah, Surat Pernyataan, Perdim 11) dan Surat Perjalanan Laksana Paspor (SPLP) Warga Negara Indonesia."
+GR.01.02,Blangko Paspor
+GR.01.02,Blangko Paspor yang sudah habis masa berlaku dan/atau gagal cetak.
+GR.01.03,Pas Lintas Batas
+GR.01.03,"Naskah yang berkaitan dengan Pas Lintas Batas, Pax List dan Crew"
+GR.01.03,List..
+GR.01.04,Surat Pejalanan Laksana Paspor (SPLP) Warga Negara Asing
+GR.01.04,Naskah yang berkaitan dengan Pas Lintas Batas Warga Negara Asing (WNA).
+GR.01.04,"Visa (Visa Transit, Visa Kunjungan Saat Kedatangan/Visa on Arrival (VOA), Visa Kunjungan Wisata, Visa Kunjungan Sosial Budaya, Visa Kunjungan Usaha dan Visa Kunjungan Tinggal Terbatas."
+GR.01.04,Daftar Penumpang (Pax List) dan Daftar Awak Kapal/Pesawat (Crew
+GR.01.05,Fasilitas Keimigrasian antara lain ABTC (Asia Pacific Economic Corporation Business Travel Card) dan Smart Card
+GR.01.05,Naskah yang berkaitan dengan ABTC dan Smart Card.
+GR.01.06,Persetujuan Visa
+GR.01.06,"Naskah yang berkaitan dengan Persetujuan Visa (Visa Kunjungan, Visa Kunjungan Saat Kedatangan (VKSK), Visa Tinggal Terbatas)."
+GR.01.07,Bebas Visa Kunjungan (BVK)
+GR.01.07,Naskah yang berkaitan dengan Bebas Visa Kunjungan.
+GR.01.08,Tanda Masuk dan Tanda Keluar
+GR.01.08,Naskah yang berkaitan dengan Tanda Masuk Dan Keluar.
+GR.01.09,Rekomendasi Untuk Mendapatkan Work and Holiday Visa
+GR.01.09,Naskah yang berkaitan dengan Rekomendasi Untuk Mendapatkan Work and Holiday Visa.
+GR.01.10,"Pengelolaan Dokumen Blangko DPRI, Visa, dan Perdim"
+GR.01.10,"Naskah yang berkaitan dengan Pengelolaan Dokumen Blangko DPRI, Visa, dan Perdim."
+GR.02,Izin Tinggal dan Status Keimigrasian
+GR.02.01,Izin Tinggal Kunjungan (ITK)
+GR.02.01,Naskah yang berkaitan dengan Izin Tinggal Kunjungan.
+GR.02.02,Izin Tinggal Terbatas (ITAS)
+GR.02.02,Naskah yang berkaitan dengan Izin Tinggal Terbatas.
+GR.02.03,Izin Tinggal Tetap (ITAP)
+GR.02.03,Naskah yang berkaitan dengan Izin Tinggal Tetap.
+GR.02.04,Alih Status (Konversi) Izin Tinggal Termasuk Penolakannya
+GR.02.04,Naskah yang berkaitan dengan Alih Status (Konversi) Izin Tinggal dan Penolakannya.
+GR.02.05,Surat Keterangan Keimigrasian (SKIM)
+GR.02.05,Naskah yang berkaitan dengan Surat Izin Keterangan Keimigrasian.
+GR.02.06,Skip Alur Pengambilan Data Biometrik
+GR.02.06,Naskah yang berkaitan dengan Skip Alur Pengambilan Data Biometrik.
+GR.02.07,Penelaahan Status Keimigrasian
+GR.02.07,"Naskah yang berkaitan dengan Penelaah Status Keimigrasian termasuk Anak Berkewarganegaraan Ganda Terbatas, Kawin Campur."
+GR.02.08,Pengelolaan Dokumen Izin Tinggal Keimigrasian
+GR.02.08,Naskah yang berkaitan dengan pengelolaan naskah Izin Tinggal Keimigrasian.
+GR.02.09,Permohonan Exit Permit Only (EPO)
+GR.02.09,Naskah yang berkaitan dengan Exit Permit Only (EPO).
+GR.02.10,Permohonan Izin Masuk Kembali (IMK)
+GR.02.10,Naskah yang berkaitan dengan Izin Masuk Kembali.
+GR.03,Pengawasan dan Penindakan Keimigrasian (WASDAKIM)
+GR.03.01,Penyelidikan dan Penyidikan Keimigrasian
+GR.03.01,"Naskah yang berkaitan dengan Penyelidikan dan Penyidikan Keimigrasian (Pemantauan, Penyidikan, termasuk Surat Perintah dan Berita Acara Pemeriksaan (BAP), Laporan Kejadian / Pengaduan, Surat Perintah Tugas, Surat Perintah Penyidikan, Surat Perintah Penggeledahan."
+GR.03.02,Pencegahan dan Penangkalan
+GR.03.02,Naskah yang berkaitan dengan Pencegahan dan Penangkalan
+GR.03.03,Imigran Ilegal
+GR.03.03,Naskah yang berkaitan dengan Imigran Ilegal.
+GR.03.04,"Pencabutan, Pembatalan, Penahanan Dokumen Perjalanan dan Dokumen Keimigrasian termasuk Siar Paspor Yang Dibatalkan"
+GR.03.04,"Naskah Yang berkaitan dengan Pencabutan, Pembatalan, Penahanan Dokumen Perjalanan dan Dokumen Keimigrasian Termasuk Siar Paspor yang dibatalkan."
+GR.03.05,Pengawasan Terhadap Warga Negara Indonesia (WNI)
+GR.03.05,Naskah yang berkaitan dengan pengawasan terhadap WNI.
+GR.03.06,Pengawasan Terhadap Warga Negara Asing (WNA)
+GR.03.06,Naskah yang berkaitan dengan pengawasan terhadap WNA.
+GR.03.07,Kepatuhan Internal
+GR.03.07,Naskah yang berkaitan dengan Kepatuhan Internal.
+GR.03.08,Pendeportasian
+GR.03.08,Naskah yang berkaitan dengan Pendeportasian.
+GR.03.09,Tindakan Administratif Keimigrasian
+GR.03.09,Naskah yang berkaitan dengan pelanggaran dan penindakan Tindakan Administratif Keimigrasian.
+GR.03.10,Daftar Pencarian Orang (DPO)
+GR.03.10,Naskah yang berkaitan dengan DPO.
+GR.03.11,Pendetensian
+GR.03.11,Naskah yang berkaitan dengan Pendetensian.
+GR.04,Intelijen Keimigrasian
+GR.04.01,Penyelidikan dan Operasi Intelijen Keimigrasian
+GR.04.01,Naskah yang berkaitan dengan Penyelidikan dan Operasi Intelijen Keimigrasian diantaranya (Pengumpulan Bahan Keterangan/Pulbaket; Operasi Kewilayahan; Penggalangan)..
+GR.04.02,Pengamanan Keimigrasian
+GR.04.02,Naskah yang berkaitan dengan Pengamanan Keimigrasian diantaranya (pengamanan perizinan keimigrasian; Pengamanan
+GR.04.02,"Personil, Material dan Dokumen; Pengamanan Kantor dan Instalasi Vital)."
+GR.04.03,Kerja sama Intelijen Keimigrasian
+GR.04.03,Naskah yang berkaitan dengan Kerja sama Intelijen Keimigrasian Lembaga dan Non Lembaga.
+GR.04.04,Produk Intelijen Keimigrasian
+GR.04.04,Naskah yang berkaitan dengan Produk Intelijen Keimigrasian.
+GR.05,Kerja sama Keimigrasian dan Bina Perwakilan
+GR.05.01,Kerja sama Antar Lembaga (Dalam Negeri)
+GR.05.01,Naskah yang berkaitan dengan Kerja Sama Antar Lembaga (Dalam Negeri).
+GR.05.02,Kerja sama Antar negara
+GR.05.02,Naskah yang berkaitan dengan Kerja Sama Antar Negara (Bilateral dan Multilateral).
+GR.05.03,Kerja sama dengan Organisasi Internasional
+GR.05.03,Naskah yang berkaitan dengan Kerja Sama dengan Organisasi
+GR.05.03,Internasional.
+GR.05.04,Pembinaan Perwakilan RI di Luar Negeri
+GR.05.04,Naskah yang berkaitan dengan Pembinaan Perwakilan RI di Luar Negeri.
+GR.06,Teknologi Informasi Keimigrasian
+GR.06.01,Lintas Informasi Internal termasuk Tukar Menukar Informasi dan Pelaporan Kegiatan Keimigrasian
+GR.06.01,Naskah yang berkaitan dengan Lintas Informasi Internal termasuk Tukar Menukar Informasi dan Pelaporan Kegiatan Keimigrasian.
+GR.06.02,Lintas Informasi eksternal termasuk Pertukaran Informasi dengan Institusi di Luar Imigrasi
+GR.06.02,Naskah yang berkaitan dengan lintas informasi eksternal termasuk pertukaran informasi dengan institusi di luar imigrasi.
+GR.06.03,Data Keimigrasian
+GR.06.03,Naskah yang berkaitan dengan Data-data Keimigrasian.
+GR.06.04,Permohonan Data Keimigrasian
+GR.06.04,Naskah yang berkaitan dengan Permohonan Data-data Keimigrasian.
+GR.06.05,Perubahan Data Status Keimigrasian WNA
+GR.06.05,"Naskah yang berkaitan dengan lapor kematian, lapor lahir, perubahan alamat, pergantian kewarganegaraan.."
+GR.06.06,Data Permohonan Ditolak Sistem
+GR.06.06,Naskah yang berkaitan dengan berkas pembatalan permohonan karena ditolak sistem.
+GR.07,Direktorat Kepatuhan Internal
+GR.07.01,Pencegahan dan Pengendalian
+GR.07.01,Naskah yang berkaitan dengan Pencegahan dan Pengendalian internal Direktorat Jenderal Imigrasi.
+GR.07.02,Advokasi dan Investigasi Internal
+GR.07.02,Naskah yang berkaitan Fasilitas Advokasi dan Investigasi internal Direktorat Jenderal Imigrasi.
+GR.08,Direktorat Tempat Pemeriksaan Imigrasi
+GR.08.01,Pemeriksaan Imigrasi Laut
+GR.08.01,Naskah Keimigrasian yang berkaitan dengan Pemeriksaan Imigrasi Laut.
+GR.08.02,Pemeriksaan Imigrasi Udara
+GR.08.02,Naskah Keimigrasian yang berkaitan dengan Pemeriksaan Imigrasi Udara.
+GR.08.03,Pemeriksaan Imigrasi Darat
+GR.08.03,Naskah Keimigrasian yang berkaitan dengan Pemeriksaan Imigrasi Darat.
+SM,Sumber DAYA Manusia
+SM.01,Pendidikan dan Pelatihan Kepemimpinan
+SM.01.01,Perencanaan Program Pendidikan dan Pelatihan
+SM.01.01,Naskah yang berkaitan dengan kegiatan:
+SM.01.01,Agenda Rapat Perencanaan Program Pelatihan Kepemimpinan
+SM.01.01,Undangan Rapat Koordinasi Pelatihan Kepemimpinan
+SM.01.01,Permohonan Izin dan Fasilitator/Penceramah Pelatihan
+SM.01.01,Kepemimpinan
+SM.01.01,Penyampaian Notula Rapat Koordinasi Pelatihan Kepemimpinan
+SM.01.02,"Kurikulum, Metode Standar/Mutu dan Pedoman Diklat"
+SM.01.02,Naskah yang berkaitan dengan kegiatan:
+SM.01.02,"Undangan Rapat Penyusunan Modul, Bahan Ajar, dan Bahan Tayang Pelatihan Teknis"
+SM.01.02,"Penyampaian Notula Rapat Penyusunan Modul, Bahan Ajar, dan"
+SM.01.02,Bahan Tayang Pelatihan Teknis
+SM.01.02,Undangan Rapat Koordinasi Penyusunan Modul dan Rapat Koordinasi Optimalisasi Kegiatan Penyusunan Modul Pelatihan
+SM.01.02,Teknis
+SM.01.02,Penyusunan Modul Pelatihan Teknis
+SM.01.02,Telaahan Pelatihan Teknis
+SM.01.03,Penyelenggaraan
+SM.01.03,Naskah yang berkaitan dengan kegiatan:
+SM.01.03,"Pemberitahuan Penyelenggaraan, Pemanggilan Peserta, Permohonan Tenaga Pengajar, Permohonan izin kunjungan lapangan, Undangan"
+SM.01.03,"Pembukaan, Permintaan Nomor Surat Tanda Tamat Pelatihan (STTP), Permohonan Penutupan, dan Permintaan Nomor dan Tanda Tangan Piagam Penghargaan."
+SM.01.04,Evaluasi
+SM.01.04,Naskah yang berkaitan dengan kegiatan:
+SM.01.04,Pedoman Coach dan Mentor Pelatihan Kepemimpinan
+SM.01.04,Permohonan sebagai Mentor/Penguji Seminar Aksi
+SM.01.04,Perubahan/Coach Seminar Aksi Perubahan
+SM.01.04,"Undangan Penyamaan Persepsi Penguji, Coach dan Mentor, Seminar Rancangan Aksi Perubahan, Seminar Aksi Perubahan dan rapat evaluasi Pelatihan Kepemimpinan."
+SM.01.04,Laporan Pelaksanaan Pelatihan Kepemimpinan
+SM,Pendidikan dan Pelatihan Teknis
+SM.02.01,Perencanaan Program Diklat
+SM.02.01,Naskah yang berkaitan dengan kegiatan:
+SM.02.01,"Agenda Rapat Perencanaan Program, Undangan Rapat Koordinasi, Permohonan Izin dan Fasilitator/Penceramah, Penyampaian Notula Rapat Koordinasi Pelatihan Teknis."
+SM.02.02,"Kurikulum, Metode Standar/Mutu dan Pedoman Diklat"
+SM.02.02,Naskah yang berkaitan dengan kegiatan:
+SM.02.02,"Undangan Rapat Penyusunan Modul, Bahan Ajar, dan Bahan"
+SM.02.02,Tayang Pelatihan Teknis
+SM.02.02,"Penyampaian Notula Rapat Penyusunan Modul, Bahan Ajar, dan"
+SM.02.02,Bahan Tayang Pelatihan Teknis
+SM.02.02,Undangan Rapat Koordinasi Penyusunan Modul dan Rapat Koordinasi Optimalisasi Kegiatan Penyusunan Modul Pelatihan
+SM.02.02,Teknis
+SM.02.02,Penyusunan Modul Pelatihan Teknis
+SM.02.02,Telaahan Pelatihan Teknis
+SM.02.03,Penyelenggaraan
+SM.02.03,Naskah yang berkaitan dengan kegiatan:
+SM.02.03,"Pemberitahuan Penyelenggaraan, Pemanggilan Peserta, Permohonan Tenaga Pengajar, Permohonan izin kunjungan lapangan, Undangan"
+SM.02.03,"Pembukaan, Permintaan Nomor Surat Tanda Tamat Pelatihan (STTP), Permohonan Penutupan, dan Permintaan Nomor dan Tanda Tangan Piagam Penghargaan"
+SM.02.04,Evaluasi
+SM.02.04,Naskah yang berkaitan dengan kegiatan:
+SM.02.04,Pedoman Coach dan Mentor Pelatihan Kepemimpinan
+SM.02.04,Permohonan sebagai Mentor/Penguji Seminar Aksi
+SM.02.04,Perubahan/Coach Seminar Aksi Perubahan
+SM.02.04,"Undangan Penyamaan Persepsi Penguji, Coach dan Mentor, Seminar Rancangan Aksi Perubahan, Seminar Aksi Perubahan dan rapat evaluasi Pelatihan Kepemimpinan."
+SM.02.04,Laporan Pelaksanaan Pelatihan Kepemimpinan
+SM.03,Bimbingan Teknis/Fokus Grup Diskusi (FGD)
+SM.03.01,Fasilitatif
+SM.03.01,Bimbingan Teknis/Fokus Grup Diskusi (FGD) /Workshop Materi Teknis Fasilitatif dan Teknis Substantif
+SM.03.02,Substantif
+SM.03.02,Penyusunan Kurikulum dan Modul Pengembangan Pelatihan
+SM.03.02,"Fungsional, Pelatihan Teknis dan Kepemimpinan"
+SM.03.02,Penyusunan Pedoman dan/atau Instrumen Evaluasi
+SM.03.02,Penyusunan Standar Sistematika Laporan Pelatihan
+SM.03.02,Penyusunan Pedoman Sistematika Laporan produk Individu dan/atau Kelompok pelatihan
+SM.03.02,Penyusunan Standar Penilaian Kompetensi.
+SM.04,Pertemuan Ilmiah
+SM.04.01,"Seminar, Lokakarya, Diskusi, Simposium, Temu Karya, Bedah Buku;"
+SM.05,Penilaian Kompetensi
+SM.05.01,Penyusunan Program
+SM.05.01,Permohonan Persetujuan Usulan Standar Operasional Prosedur
+SM.05.01,Penilaian Kompetensi;
+SM.05.01,Usulan Indikator dan Target Kinerja Penilaian Kompetensi
+SM.05.01,Undangan Rapat Rencana Pelaksanaan Kegiatan dan Target
+SM.05.01,Kinerja Tahun Anggaran Berjalan;
+SM.05.01,Permohonan Usulan Kegiatan Tahun Depan dan penyusunan
+SM.05.01,Perencanaan Anggaran;
+SM.05.01,Peningkatan Kapasitas Asessor dalam pemberian feedback;
+SM.05.01,Penulisan Laporan Individu Assesment Center.
+SM.05.02,Standarisasi Kompetensi
+SM.05.02,"Undangan Rapat Koordinasi, Pembahasan Soal, dan Instrumen Situasional Judgement Test Kegiatan Peningkatan Kapasitas"
+SM.05.02,Manajemen Penilaian Kompetensi
+SM.05.02,Matrik Metode dan Alat Ukur Penilaian Kompetensi;
+SM.05.02,Penyusunan Instrumen Test Potensi.
+SM.05.03,Penilaian Kompetensi
+SM.05.03,"Surat Pemanggilan Peserta, Undangan Pembukaan, Jadwal Pelaksanaan, Permohonan Penguji Teknis, Permohonan Tenaga Assesor, Permohonan Bantuan Teknis dan Penunjukan Kegiatan"
+SM.05.03,Penilaian Kompetensi;
+SM.05.03,Permohonan Nomor Sertifikat;
+SM.05.03,Undangan Rapat Uji Kompetensi Kegiatan Penilaian Kompetensi dan penyampaian Hasil Uji Kompetensi Kenaikan Jenjang Jabatan.
+SM.05.04,Evaluasi
+SM.05.04,"Rencana Rapat Evaluasi Hasil, Undangan Rapat Evaluasi Hasil dan"
+SM.05.04,Survei Evaluasi Penilaian Kompetensi Peserta Pelatihan;
+SM.05.04,Penginputan Data Hasil Penilaian Kompetensi
+SM.05.04,Penyampaian Hasil Kegiatan Uji Kompetensi
+SM.06,Kerja Sama Pengembangan SDM
+SM.06.01,International
+SM.06.01,Perjanjian Kerja Sama Pengembangan Sumber Daya Manusia dengan Institusi/Lembaga Internasional
+SM.06.02,Institusi/Lembaga
+SM.06.02,Perjanjian Kerja Sama Pengembangan Sumber Daya Manusia dengan Insitusi/Lembaga
+SM.06.03,Universitas/Perguruan Tinggi
+SM.06.03,Perjanjian Kerja Sama Pengembangan Sumber Daya Manusia dengan Universitas/Perguruan Tinggi
+LT,Penelitian DAN Pengembangan
+LT.01,Pusat Penelitian dan Pengembangan Kebijakan
+LT.01.01,Kelompok Substansi Penelitian dan Pengembangan Pembentukan Regulasi
+LT.01.01,"Naskah dinas berkaitan dengan penyusunan perumusan kebijakan teknis, program, dan anggaran penelitian dan pengembangan, pelaksanaan penelitian dan pengembangan, pemantauan, evaluasi, dan pelaporan, serta pelaksanaan koordinasi dan kerja sama penelitian dan pengembangan di bidang pembentukan regulasi."
+LT.01.02,Kelompok Substansi Penelitian dan Pengembangan Penegakan Hukum
+LT.01.02,"Naskah dinas berkaitan dengan penyusunan perumusan kebijakan teknis, program, dan anggaran penelitian dan pengembangan, pelaksanaan penelitian dan pengembangan, pemantauan, evaluasi, dan pelaporan, serta pelaksanaan koordinasi dan kerja sama penelitian dan pengembangan di bidang penegakkan hukum."
+LT.01.03,Kelompok Substansi Penelitian dan Pengembangan Administrasi
+LT.01.03,Fasilitatif
+LT.01.03,"Naskah dinas berkaitan dengan penyusunan perumusan kebijakan teknis, program, dan anggaran penelitian dan pengembangan kebijakan, pelaksanaan penelitian dan pengembangan kebijakan, pelaksanaan koordinasi dan kerja sama penelitian dan pengembangan kebijakan, serta pemantauan, evaluasi, dan pelaporan pelaksanaan penelitian dan pengembangan di bidang administrasi fasilitatif."
+LT.01.04,Kelompok Substansi Penelitian dan Pengembangan Sumber Daya Manusia
+LT.01.04,"Naskah dinas berkaitan dengan penyusunan perumusan kebijakan teknis, program, dan anggaran penelitian dan pengembangan kebijakan, pelaksanaan penelitian dan pengembangan kebijakan, pelaksanaan koordinasi dan kerja sama penelitian dan pengembangan kebijakan, serta pemantauan, evaluasi, dan pelaporan pelaksanaan penelitian dan pengembangan di bidang sumber daya manusia."
+LT.01.05,Kelompok Substansi Penelitian dan Pengembangan Pengawasan.
+LT.01.05,"Naskah dinas berkaitan dengan penyusunan perumusan kebijakan teknis, program, dan anggaran penelitian dan pengembangan kebijakan, pelaksanaan penelitian dan pengembangan kebijakan, pelaksanaan koordinasi dan kerja sama penelitian dan pengembangan kebijakan, serta pemantauan, evaluasi, dan pelaporan pelaksanaan penelitian dan pengembangan di bidang pengawasan."
+LT.01.06,Kelompok Substansi Analisis Data dan Informasi di bidang Keimigrasian dan Pemasyarakatan
+LT.01.06,"Naskah-naskah dinas berkaitan dengan penyusunan perumusan kebijakan teknis, program dan anggaran, pelaksanaan analisis data dan informasi, pemantauan, evaluasi, dan pelaporan pelaksanaan, pelaksanaan koordinasi dan kerja sama dibidang analisis data dan informasi."
+LT.01.07,Kelompok Substansi Penelitian dan Pengembangan Teknologi dan Sistem Informasi Keimigrasian dan Pemasyarakatan
+LT.01.07,"Naskah-naskah dinas berkaitan dengan penyusunan perumusan kebijakan teknis, program dan anggaran, pelaksanaan analisis data dan informasi, pemantauan, evaluasi, dan pelaporan pelaksanaan, pelaksanaan koordinasi dan kerja sama dibidang teknologi dan sistem informasi."

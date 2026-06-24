@@ -6,14 +6,15 @@
 @section('content')
     <div class="card card-soft shadow-sm">
         <div class="card-header card-header-soft">
-            <h5 class="mb-0">Form Tambah Arsip</h5>
+            <h4 class="mb-0">Form Tambah Arsip</h4>
         </div>
         <div class="card-body">
-            <form action="{{ route('arsip.store') }}" method="POST">
-                @include('archives.form')
+            <form action="{{ route('arsip.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                @include('archives.form') 
                 <div class="mt-4">
-                    <a href="{{ route('arsip.index') }}" class="btn btn-outline-secondary">Batal</a>
                     <button type="submit" class="btn btn-primary">Simpan Arsip</button>
+                    <a href="{{ route('arsip.index') }}" class="btn btn-secondary">Batal</a>
                 </div>
             </form>
         </div>
@@ -59,5 +60,70 @@
             filterRackOptions();
         }
     });
+
+    document.addEventListener('DOMContentLoaded', function () {
+    const utamaSelect = document.getElementById('klasifikasi_utama');
+    const subSelect = document.getElementById('klasifikasi_sub');
+    const detailSelect = document.getElementById('klasifikasi_id');
+    const previewText = document.getElementById('text_preview_klasifikasi');
+
+    // 1. KETIKA LEVEL 1 (UTAMA) DIUBAH
+    utamaSelect.addEventListener('change', function () {
+        const parentId = this.value;
+        
+        // Reset dropdown anak & cucu
+        subSelect.innerHTML = '<option value="">-- Pilih Sub Klasifikasi --</option>';
+        detailSelect.innerHTML = '<option value="">-- Pilih Detail Klasifikasi --</option>';
+        subSelect.disabled = true;
+        detailSelect.disabled = true;
+        previewText.textContent = '';
+
+        if (parentId) {
+            fetch(`/api/get-sub-klasifikasi/${parentId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if(data.length > 0) {
+                        subSelect.disabled = false;
+                        data.forEach(item => {
+                            subSelect.innerHTML += `<option value="${item.id}">${item.kode} - ${item.nama}</option>`;
+                        });
+                    }
+                });
+        }
+    });
+
+    // 2. KETIKA LEVEL 2 (SUB) DIUBAH
+    subSelect.addEventListener('change', function () {
+        const parentId = this.value;
+
+        // Reset dropdown cucu
+        detailSelect.innerHTML = '<option value="">-- Pilih Detail Klasifikasi --</option>';
+        detailSelect.disabled = true;
+        previewText.textContent = '';
+
+        if (parentId) {
+            fetch(`/api/get-sub-klasifikasi/${parentId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if(data.length > 0) {
+                        detailSelect.disabled = false;
+                        data.forEach(item => {
+                            detailSelect.innerHTML += `<option value="${item.id}">${item.kode} - ${item.nama}</option>`;
+                        });
+                    }
+                });
+        }
+    });
+
+    // 3. KETIKA LEVEL 3 (DETAIL) DIUBAH (Menampilkan teks biru di bawahnya)
+    detailSelect.addEventListener('change', function () {
+        const selectedOption = this.options[this.selectedIndex];
+        if (this.value) {
+            previewText.textContent = selectedOption.text;
+        } else {
+            previewText.textContent = '';
+        }
+    });
+});
 </script>
 @endpush

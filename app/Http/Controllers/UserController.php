@@ -5,44 +5,21 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
-    public function index(Request $request)
-    {
-        $query = User::query();
-
-        if ($request->filled('search')) {
-            $search = $request->search;
-            $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                    ->orWhere('username', 'like', "%{$search}%")
-                    ->orWhere('email', 'like', "%{$search}%");
-            });
-        }
-
-        if ($request->filled('role')) {
-            $query->where('role', $request->role);
-        }
-
-        $users = $query->orderBy('created_at', 'desc')->paginate(15)->withQueryString();
-
-        return view('users.index', compact('users'));
-    }
-
-    public function create()
-    {
-        return view('users.create');
-    }
+    // ... (fungsi index, create, edit tetap sama) ...
 
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name' => 'required|string|max:191',
-            'username' => 'required|string|max:191|unique:users,username',
-            'email' => 'required|string|email|max:191|unique:users,email',
-            'password' => 'required|string|min:6|confirmed',
-            'role' => 'required|in:admin,petugas,pengguna',
+            'nama_pengguna' => 'required|string|max:191',
+            'username'      => 'required|string|max:191|unique:users,username',
+            'email'         => 'required|string|email|max:191|unique:users,email',
+            'password'      => 'required|string|min:6|confirmed',
+            'role'          => 'required|in:admin,petugas,pengguna',
+            'unit_kerja'    => 'required|string|max:100', // Tambahkan validasi ini
         ]);
 
         $data['password'] = Hash::make($data['password']);
@@ -51,19 +28,15 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('success', 'User berhasil ditambahkan.');
     }
 
-    public function edit(User $user)
-    {
-        return view('users.edit', compact('user'));
-    }
-
     public function update(Request $request, User $user)
     {
         $data = $request->validate([
-            'name' => 'required|string|max:191',
-            'username' => ['required', 'string', 'max:191', Rule::unique('users', 'username')->ignore($user->id)],
-            'email' => ['required', 'string', 'email', 'max:191', Rule::unique('users', 'email')->ignore($user->id)],
-            'password' => 'nullable|string|min:6|confirmed',
-            'role' => 'required|in:admin,petugas,pengguna',
+            'nama_pengguna' => 'required|string|max:191',
+            'username'      => ['required', 'string', 'max:191', Rule::unique('users', 'username')->ignore($user->id)],
+            'email'         => ['required', 'string', 'email', 'max:191', Rule::unique('users', 'email')->ignore($user->id)],
+            'password'      => 'nullable|string|min:6|confirmed',
+            'role'          => 'required|in:admin,petugas,pengguna',
+            'unit_kerja'    => 'required|string|max:100', // Tambahkan validasi ini
         ]);
 
         if ($request->filled('password')) {
@@ -86,5 +59,26 @@ class UserController extends Controller
         $user->delete();
 
         return redirect()->route('users.index')->with('success', 'User berhasil dihapus.');
+    }
+
+    public function index(Request $request)
+    {
+        $users = User::orderBy('created_at', 'desc')->paginate(15);
+        return view('users.index', compact('users'));
+    }
+
+    public function create()
+    {
+    // Mengembalikan view file create.blade.php di folder resources/views/users/
+    return view('users.create');
+    }
+
+    public function edit($id)
+    {
+    // Mengambil data user berdasarkan ID
+    $user = User::findOrFail($id);
+    
+    // Kirim data ke view (pastikan file view-nya ada di resources/views/users/edit.blade.php)
+    return view('users.edit', compact('user'));
     }
 }

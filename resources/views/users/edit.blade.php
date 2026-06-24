@@ -28,15 +28,31 @@
             <div class="row g-3">
                 <div class="col-md-6">
                     <label class="form-label">Nama Pengguna</label>
-                    <input type="text" name="name" value="{{ old('name', $user->name) }}" class="form-control @error('name') is-invalid @enderror" required>
-                    @error('name')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
+                        <input 
+                            type="text" 
+                            name="nama_pengguna" 
+                            value="{{ old('nama_pengguna', $user->nama_pengguna ?? '') }}" 
+                            class="form-control @error('nama_pengguna') is-invalid @enderror" 
+                            placeholder="Masukkan nama lengkap"
+                            required
+                        >
+                        @error('nama_pengguna')
+                            <div class="invalid-feedback text-danger">
+                                {{ $message }}
+                            </div>
+                        @enderror
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Username</label>
                     <input type="text" name="username" value="{{ old('username', $user->username) }}" class="form-control @error('username') is-invalid @enderror" required>
                     @error('username')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Unit Kerja</label>
+                    <input type="text" name="unit_kerja" value="{{ old('unit_kerja', $user->unit_kerja) }}" class="form-control @error('unit_kerja') is-invalid @enderror" required>
+                    @error('unit_kerja')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
