@@ -23,8 +23,7 @@ class Borrowing extends Model
         'keterangan_kondisi'
     ];
 
-    public function archive()
-    {
-        return $this->belongsTo(Archive::class, 'arsip_id');
+    public function archive() {
+    return $this->belongsTo(\App\Models\archive::class, 'arsip_id'); // Sesuaikan nama class model arsip Anda
     }
 }

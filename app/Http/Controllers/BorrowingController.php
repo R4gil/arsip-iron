@@ -10,20 +10,20 @@ use Illuminate\Http\Request;
 class BorrowingController extends Controller
 {
     
-    public function create()
-    {
-        // Ambil data arsip
-        $archives = \DB::table('arsip')->where('status_ketersediaan', 'tersedia')->get();
+public function create()
+{
+    // Ubah menjadi all() atau hapus where agar semua data tampil
+    $archives = \DB::table('arsip')->get(); 
 
-        // Ambil data pengguna
-        $users = User::all();
+    // Ambil data pengguna
+    $users = User::all();
 
-        // TAMBAHKAN INI: Ambil data unit kerja
-        $units = \DB::table('users')->select('unit_kerja')->whereNotNull('unit_kerja')->distinct()->get();
+    // Ambil data unit kerja
+    $units = \DB::table('users')->select('unit_kerja')->whereNotNull('unit_kerja')->distinct()->get();
 
-        // Kirim ketiganya ke view
-        return view('borrowings.create', compact('archives', 'users', 'units'));
-    }
+    // Kirim ketiganya ke view
+    return view('borrowings.create', compact('archives', 'users', 'units'));
+}
 
     public function index(Request $request)
     {
@@ -41,31 +41,11 @@ class BorrowingController extends Controller
         $stats = [
             'dipinjam' => Borrowing::where('status_pinjam', 'Dipinjam')->count(),
             'dikembalikan' => Borrowing::where('status_pinjam', 'Dikembalikan')->count(),
-            'terlambat' => Borrowing::where('status_pinjam', 'Terlambat')->count(),
         ];
 
-        return view('borrowings.index', compact('borrowings', 'stats'));
-    }
+        $archives = \App\Models\Archive::all();
 
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'arsip_id'        => 'required|exists:arsip,id',
-            'nama_peminjam'   => 'required|string|max:150',
-            'divisi_peminjam' => 'required|string|max:100',
-            'tanggal_keluar'  => 'required|date',
-        ]);
-        
-        Borrowing::create(array_merge($validated, [
-            'petugas_keluar_id' => auth()->id(),
-            'status_pinjam'     => 'Dipinjam',
-        ]));
-
-        // Update status di tabel arsip
-        \DB::table('arsip')->where('id', $request->arsip_id)
-            ->update(['status_ketersediaan' => 'dipinjam']);
-
-        return redirect()->route('borrowings.index')->with('success', 'Peminjaman arsip berhasil disimpan.');
+        return view('borrowings.index', compact('borrowings', 'stats', 'archives'));
     }
 
     public function update(Request $request, Borrowing $borrowing)
@@ -96,5 +76,25 @@ class BorrowingController extends Controller
         $borrowing->delete();
 
         return redirect()->route('borrowings.index')->with('success', 'Transaksi peminjaman berhasil dihapus.');
+    }
+
+    // Di dalam BorrowingController.php
+    public function store(Request $request)
+    {
+        // 1. Simpan data peminjaman
+        // 2. Update status arsip menjadi 'Dipinjam'
+        $arsip = Archive::find($request->arsip_id);
+        $arsip->update(['status_ketersediaan' => 'Dipinjam']);
+
+        return redirect()->back()->with('success', 'Arsip berhasil dipinjam!');
+    }
+
+    public function return($id)
+    {
+        // 1. Update status arsip menjadi 'Tersedia'
+        $arsip = Archive::find($id);
+        $arsip->update(['status_ketersediaan' => 'Tersedia']);
+
+        return redirect()->back()->with('success', 'Arsip berhasil dikembalikan!');
     }
 }

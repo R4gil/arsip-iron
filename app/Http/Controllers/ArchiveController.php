@@ -178,4 +178,16 @@ class ArchiveController extends Controller
             return redirect()->route('arsip.index')->with('success', 'Arsip berhasil dihapus!');
     }
 
+    public function viewFile($filename)
+
+    {
+        // Arahkan ke folder public/dokumen_arsip
+        $path = public_path('dokumen_arsip/' . $filename);
+
+        if (!file_exists($path)) {
+            abort(404, "File tidak ditemukan di: " . $path);
+        }
+
+        return response()->file($path);
+    }
 }

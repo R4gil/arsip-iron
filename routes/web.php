@@ -35,8 +35,9 @@ Route::middleware('auth')->group(function () {
 
     // 3. Route Peminjaman & User
     Route::resource('borrowings', BorrowingController::class);
-    Route::put('/borrowings/{borrowing}/return', [BorrowingController::class, 'update'])->name('borrowings.return');
+    Route::patch('/borrowings/{id}/return', [BorrowingController::class, 'return'])->name('borrowings.return');
     Route::resource('users', UserController::class)->except(['show']);
+    Route::get('/arsip/view/{filename}', [ArchiveController::class, 'viewFile'])->name('arsip.view');
 
     // 4. KHUSUS ROLE ADMIN
     Route::middleware('role:Admin')->group(function () {
