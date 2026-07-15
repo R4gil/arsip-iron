@@ -84,27 +84,60 @@
                 </h6>
                 <div class="row g-3">
                     <div class="col-12">
-                        <label class="form-label fw-semibold" style="color: #334155; font-size: 0.85rem;">Nomor Surat <span class="text-danger">*</span></label>
-                        <div class="input-group">
-                            <span class="input-group-text fw-bold" style="background: #1e293b; color: #fff; border: 1.5px solid #1e293b; border-radius: 8px 0 0 8px; font-size: 0.85rem;">WIM.11.IMI.2-</span>
-                            <input type="text" id="nomor_surat_inti" class="form-control fw-bold"
-                                placeholder="Contoh: 5460 atau kode klasifikasi"
-                                value="<?php echo e(old('nomor_surat_inti', isset($arsip->nomor_surat) ? preg_replace('/^WIM\.11\.IMI\.2\-(.*?)\/\d{4}$/', '$1', $arsip->nomor_surat) : '')); ?>" required
-                                style="border-radius: 0; border: 1.5px solid #e2e8f0; padding: 0.6rem 0.75rem; font-size: 0.9rem;">
-                            <button type="button" class="btn" style="background: #475569; color: #fff; border: 1.5px solid #475569; border-radius: 0; padding: 0.6rem 1rem; font-size: 0.85rem;" data-bs-toggle="modal" data-bs-target="#classificationSearchModal">
-                                <i class="fas fa-search me-1"></i>Cari Kode
-                            </button>
-                            <span id="label_tahun_otomatis" class="input-group-text fw-bold"
-                                style="background: #d4af37; color: #1e293b; border: 1.5px solid #d4af37; border-radius: 0 8px 8px 0; font-size: 0.9rem;">
-                                /<?php echo e(old('tahun_arsip', isset($arsip->tanggal_arsip) ? date('Y', strtotime($arsip->tanggal_arsip)) : date('Y'))); ?>
-
-                            </span>
+                        <label class="form-label fw-semibold" style="color: #334155; font-size: 0.85rem;">Mode Penomoran <span class="text-danger">*</span></label>
+                        <div class="d-flex gap-4 mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="mode_penomoran" id="mode_otomatis" value="otomatis" checked>
+                                <label class="form-check-label fw-semibold" for="mode_otomatis" style="color: #334155; font-size: 0.85rem;">
+                                    <i class="fas fa-cog me-1"></i>Otomatis
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="mode_penomoran" id="mode_manual" value="manual">
+                                <label class="form-check-label fw-semibold" for="mode_manual" style="color: #334155; font-size: 0.85rem;">
+                                    <i class="fas fa-edit me-1"></i>Manual
+                                </label>
+                            </div>
                         </div>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label fw-semibold" style="color: #334155; font-size: 0.85rem;">Nomor Surat <span class="text-danger">*</span></label>
+                        
+                        <!-- Layout Otomatis -->
+                        <div id="layout_otomatis">
+                            <div class="input-group">
+                                <span class="input-group-text fw-bold" style="background: #1e293b; color: #fff; border: 1.5px solid #1e293b; border-radius: 8px 0 0 8px; font-size: 0.85rem;">WIM.11.IMI.2-</span>
+                                <input type="text" id="nomor_surat_inti" class="form-control fw-bold"
+                                    placeholder="Contoh: 5460 atau kode klasifikasi"
+                                    value="<?php echo e(old('nomor_surat_inti', isset($arsip->nomor_surat) ? preg_replace('/^WIM\.11\.IMI\.2\-(.*?)\/\d{4}$/', '$1', $arsip->nomor_surat) : '')); ?>"
+                                    style="border-radius: 0; border: 1.5px solid #e2e8f0; padding: 0.6rem 0.75rem; font-size: 0.9rem;">
+                                <button type="button" class="btn" style="background: #475569; color: #fff; border: 1.5px solid #475569; border-radius: 0; padding: 0.6rem 1rem; font-size: 0.85rem;" data-bs-toggle="modal" data-bs-target="#classificationSearchModal">
+                                    <i class="fas fa-search me-1"></i>Cari Kode
+                                </button>
+                                <span id="label_tahun_otomatis" class="input-group-text fw-bold"
+                                    style="background: #d4af37; color: #1e293b; border: 1.5px solid #d4af37; border-radius: 0 8px 8px 0; font-size: 0.9rem;">
+                                    /<?php echo e(old('tahun_arsip', isset($arsip->tanggal_arsip) ? date('Y', strtotime($arsip->tanggal_arsip)) : date('Y'))); ?>
+
+                                </span>
+                            </div>
+                            <div class="form-text mt-2" style="color: #64748b; font-size: 0.8rem;">
+                                <i class="fas fa-info-circle me-1"></i>Isi nomor surat sendiri atau pilih kode klasifikasi untuk membangun nomor otomatis. Tahun akan menyesuaikan dengan tanggal arsip.
+                            </div>
+                        </div>
+
+                        <!-- Layout Manual -->
+                        <div id="layout_manual" style="display: none;">
+                            <input type="text" id="nomor_surat_manual" class="form-control fw-bold"
+                                placeholder="Masukkan nomor surat manual..."
+                                value="<?php echo e(old('nomor_surat_manual', '')); ?>"
+                                style="border-radius: 8px; border: 1.5px solid #e2e8f0; padding: 0.6rem 0.75rem; font-size: 0.9rem;">
+                            <div class="form-text mt-2" style="color: #64748b; font-size: 0.8rem;">
+                                <i class="fas fa-info-circle me-1"></i>Masukkan nomor surat secara manual tanpa format otomatis.
+                            </div>
+                        </div>
+
                         <input type="hidden" id="nomor_surat" name="nomor_surat" value="<?php echo e(old('nomor_surat', $arsip->nomor_surat ?? '')); ?>">
                         <input type="hidden" id="tahun_arsip" name="tahun_arsip" value="<?php echo e(old('tahun_arsip', isset($arsip->tanggal_arsip) ? date('Y', strtotime($arsip->tanggal_arsip)) : date('Y'))); ?>">
-                        <div class="form-text mt-2" style="color: #64748b; font-size: 0.8rem;">
-                            <i class="fas fa-info-circle me-1"></i>Isi nomor surat sendiri atau pilih kode klasifikasi untuk membangun nomor otomatis. Tahun akan menyesuaikan dengan tanggal arsip.
-                        </div>
                     </div>
                     <div class="col-12">
                         <label class="form-label fw-semibold" style="color: #334155; font-size: 0.85rem;">Nama / Judul Arsip <span class="text-danger">*</span></label>
@@ -276,6 +309,40 @@
         const tanggalArsip = document.getElementById('tanggal_arsip');
         const masaRetensi = document.querySelector('[name="masa_retensi"]');
         const previewRetensi = document.getElementById('preview_tanggal_retensi');
+        
+        // Mode penomoran elements
+        const modeOtomatis = document.getElementById('mode_otomatis');
+        const modeManual = document.getElementById('mode_manual');
+        const layoutOtomatis = document.getElementById('layout_otomatis');
+        const layoutManual = document.getElementById('layout_manual');
+        const nomorSuratManual = document.getElementById('nomor_surat_manual');
+
+        // Handle mode switching
+        function switchMode(mode) {
+            if (mode === 'otomatis') {
+                layoutOtomatis.style.display = 'block';
+                layoutManual.style.display = 'none';
+                inputNomorInti.required = true;
+                nomorSuratManual.required = false;
+            } else {
+                layoutOtomatis.style.display = 'none';
+                layoutManual.style.display = 'block';
+                inputNomorInti.required = false;
+                nomorSuratManual.required = true;
+            }
+        }
+
+        if (modeOtomatis) {
+            modeOtomatis.addEventListener('change', function() {
+                if (this.checked) switchMode('otomatis');
+            });
+        }
+
+        if (modeManual) {
+            modeManual.addEventListener('change', function() {
+                if (this.checked) switchMode('manual');
+            });
+        }
 
         // Dependent dropdowns for location hierarchy
         const lokasiSelect = document.getElementById('lokasi_id');
@@ -401,12 +468,23 @@
         function updateNomor() {
             const tahun = tanggalArsip.value ? new Date(tanggalArsip.value).getFullYear() : new Date().getFullYear();
             labelTahun.textContent = '/' + tahun;
-            if (inputNomorInti.value.trim()) {
-                hiddenNomorSurat.value = `WIM.11.IMI.2-${inputNomorInti.value.trim()}/${tahun}`;
+            
+            // Only update if in automatic mode
+            if (modeOtomatis && modeOtomatis.checked) {
+                if (inputNomorInti.value.trim()) {
+                    hiddenNomorSurat.value = `WIM.11.IMI.2-${inputNomorInti.value.trim()}/${tahun}`;
+                }
             }
         }
 
         inputNomorInti.addEventListener('input', updateNomor);
+        if (nomorSuratManual) {
+            nomorSuratManual.addEventListener('input', function() {
+                if (modeManual && modeManual.checked) {
+                    hiddenNomorSurat.value = this.value.trim();
+                }
+            });
+        }
         if (tanggalArsip) tanggalArsip.addEventListener('change', updateNomor);
         if (tanggalArsip) tanggalArsip.addEventListener('change', updatePreviewRetensi);
         if (masaRetensi) masaRetensi.addEventListener('change', updatePreviewRetensi);
@@ -415,16 +493,22 @@
         const form = document.querySelector('form[action="<?php echo e(route('arsip.store')); ?>"]');
         if (form) {
             form.addEventListener('submit', function(e) {
-                updateNomor();
-                // If nomor_surat is empty, generate from nomor_surat_inti or use default
-                if (!hiddenNomorSurat.value || hiddenNomorSurat.value.trim() === '') {
-                    const tahun = tanggalArsip.value ? tanggalArsip.value.substring(0, 4) : new Date().getFullYear();
-                    const nomorInti = inputNomorInti.value.trim();
-                    if (nomorInti) {
-                        hiddenNomorSurat.value = `WIM.11.IMI.2-${nomorInti}/${tahun}`;
-                    } else {
-                        // Generate default nomor surat
-                        hiddenNomorSurat.value = `WIM.11.IMI.2-NO-${tahun}`;
+                // Check which mode is selected
+                if (modeManual && modeManual.checked) {
+                    // Manual mode: use the manual input value
+                    hiddenNomorSurat.value = nomorSuratManual.value.trim();
+                } else {
+                    // Automatic mode: generate from nomor_surat_inti
+                    updateNomor();
+                    if (!hiddenNomorSurat.value || hiddenNomorSurat.value.trim() === '') {
+                        const tahun = tanggalArsip.value ? tanggalArsip.value.substring(0, 4) : new Date().getFullYear();
+                        const nomorInti = inputNomorInti.value.trim();
+                        if (nomorInti) {
+                            hiddenNomorSurat.value = `WIM.11.IMI.2-${nomorInti}/${tahun}`;
+                        } else {
+                            // Generate default nomor surat
+                            hiddenNomorSurat.value = `WIM.11.IMI.2-NO-${tahun}`;
+                        }
                     }
                 }
             });

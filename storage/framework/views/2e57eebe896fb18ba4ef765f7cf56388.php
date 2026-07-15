@@ -92,19 +92,231 @@
     .is-table tbody td { padding: .85rem 1rem !important; vertical-align: middle; color: #334155; border-color: #f1f5f9 !important; }
     .is-table tbody tr:hover { background: #fafbfc; }
 
+    /* Modern Button Styles */
+    .btn {
+        border-radius: 10px !important;
+        font-weight: 600 !important;
+        font-size: 0.85rem !important;
+        padding: 0.6rem 1.2rem !important;
+        transition: all 0.3s ease !important;
+        border: 1.5px solid transparent !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+    }
+    .btn:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+    }
+    .btn:active {
+        transform: translateY(0) !important;
+    }
+
+    /* Primary Button - Blue Gradient */
+    .btn-primary {
+        background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
+        color: #ffffff !important;
+        border: none !important;
+    }
+    .btn-primary:hover {
+        background: linear-gradient(135deg, #60a5fa, #3b82f6) !important;
+        color: #ffffff !important;
+    }
+
+    /* Success Button - Green Gradient */
+    .btn-success {
+        background: linear-gradient(135deg, #22c55e, #16a34a) !important;
+        color: #ffffff !important;
+        border: none !important;
+    }
+    .btn-success:hover {
+        background: linear-gradient(135deg, #4ade80, #22c55e) !important;
+        color: #ffffff !important;
+    }
+
+    /* Danger Button - Red Gradient */
+    .btn-danger {
+        background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+        color: #ffffff !important;
+        border: none !important;
+    }
+    .btn-danger:hover {
+        background: linear-gradient(135deg, #f87171, #ef4444) !important;
+        color: #ffffff !important;
+    }
+
+    /* Warning Button - Amber Gradient */
+    .btn-warning {
+        background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+        color: #ffffff !important;
+        border: none !important;
+    }
+    .btn-warning:hover {
+        background: linear-gradient(135deg, #fbbf24, #f59e0b) !important;
+        color: #1e293b !important;
+    }
+
+    /* Info Button - Cyan Gradient */
+    .btn-info {
+        background: linear-gradient(135deg, #06b6d4, #0891b2) !important;
+        color: #ffffff !important;
+        border: none !important;
+    }
+    .btn-info:hover {
+        background: linear-gradient(135deg, #22d3ee, #06b6d4) !important;
+        color: #ffffff !important;
+    }
+
+    /* Secondary Button - Gray */
+    .btn-secondary {
+        background: linear-gradient(135deg, #64748b, #475569) !important;
+        color: #ffffff !important;
+        border: none !important;
+    }
+    .btn-secondary:hover {
+        background: linear-gradient(135deg, #94a3b8, #64748b) !important;
+        color: #ffffff !important;
+    }
+
+    /* Light Button */
+    .btn-light {
+        background: linear-gradient(135deg, #f8fafc, #f1f5f9) !important;
+        color: #334155 !important;
+        border: 1.5px solid #e2e8f0 !important;
+    }
+    .btn-light:hover {
+        background: linear-gradient(135deg, #ffffff, #f8fafc) !important;
+        border-color: #cbd5e1 !important;
+        color: #1e293b !important;
+    }
+
+    /* Outline Buttons */
+    .btn-outline-primary {
+        background: transparent !important;
+        color: #3b82f6 !important;
+        border: 2px solid #3b82f6 !important;
+    }
+    .btn-outline-primary:hover {
+        background: #3b82f6 !important;
+        color: #ffffff !important;
+    }
+
+    .btn-outline-success {
+        background: transparent !important;
+        color: #22c55e !important;
+        border: 2px solid #22c55e !important;
+    }
+    .btn-outline-success:hover {
+        background: #22c55e !important;
+        color: #ffffff !important;
+    }
+
+    .btn-outline-danger {
+        background: transparent !important;
+        color: #ef4444 !important;
+        border: 2px solid #ef4444 !important;
+    }
+    .btn-outline-danger:hover {
+        background: #ef4444 !important;
+        color: #ffffff !important;
+    }
+
+    .btn-outline-warning {
+        background: transparent !important;
+        color: #f59e0b !important;
+        border: 2px solid #f59e0b !important;
+    }
+    .btn-outline-warning:hover {
+        background: #f59e0b !important;
+        color: #ffffff !important;
+    }
+
+    .btn-outline-info {
+        background: transparent !important;
+        color: #06b6d4 !important;
+        border: 2px solid #06b6d4 !important;
+    }
+    .btn-outline-info:hover {
+        background: #06b6d4 !important;
+        color: #ffffff !important;
+    }
+
+    /* Gold Button - Special */
     .is-btn-gold {
         background: linear-gradient(135deg, var(--is-gold), var(--is-gold-dark)) !important;
         border: none !important;
         color: var(--is-dark) !important;
         font-weight: 700 !important;
         border-radius: 10px !important;
-        padding: .5rem 1rem !important;
+        padding: .6rem 1.2rem !important;
+        box-shadow: 0 3px 10px rgba(212,175,55,0.3) !important;
     }
-    .is-btn-gold:hover { background: var(--is-gold-light) !important; color: var(--is-dark) !important; }
+    .is-btn-gold:hover { 
+        background: linear-gradient(135deg, #fbbf24, var(--is-gold)) !important; 
+        color: var(--is-dark) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 4px 15px rgba(212,175,55,0.4) !important;
+    }
 
-    .is-btn-soft { border-radius: 8px !important; font-weight: 600 !important; font-size: .8rem !important; }
-    .is-btn-soft-primary { background: #eff6ff; color: #2563eb; border: none; }
-    .is-btn-soft-danger { background: #fef2f2; color: #dc2626; border: none; }
+    /* Soft Button Styles */
+    .is-btn-soft { 
+        border-radius: 8px !important; 
+        font-weight: 600 !important; 
+        font-size: .8rem !important; 
+        padding: 0.5rem 1rem !important;
+    }
+    .is-btn-soft-primary { 
+        background: #eff6ff !important; 
+        color: #2563eb !important; 
+        border: 1.5px solid #dbeafe !important;
+    }
+    .is-btn-soft-primary:hover {
+        background: #dbeafe !important;
+    }
+    .is-btn-soft-danger { 
+        background: #fef2f2 !important; 
+        color: #dc2626 !important; 
+        border: 1.5px solid #fee2e2 !important;
+    }
+    .is-btn-soft-danger:hover {
+        background: #fee2e2 !important;
+    }
+    .is-btn-soft-success {
+        background: #f0fdf4 !important;
+        color: #16a34a !important;
+        border: 1.5px solid #dcfce7 !important;
+    }
+    .is-btn-soft-success:hover {
+        background: #dcfce7 !important;
+    }
+    .is-btn-soft-warning {
+        background: #fefce8 !important;
+        color: #ca8a04 !important;
+        border: 1.5px solid #fef9c3 !important;
+    }
+    .is-btn-soft-warning:hover {
+        background: #fef9c3 !important;
+    }
+
+    /* Button Sizes */
+    .btn-sm {
+        padding: 0.4rem 0.8rem !important;
+        font-size: 0.75rem !important;
+    }
+    .btn-lg {
+        padding: 0.8rem 1.6rem !important;
+        font-size: 0.95rem !important;
+    }
+
+    /* Button Groups */
+    .btn-group .btn {
+        margin: 0 !important;
+        border-radius: 0 !important;
+    }
+    .btn-group .btn:first-child {
+        border-radius: 10px 0 0 10px !important;
+    }
+    .btn-group .btn:last-child {
+        border-radius: 0 10px 10px 0 !important;
+    }
 
     .is-badge {
         border-radius: 20px;
