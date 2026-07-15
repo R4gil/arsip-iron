@@ -11,8 +11,11 @@ class Classification extends Model
 {
     use HasFactory;
 
+    protected $table = 'klasifikasi';
+    public $timestamps = true;
+
     public function archives()
     {
-        return $this->hasMany(Archive::class);
+        return $this->hasMany(Archive::class, 'classification_id');
     }
 }

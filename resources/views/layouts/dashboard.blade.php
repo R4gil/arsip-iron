@@ -3,13 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'IRON SMART') - IRON SMART</title>
     
     <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/font-awesome/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}">
-    
+    @include('partials.ui-styles')
     <style>
+        /* GLOBAL FONT SIZE ADJUSTMENTS FOR BETTER READABILITY */
+        body {
+            font-size: 0.95rem !important;
+        }
+        .content-body {
+            font-size: 0.95rem !important;
+        }
+        .content-body h1, .content-body h2, .content-body h3, .content-body h4, .content-body h5, .content-body h6 {
+            font-size: 1.1rem !important;
+        }
+        .content-body .form-label {
+            font-size: 0.95rem !important;
+            font-weight: 600 !important;
+        }
+        .content-body .form-control,
+        .content-body .form-select {
+            font-size: 0.95rem !important;
+            padding: 0.6rem 0.75rem !important;
+        }
+        .content-body .form-text {
+            font-size: 0.85rem !important;
+        }
+        .content-body .btn {
+            font-size: 0.95rem !important;
+            padding: 0.6rem 1.2rem !important;
+        }
+        .content-body .table {
+            font-size: 0.9rem !important;
+        }
+        .content-body .table th,
+        .content-body .table td {
+            padding: 0.75rem !important;
+            vertical-align: middle !important;
+        }
+        .content-body .card-body {
+            font-size: 0.95rem !important;
+        }
+        .content-body .badge {
+            font-size: 0.8rem !important;
+            padding: 0.35rem 0.65rem !important;
+        }
+        .content-body .is-page-header h4 {
+            font-size: 1.4rem !important;
+        }
+        .content-body .is-page-header p {
+            font-size: 0.95rem !important;
+        }
+
         /* SINKRONISASI WARNA EMAS PREMIUM (GOLD TONE) PORTO ADMIN */
         :root {
             --porto-dark-bg: #1d2127;       /* Latar gelap sidebar */
@@ -46,6 +95,7 @@
         .nav-main ul.nav-main > li > a {
             color: #f8fafc !important;
             font-weight: 600;
+            font-size: 0.95rem !important;
             padding: 12px 18px;
             border-radius: 6px;
             margin: 4px 10px;
@@ -132,6 +182,46 @@
             border-color: var(--porto-gold-primary) !important;
             color: #1d2127 !important;
         }
+
+        /* Pagination Styling - Gold Theme */
+        .pagination {
+            gap: 4px;
+        }
+        .pagination .page-link {
+            background: #fff !important;
+            border: 1.5px solid #e2e8f0 !important;
+            color: #334155 !important;
+            font-weight: 600 !important;
+            font-size: 0.85rem !important;
+            padding: 0.5rem 0.85rem !important;
+            border-radius: 8px !important;
+            transition: all 0.2s ease !important;
+            text-decoration: none !important;
+        }
+        .pagination .page-link:hover {
+            background: #fef3c7 !important;
+            border-color: #d4af37 !important;
+            color: #1e293b !important;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(212, 175, 55, 0.2) !important;
+        }
+        .pagination .page-item.active .page-link {
+            background: linear-gradient(135deg, #d4af37, #aa7c11) !important;
+            border-color: #d4af37 !important;
+            color: #1e293b !important;
+            font-weight: 700 !important;
+            box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3) !important;
+        }
+        .pagination .page-item.disabled .page-link {
+            background: #f8fafc !important;
+            border-color: #e2e8f0 !important;
+            color: #94a3b8 !important;
+            cursor: not-allowed !important;
+            opacity: 0.6 !important;
+        }
+        .pagination .page-link .sr-only {
+            display: none !important;
+        }
     </style>
     @stack('styles')
 </head>
@@ -155,6 +245,8 @@
                     </p>
                 </div>
                 <span class="separator"></span>
+
+                @include('partials.header-notifications')
         
                 <div id="userbox" class="userbox">
                     <a href="#" data-bs-toggle="dropdown" aria-expanded="false" class="d-flex align-items-center gap-2" style="text-decoration: none;">
@@ -169,7 +261,7 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-end shadow-sm" style="border: 1px solid #e5e7eb; border-radius: 6px;">
                         <ul class="list-unstyled mb-0">
-                            <li><a role="menuitem" href="#" style="padding: 10px 16px; display: flex; align-items: center; gap: 8px; color: #4a5568; text-decoration: none;"><i class="fas fa-id-card text-muted"></i> Profil Saya</a></li>
+                            <li><a role="menuitem" href="{{ route('profile') }}" style="padding: 10px 16px; display: flex; align-items: center; gap: 8px; color: #4a5568; text-decoration: none;"><i class="fas fa-id-card text-muted"></i> Profil Saya</a></li>
                             <li class="divider" style="border-top: 1px solid #edf2f7; margin: 0;"></li>
                             <li>
                                 <a role="menuitem" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" style="padding: 10px 16px; display: flex; align-items: center; gap: 8px; text-decoration: none;" class="text-danger">
@@ -203,61 +295,103 @@
                                     </a>
                                 </li>
 
-                                <li class="nav-parent {{ request()->routeIs('arsip.*') || request()->routeIs('borrowings.*') ? 'nav-expanded nav-active' : '' }}">
+                                <li class="nav-parent {{ request()->routeIs('arsip.*') || request()->routeIs('retensi.*') ? 'nav-expanded nav-active' : '' }}">
                                     <a class="nav-link" href="#">
                                         <i class="fas fa-archive" aria-hidden="true"></i>
                                         <span>Data Arsip</span>
                                     </a>
                                     <ul class="nav nav-children" style="background: rgba(0, 0, 0, 0.15); border-radius: 4px;">
                                         <li class="{{ request()->routeIs('arsip.index') ? 'active' : '' }}">
-                                            <a href="{{ route('arsip.index') }}" style="color: #f8fafc !important; font-size: 12px; padding-left: 25px;">
-                                                <i class="fas fa-list-ul" style="font-size: 10px; margin-right: 5px;"></i> Daftar Arsip
+                                            <a href="{{ route('arsip.index') }}" style="color: #f8fafc !important; font-size: 0.9rem !important; padding-left: 25px;">
+                                                <i class="fas fa-list-ul" style="font-size: 0.85rem; margin-right: 5px;"></i> Daftar Arsip
                                             </a>
                                         </li>
                                         <li class="{{ request()->routeIs('arsip.create') ? 'active' : '' }}">
-                                            <a href="{{ route('arsip.create') }}" style="color: #f8fafc !important; font-size: 12px; padding-left: 25px;">
-                                                <i class="fas fa-plus-circle" style="font-size: 10px; margin-right: 5px;"></i> Tambah Arsip
+                                            <a href="{{ route('arsip.create') }}" style="color: #f8fafc !important; font-size: 0.9rem !important; padding-left: 25px;">
+                                                <i class="fas fa-plus-circle" style="font-size: 0.85rem; margin-right: 5px;"></i> Tambah Arsip
+                                            </a>
+                                        </li>
+                                        <li class="{{ request()->routeIs('retensi.*') ? 'active' : '' }}">
+                                            <a href="{{ route('retensi.index') }}" style="color: #f8fafc !important; font-size: 0.9rem !important; padding-left: 25px;">
+                                                <i class="fas fa-hourglass-half" style="font-size: 0.85rem; margin-right: 5px;"></i>
+                                                Retensi Arsip
+                                                @if(($retensiNotifCount ?? 0) > 0)
+                                                    <span class="badge bg-danger ms-1">{{ $retensiNotifCount }}</span>
+                                                @endif
                                             </a>
                                         </li>
                                     </ul>
                                 </li>
 
-                                <li class="nav-parent {{ request()->routeIs('borrowings.*') ? 'nav-expanded nav-active' : '' }}">
+                                <li class="nav-parent {{ request()->routeIs('peminjaman.*') ? 'nav-expanded nav-active' : '' }}">
                                         <a class="nav-link" href="#">
                                             <i class="fas fa-book" aria-hidden="true"></i>
-                                            <span>Peminjaman Arsip</span>
+                                            <span>
+                                                Peminjaman Arsip
+                                                @if(($peminjamanAktifCount ?? 0) > 0)
+                                                    <span class="badge bg-warning text-dark ms-1">{{ $peminjamanAktifCount }}</span>
+                                                @endif
+                                            </span>
                                         </a>
                                     <ul class="nav nav-children" style="background: rgba(0, 0, 0, 0.15); border-radius: 4px;">
-                                        <li class="{{ request()->routeIs('borrowings.index') ? 'active' : '' }}">
-                                            <a href="{{ route('borrowings.index') }}" style="color: #f8fafc !important; font-size: 12px; padding-left: 25px;">
-                                                <i class="fas fa-list-ul" style="font-size: 10px; margin-right: 5px;"></i> Daftar Peminjaman
+                                        <li class="{{ request()->routeIs('peminjaman.index') ? 'active' : '' }}">
+                                            <a href="{{ route('peminjaman.index') }}" style="color: #f8fafc !important; font-size: 0.9rem !important; padding-left: 25px;">
+                                                <i class="fas fa-list-ul" style="font-size: 0.85rem; margin-right: 5px;"></i> Daftar Peminjaman
                                             </a>
                                         </li>
-                                        <li class="{{ request()->routeIs('borrowings.create') ? 'active' : '' }}">
-                                             <a href="{{ route('borrowings.create') }}" style="color: #f8fafc !important; font-size: 12px; padding-left: 25px;">
-                                                 <i class="fas fa-plus-circle" style="font-size: 10px; margin-right: 5px;"></i> Tambah Peminjaman
+                                        <li class="{{ request()->routeIs('peminjaman.create') ? 'active' : '' }}">
+                                             <a href="{{ route('peminjaman.create') }}" style="color: #f8fafc !important; font-size: 0.9rem !important; padding-left: 25px;">
+                                                 <i class="fas fa-plus-circle" style="font-size: 0.85rem; margin-right: 5px;"></i> Tambah Peminjaman
                                             </a>
                                         </li>
                                     </ul>
                                 </li>
 
-                                <li class="{{ request()->routeIs('users.*') ? 'nav-active' : '' }}">
-                                    <a class="nav-link" href="{{ route('users.index') }}">
-                                        <i class="fas fa-users" aria-hidden="true"></i>
-                                        <span>User Management</span>
-                                    </a>
-                                </li>
-                                
-                                @if(auth()->user() && auth()->user()->role === 'Admin')
-                                <li class="nav-parent {{ request()->routeIs('locations.*') || request()->routeIs('cabinets.*') || request()->routeIs('racks.*') || request()->routeIs('classifications.*') ? 'nav-expanded nav-active' : '' }}">
+                                <li class="nav-parent {{ request()->routeIs('pengguna.*') || request()->routeIs('activity-log.*') ? 'nav-expanded nav-active' : '' }}">
                                     <a class="nav-link" href="#">
-                                        <i class="fas fa-cogs" aria-hidden="true"></i>
-                                        <span>Control Panel</span>
+                                        <i class="fas fa-users" aria-hidden="true"></i>
+                                        <span>Manajemen Pengguna</span>
                                     </a>
                                     <ul class="nav nav-children" style="background: rgba(0, 0, 0, 0.15); border-radius: 4px;">
-                                        <li class="{{ request()->routeIs('locations.index') ? 'active' : '' }}">
-                                            <a href="{{ route('locations.index') }}" style="color: #abb4be !important; font-size: 12px; padding-left: 25px;">
-                                                <i class="fas fa-map-marker-alt" style="font-size: 10px; margin-right: 5px;"></i> Lokasi Arsip
+                                        <li class="{{ request()->routeIs('pengguna.*') ? 'active' : '' }}">
+                                            <a href="{{ route('pengguna.index') }}" style="color: #f8fafc !important; font-size: 0.9rem !important; padding-left: 25px;">
+                                                <i class="fas fa-users" style="font-size: 0.85rem; margin-right: 5px;"></i> Daftar Pengguna
+                                            </a>
+                                        </li>
+                                        <li class="{{ request()->routeIs('activity-log.*') ? 'active' : '' }}">
+                                            <a href="{{ route('activity-log.index') }}" style="color: #f8fafc !important; font-size: 0.9rem !important; padding-left: 25px;">
+                                                <i class="fas fa-history" style="font-size: 0.85rem; margin-right: 5px;"></i> Log Aktivitas
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+
+                                @if(auth()->user() && auth()->user()->role === 'Admin')
+                                <li class="nav-parent {{ request()->routeIs('lokasi.*') || request()->routeIs('lemari.*') || request()->routeIs('rak.*') || request()->routeIs('klasifikasi.*') ? 'nav-expanded nav-active' : '' }}">
+                                    <a class="nav-link" href="#">
+                                        <i class="fas fa-cogs" aria-hidden="true"></i>
+                                        <span>Pengaturan Arsip</span>
+                                    </a>
+                                    <ul class="nav nav-children" style="background: rgba(0, 0, 0, 0.15); border-radius: 4px;">
+                                        <li class="{{ request()->routeIs('lokasi.*') ? 'active' : '' }}">
+                                            <a href="{{ route('lokasi.index') }}" style="color: #f8fafc !important; font-size: 0.9rem !important; padding-left: 25px;">
+                                                <i class="fas fa-map-marker-alt" style="font-size: 0.85rem; margin-right: 5px;"></i> Lokasi Arsip
+                                            </a>
+                                        </li>
+                                        <li class="{{ request()->routeIs('lemari.*') ? 'active' : '' }}">
+                                            <a href="{{ route('lemari.index') }}" style="color: #f8fafc !important; font-size: 0.9rem !important; padding-left: 25px;">
+                                                <i class="fas fa-boxes" style="font-size: 0.85rem; margin-right: 5px;"></i> Lemari Arsip
+                                            </a>
+                                        </li>
+                                        <li class="{{ request()->routeIs('rak.*') ? 'active' : '' }}">
+                                            <a href="{{ route('rak.index') }}" style="color: #f8fafc !important; font-size: 0.9rem !important; padding-left: 25px;">
+                                                <i class="fas fa-layer-group" style="font-size: 0.85rem; margin-right: 5px;"></i> Rak Arsip
+                                            </a>
+                                        </li>
+                                        <li class="{{ request()->routeIs('klasifikasi.*') ? 'active' : '' }}">
+                                            <a href="{{ route('klasifikasi.index') }}" style="color: #f8fafc !important; font-size: 0.9rem !important; padding-left: 25px;">
+                                                <i class="fas fa-tags" style="font-size: 0.85rem; margin-right: 5px;"></i> Klasifikasi
                                             </a>
                                         </li>
                                     </ul>

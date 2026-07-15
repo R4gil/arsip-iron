@@ -34,9 +34,9 @@ class LogActivity
                 $action = 'Edit Arsip';
             } elseif ($request->isMethod('delete') && $request->is('arsip*')) {
                 $action = 'Hapus Arsip';
-            } elseif ($request->isMethod('post') && $request->is('pinjam*')) {
+            } elseif ($request->isMethod('post') && $request->is('peminjaman*')) {
                 $action = 'Peminjaman Arsip';
-            } elseif ($request->isMethod('put') && $request->is('kembali*')) {
+            } elseif ($request->isMethod('patch') && $request->routeIs('peminjaman.return')) {
                 $action = 'Pengembalian Arsip';
             } elseif ($request->isMethod('post') && $request->is('master*')) {
                 $action = 'Perubahan Master Data';

@@ -47,6 +47,13 @@ return [
             'report' => false,
         ],
 
+        // Disk baru untuk NAS (Copy-Paste bagian ini)
+        'nas_storage' => [
+            'driver' => 'local',
+            'root'   => '\\\\10.10.1.95\\scan arsip\\DATABASE',
+            'throw'  => false,
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

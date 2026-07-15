@@ -8,16 +8,19 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('cabinets', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('location_id')->constrained('locations')->cascadeOnDelete();
-            $table->string('nama_lemari');
+        Schema::create('lemari', function (Blueprint $table) {
+            $table->id('lemari_id');
+            $table->unsignedBigInteger('ruangarsip_id')->nullable();
+            $table->string('lemari_nama');
+            $table->text('lemari_keterangan')->nullable();
             $table->timestamps();
+
+            $table->foreign('ruangarsip_id')->references('id')->on('lokasi_simpan')->nullOnDelete();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('cabinets');
+        Schema::dropIfExists('lemari');
     }
 };

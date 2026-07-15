@@ -8,9 +8,11 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('locations', function (Blueprint $table) {
+        Schema::create('lokasi_simpan', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_lokasi');
+            $table->string('ruangan');
+            $table->string('lemari')->default('-');
+            $table->string('rak')->default('-');
             $table->text('keterangan')->nullable();
             $table->timestamps();
         });
@@ -18,6 +20,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('locations');
+        Schema::dropIfExists('lokasi_simpan');
     }
 };
