@@ -48,7 +48,7 @@
 <div class="d-flex justify-content-start mb-3">
     <form action="{{ route('peminjaman.clearHistory') }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus semua riwayat peminjaman yang sudah dikembalikan? Data peminjaman yang masih aktif (Dipinjam) akan tetap disimpan.');">
         @csrf
-        <button type="submit" class="btn btn-danger btn-sm fw-bold">
+        <button type="submit" class="btn btn-danger btn-sm fw-bold" style="background: linear-gradient(135deg, #ef4444, #dc2626); border: none; font-weight: 600; border-radius: 8px; box-shadow: 0 2px 6px rgba(239, 68, 68, 0.25); color: white;">
             <i class="fas fa-trash-alt me-2"></i>Hapus Riwayat Peminjaman
         </button>
     </form>
@@ -67,7 +67,14 @@
                 </select>
                 <span style="color: #64748b; font-size: 0.8rem;">per halaman</span>
             </div>
-            <span style="color: #64748b; font-size: 0.8rem;">Data peminjaman</span>
+            <div class="d-flex gap-2">
+                <a href="{{ route('peminjaman.exportExcel', request()->all()) }}" class="btn btn-success btn-sm" style="background: linear-gradient(135deg, #10b981, #059669); border: none; font-weight: 600; border-radius: 8px; box-shadow: 0 2px 6px rgba(16, 185, 129, 0.25);">
+                    <i class="fas fa-file-excel me-1"></i> Export Excel
+                </a>
+                <a href="{{ route('peminjaman.exportPDF', request()->all()) }}" class="btn btn-danger btn-sm" style="background: linear-gradient(135deg, #ef4444, #dc2626); border: none; font-weight: 600; border-radius: 8px; box-shadow: 0 2px 6px rgba(239, 68, 68, 0.25);">
+                    <i class="fas fa-file-pdf me-1"></i> Export PDF
+                </a>
+            </div>
         </div>
         <div class="table-responsive">
             <table class="table is-table mb-0">
@@ -92,7 +99,7 @@
                         @if($borrowing->archive)
                         <td class="fw-bold" style="font-size: 0.8rem;">{{ $borrowing->archive->nomor_surat ?? '—' }}</td>
                         <td>{{ $borrowing->archive->nama_arsip ?? '—' }}</td>
-                        <td style="font-size: 0.8rem;">{{ $borrowing->archive->jenisArsip->nama_jenis ?? '—' }}</td>
+                        <td style="font-size: 0.8rem;">{{ $borrowing->archive->jenisArsip->nama ?? '—' }}</td>
                         <td style="font-size: 0.8rem;">
                             @php
                                 $parts = [];

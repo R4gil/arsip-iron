@@ -16,7 +16,14 @@
                 </select>
                 <span style="color: #64748b; font-size: 0.8rem;">per halaman</span>
             </div>
-            <span style="color: #64748b; font-size: 0.8rem;">Data lokasi</span>
+            <div class="d-flex gap-2">
+                <a href="{{ route('lokasi.exportExcel') }}" class="btn btn-success btn-sm" style="background: linear-gradient(135deg, #10b981, #059669); border: none; font-weight: 600; border-radius: 8px; box-shadow: 0 2px 6px rgba(16, 185, 129, 0.25);">
+                    <i class="fas fa-file-excel me-1"></i> Export Excel
+                </a>
+                <a href="{{ route('lokasi.exportPDF') }}" class="btn btn-danger btn-sm" style="background: linear-gradient(135deg, #ef4444, #dc2626); border: none; font-weight: 600; border-radius: 8px; box-shadow: 0 2px 6px rgba(239, 68, 68, 0.25);">
+                    <i class="fas fa-file-pdf me-1"></i> Export PDF
+                </a>
+            </div>
         </div>
         <div class="table-responsive">
             <table class="table is-table mb-0">
@@ -34,7 +41,7 @@
                         <td class="text-center" style="white-space:nowrap;">
                             <a href="{{ route('lemari.create', ['lokasi_id' => $location->id]) }}" class="btn btn-sm me-1" style="background:linear-gradient(135deg,#d4af37,#aa7c11);color:#1d2127;border:none;font-weight:700;border-radius:8px;box-shadow:0 2px 6px rgba(212,175,55,0.25);">+ Lemari</a>
                             <a href="{{ route('lokasi.edit', $location) }}" class="btn btn-sm me-1" style="background:#fffbeb;color:#b45309;border:1.5px solid #fcd34d;font-weight:600;border-radius:8px;">Edit</a>
-                            <form action="{{ route('lokasi.destroy', $location) }}" method="POST" class="d-inline" onsubmit="return confirm('Hapus lokasi ini?');">@csrf @method('DELETE')<button class="btn btn-sm" style="background:#fee2e2;color:#dc2626;border:1.5px solid #fecaca;font-weight:600;border-radius:8px;">Hapus</button></form>
+                            <form action="{{ route('lokasi.destroy', $location) }}" method="POST" class="d-inline" onsubmit="return confirm('Hapus lokasi ini?');">@csrf @method('DELETE')<button class="btn btn-sm" style="background: linear-gradient(135deg, #ef4444, #dc2626); border: none; font-weight: 600; border-radius: 8px; box-shadow: 0 2px 6px rgba(239, 68, 68, 0.25); color: white;">Hapus</button></form>
                         </td>
                     </tr>
                     @empty

@@ -15,11 +15,6 @@ class Cabinet extends Model
     protected $primaryKey = 'lemari_id';
     public $timestamps = true;
 
-    public function getKeyName()
-    {
-        return 'lemari_id';
-    }
-
     public function location()
     {
         return $this->belongsTo(Location::class, 'ruangarsip_id');

@@ -7,6 +7,16 @@ use Illuminate\Support\Facades\Auth;
 
 class AutentikasiController extends Controller
 {
+    /**
+     * Get the login username to be used by the controller.
+     *
+     * @return string
+     */
+    public function username()
+    {
+        return 'username';
+    }
+
     public function showLoginForm()
     {
         return view('auth.login');
@@ -88,7 +98,14 @@ class AutentikasiController extends Controller
     {
         $path = 'profile_photos/' . $filename;
 
-        // Try NAS storage first
+        // Try public storage first (where new uploads are stored)
+        if (\Storage::disk('public')->exists($path)) {
+            $file = \Storage::disk('public')->get($path);
+            $mimeType = \Storage::disk('public')->mimeType($path);
+            return response($file, 200)->header('Content-Type', $mimeType);
+        }
+
+        // Try NAS storage second
         if (\Storage::disk('nas_storage')->exists($path)) {
             $file = \Storage::disk('nas_storage')->get($path);
             $mimeType = \Storage::disk('nas_storage')->mimeType($path);

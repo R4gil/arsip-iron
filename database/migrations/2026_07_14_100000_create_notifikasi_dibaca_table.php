@@ -11,10 +11,11 @@ return new class extends Migration
         if (!Schema::hasTable('notifikasi_dibaca')) {
             Schema::create('notifikasi_dibaca', function (Blueprint $table) {
                 $table->id();
-                $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+                $table->unsignedBigInteger('user_id');
                 $table->string('notification_key', 120);
-                $table->timestamp('dismissed_at')->useCurrent();
+                $table->timestamp('dismissed_at')->nullable();
                 $table->unique(['user_id', 'notification_key']);
+                $table->index('user_id');
             });
         }
     }

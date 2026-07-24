@@ -64,39 +64,48 @@
                 </select>
                 <span style="color: #64748b; font-size: 0.8rem;">per halaman</span>
             </div>
-            <span style="color: #64748b; font-size: 0.8rem;">Data arsip</span>
+            <div class="d-flex gap-2">
+                <a href="<?php echo e(route('arsip.exportExcel', request()->all())); ?>" class="btn btn-success btn-sm" style="background: linear-gradient(135deg, #10b981, #059669); border: none; font-weight: 600; border-radius: 8px; box-shadow: 0 2px 6px rgba(16, 185, 129, 0.25);">
+                    <i class="fas fa-file-excel me-1"></i> Export Excel
+                </a>
+                <button onclick="exportPDF()" class="btn btn-danger btn-sm" style="background: linear-gradient(135deg, #ef4444, #dc2626); border: none; font-weight: 600; border-radius: 8px; box-shadow: 0 2px 6px rgba(239, 68, 68, 0.25);">
+                    <i class="fas fa-file-pdf me-1"></i> Export PDF
+                </button>
+            </div>
         </div>
         <div class="table-responsive">
             <table class="table is-table mb-0">
                 <thead>
                     <tr>
+                        <th class="ps-3" style="width: 50px;"><input type="checkbox" id="selectAll" onclick="toggleSelectAll()"></th>
                         <th class="ps-3" style="width: 50px;">No</th>
-                        <th>Nomor Surat</th>
-                        <th>Tanggal</th>
-                        <th>Nama Arsip</th>
-                        <th>Jenis</th>
+                        <th><a href="<?php echo e(sortUrl('nomor_surat')); ?>" class="sort-link">No. Surat <?php echo sortIcon('nomor_surat'); ?></a></th>
+                        <th><a href="<?php echo e(sortUrl('tanggal_arsip')); ?>" class="sort-link">Tanggal <?php echo sortIcon('tanggal_arsip'); ?></a></th>
+                        <th><a href="<?php echo e(sortUrl('nama_arsip')); ?>" class="sort-link">Nama Arsip <?php echo sortIcon('nama_arsip'); ?></a></th>
+                        <th><a href="<?php echo e(sortUrl('nama_jenis')); ?>" class="sort-link">Jenis <?php echo sortIcon('nama_jenis'); ?></a></th>
                         <th>Lokasi</th>
                         <?php if($retensiTersedia ?? false): ?>
-                        <th>Masa Retensi</th>
-                        <th>Tgl Retensi</th>
+                        <th><a href="<?php echo e(sortUrl('masa_retensi')); ?>" class="sort-link">Masa Retensi <?php echo sortIcon('masa_retensi'); ?></a></th>
+                        <th><a href="<?php echo e(sortUrl('tanggal_retensi')); ?>" class="sort-link">Tgl Retensi <?php echo sortIcon('tanggal_retensi'); ?></a></th>
                         <?php endif; ?>
-                        <th>Status</th>
-                        <th>Ketersediaan</th>
-                        <th>Status Retensi</th>
+                        <th><a href="<?php echo e(sortUrl('status')); ?>" class="sort-link">Status <?php echo sortIcon('status'); ?></a></th>
+                        <th><a href="<?php echo e(sortUrl('status_ketersediaan')); ?>" class="sort-link">Ketersediaan <?php echo sortIcon('status_ketersediaan'); ?></a></th>
+                        <th><a href="<?php echo e(sortUrl('status_retensi')); ?>" class="sort-link">Status Retensi <?php echo sortIcon('status_retensi'); ?></a></th>
                         <th class="text-center pe-3" style="width: 180px;">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php $__empty_1 = true; $__currentLoopData = $archives; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $archive): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                     <tr>
-                        <td class="ps-3 text-muted"><?php echo e($loop->iteration); ?></td>
+                        <td class="ps-3"><input type="checkbox" class="archive-checkbox" value="<?php echo e($archive->id); ?>"></td>
+                        <td class="ps-3 text-muted"><?php echo e($archives->firstItem() + $loop->index); ?></td>
                         <td class="fw-bold"><?php echo e($archive->nomor_surat ?? '—'); ?></td>
                         <td style="white-space: nowrap;"><?php echo e($archive->tanggal_arsip ? \Carbon\Carbon::parse($archive->tanggal_arsip)->format('d-m-Y') : '—'); ?></td>
                         <td>
                             <div class="fw-bold" style="font-size: 0.85rem;"><?php echo e($archive->nama_arsip); ?></div>
                             <div class="text-muted" style="font-size: 0.75rem !important;"><?php echo e($archive->perihal_surat ?? ''); ?></div>
                         </td>
-                        <td style="font-size: 0.8rem;"><?php echo e($archive->nama_jenis ?? '—'); ?></td>
+                        <td style="font-size: 0.8rem;"><?php echo e($archive->nama_jenis ?? ($archive->jenis_dokumen ?? '—')); ?></td>
                         <td style="font-size: 0.8rem;">
                             <?php
                                 $parts = array_filter([$archive->ruangan ?? '', $archive->lemari_nama ?? '', $archive->rak_nama ?? '']);
@@ -125,24 +134,31 @@
                             <a href="<?php echo e(route('arsip.edit', $archive->id)); ?>" class="btn btn-sm me-1" style="background:#fffbeb;color:#b45309;border:1.5px solid #fcd34d;font-weight:600;border-radius:8px;">Edit</a>
                             <form action="<?php echo e(route('arsip.destroy', $archive->id)); ?>" method="POST" style="display:inline;">
                                 <?php echo csrf_field(); ?> <?php echo method_field('DELETE'); ?>
-                                <button type="submit" class="btn btn-sm" style="background:#fee2e2;color:#dc2626;border:1.5px solid #fecaca;font-weight:600;border-radius:8px;" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
+                                <button type="submit" class="btn btn-sm" style="background: linear-gradient(135deg, #ef4444, #dc2626); border: none; font-weight: 600; border-radius: 8px; box-shadow: 0 2px 6px rgba(239, 68, 68, 0.25); color: white;" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
                             </form>
                         </td>
                     </tr>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                    <tr><td colspan="<?php echo e(($retensiTersedia ?? false) ? 12 : 10); ?>" class="is-empty">Data tidak ditemukan</td></tr>
+                    <tr><td colspan="<?php echo e(($retensiTersedia ?? false) ? 13 : 11); ?>" class="is-empty">Data tidak ditemukan</td></tr>
                     <?php endif; ?>
                 </tbody>
             </table>
         </div>
     </div>
-    <?php if($archives->hasPages()): ?>
     <div class="card-body border-top d-flex justify-content-between align-items-center" style="background: #f8fafc; border-radius: 0 0 12px 12px;">
-        <span style="color: #64748b; font-size: 0.8rem;">&nbsp;</span>
-        <?php echo e($archives->withQueryString()->links('pagination::simple-bootstrap-4')); ?>
+        <span style="color: #64748b; font-size: 0.85rem;">
+            <strong>Total:</strong> <?php echo e($archives->total()); ?> arsip
+            <?php if($archives->total() > 0): ?>
+                <span style="color: #94a3b8;">&mdash; Halaman <?php echo e($archives->currentPage()); ?> dari <?php echo e($archives->lastPage()); ?></span>
+            <?php endif; ?>
+        </span>
+        <?php if($archives->hasPages()): ?>
+        <div>
+            <?php echo e($archives->withQueryString()->links('pagination::simple-bootstrap-4')); ?>
 
+        </div>
+        <?php endif; ?>
     </div>
-    <?php endif; ?>
 </div>
 
 <style>
@@ -155,6 +171,41 @@
     .table tbody tr:hover { background: #f8fafc !important; }
     .table tbody tr:not(:last-child) td { border-bottom: 1px solid #f1f5f9 !important; }
     .is-badge { font-size: 0.72rem !important; padding: 0.25rem 0.55rem !important; border-radius: 6px !important; font-weight: 600 !important; }
+    .sort-link { color: #334155 !important; text-decoration: none !important; display: inline-flex; align-items: center; gap: 2px; }
+    .sort-link:hover { color: #d4af37 !important; }
 </style>
+
+<script>
+function toggleSelectAll() {
+    const selectAll = document.getElementById('selectAll');
+    const checkboxes = document.querySelectorAll('.archive-checkbox');
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = selectAll.checked;
+    });
+}
+
+function exportPDF() {
+    const checkboxes = document.querySelectorAll('.archive-checkbox:checked');
+    const ids = Array.from(checkboxes).map(cb => cb.value);
+    
+    if (ids.length === 0) {
+        alert('Pilih arsip terlebih dahulu dengan checklist');
+        return;
+    }
+    
+    const url = new URL('<?php echo e(route('arsip.exportPDF')); ?>', window.location.origin);
+    url.searchParams.append('ids', ids.join(','));
+    
+    // Add existing filters
+    const params = new URLSearchParams(window.location.search);
+    params.forEach((value, key) => {
+        if (key !== 'page') {
+            url.searchParams.append(key, value);
+        }
+    });
+    
+    window.open(url.toString(), '_blank');
+}
+</script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.dashboard', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\laragon\www\iron-smart\resources\views/arsip/daftar.blade.php ENDPATH**/ ?>

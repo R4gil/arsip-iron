@@ -22,7 +22,7 @@ class KlasifikasiController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'kode' => 'required|string|max:191|unique:classifications,kode',
+            'kode' => 'required|string|max:191|unique:klasifikasi,kode',
             'nama' => 'required|string|max:191',
         ]);
 
@@ -46,7 +46,7 @@ class KlasifikasiController extends Controller
     public function update(Request $request, Classification $classification)
     {
         $data = $request->validate([
-            'kode' => 'required|string|max:191|unique:classifications,kode,' . $classification->id,
+            'kode' => 'required|string|max:191|unique:klasifikasi,kode,' . $classification->id,
             'nama' => 'required|string|max:191',
         ]);
 
@@ -123,5 +123,41 @@ class KlasifikasiController extends Controller
         ]);
 
         return redirect()->route('klasifikasi.index')->with('success', "Import selesai. {$imported} data berhasil diimport, {$skipped} dilewati.");
+    }
+
+    public function exportExcel(Request $request)
+    {
+        $classifications = Classification::latest()->get();
+
+        $filename = 'klasifikasi_arsip_' . date('Y-m-d_His') . '.csv';
+        $handle = fopen('php://temp', 'r+');
+
+        // Header
+        fputcsv($handle, [
+            'Kode',
+            'Nama Klasifikasi'
+        ]);
+
+        // Data
+        foreach ($classifications as $classification) {
+            fputcsv($handle, [
+                $classification->kode,
+                $classification->nama
+            ]);
+        }
+
+        rewind($handle);
+        $content = stream_get_contents($handle);
+        fclose($handle);
+
+        return response($content)
+            ->header('Content-Type', 'text/csv')
+            ->header('Content-Disposition', 'attachment; filename="' . $filename . '"');
+    }
+
+    public function exportPDF(Request $request)
+    {
+        // For PDF export, redirect to index with print parameter
+        return redirect()->route('klasifikasi.index', $request->all());
     }
 }

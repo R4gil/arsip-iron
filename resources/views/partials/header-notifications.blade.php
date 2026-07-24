@@ -170,7 +170,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 element.classList.add('is-dismissing');
                 setTimeout(() => {
                     element.remove();
-                    updateBadge(data.count ?? 0);
+                    // Recalculate remaining count based on visible items
+                    const remainingItems = document.querySelectorAll('.notifikasi-item').length;
+                    updateBadge(remainingItems);
                     showEmptyState();
                 }, 180);
             } else {
@@ -183,8 +185,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.querySelectorAll('.notifikasi-item').forEach(function (item) {
         item.addEventListener('click', function (e) {
+            e.preventDefault();
             const key = this.dataset.key;
+            const url = this.getAttribute('href');
+            
+            // Dismiss notification first, then navigate
             dismissNotification(key, this);
+            
+            // Navigate to the URL after a short delay to ensure dismissal is sent
+            setTimeout(() => {
+                if (url && url !== '#') {
+                    window.location.href = url;
+                }
+            }, 200);
         });
     });
 
@@ -210,6 +223,35 @@ document.addEventListener('DOMContentLoaded', function () {
             } catch (err) {
                 console.error('Gagal menandai semua notifikasi', err);
             }
+        });
+    }
+
+    // Mark all notifications as read when dropdown is opened
+    const notifikasiToggle = document.querySelector('.notifikasi-toggle');
+    if (notifikasiToggle) {
+        notifikasiToggle.addEventListener('click', async function () {
+            // Small delay to ensure dropdown is visible
+            setTimeout(async () => {
+                const items = document.querySelectorAll('.notifikasi-item');
+                if (items.length > 0) {
+                    const keys = Array.from(items).map(el => el.dataset.key);
+                    try {
+                        await fetch('{{ route('notifikasi.dismissAll') }}', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': csrf,
+                                'Accept': 'application/json',
+                            },
+                            body: JSON.stringify({ keys }),
+                        });
+                        // Update badge immediately
+                        updateBadge(0);
+                    } catch (err) {
+                        console.error('Gagal menandai notifikasi sebagai dibaca', err);
+                    }
+                }
+            }, 100);
         });
     }
 });

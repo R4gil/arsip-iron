@@ -13,7 +13,6 @@
 <form method="POST" action="{{ route('arsip.selesaiRetensi') }}" id="selesaiRetensiForm" style="display:none;">@csrf <input type="hidden" name="ids" id="selesaiRetensiIds"></form>
 <form method="POST" action="{{ route('arsip.batalRetensi') }}" id="batalRetensiForm" style="display:none;">@csrf <input type="hidden" name="ids" id="batalRetensiIds"></form>
 <form method="POST" action="{{ route('arsip.bulkDelete') }}" id="bulkDeleteForm" style="display:none;">@csrf <input type="hidden" name="ids" id="bulkDeleteIds"></form>
-<form method="GET" action="{{ route('arsip.exportExcel') }}" id="exportExcelForm" style="display:none;"><input type="hidden" name="ids" id="exportExcelIds"></form>
 <form method="GET" action="{{ route('arsip.print') }}" id="printForm" style="display:none;"><input type="hidden" name="ids" id="printIds"></form>
 
 {{-- FILTER --}}
@@ -25,7 +24,6 @@
                     <label class="form-label fw-semibold small">Status Retensi</label>
                     <select name="status_retensi" class="form-select form-select-sm">
                         <option value="semua">Semua</option>
-                        <option value="Belum Masuk Masa Retensi" {{ request('status_retensi') == 'Belum Masuk Masa Retensi' ? 'selected' : '' }}>Belum Masuk Masa Retensi</option>
                         <option value="Masuk Masa Retensi" {{ request('status_retensi') == 'Masuk Masa Retensi' ? 'selected' : '' }}>Masuk Masa Retensi</option>
                         <option value="Proses Retensi" {{ request('status_retensi') == 'Proses Retensi' ? 'selected' : '' }}>Proses Retensi</option>
                         <option value="Selesai Retensi" {{ request('status_retensi') == 'Selesai Retensi' ? 'selected' : '' }}>Selesai Retensi</option>
@@ -49,11 +47,7 @@
         <button type="button" onclick="ajukanRetensi()" class="btn btn-warning btn-sm fw-bold"><i class="fas fa-hourglass-start me-2"></i>Ajukan Retensi</button>
         <button type="button" onclick="selesaiRetensi()" class="btn btn-success btn-sm fw-bold"><i class="fas fa-check-circle me-2"></i>Selesai Retensi</button>
         <button type="button" onclick="batalRetensi()" class="btn btn-secondary btn-sm fw-bold"><i class="fas fa-undo me-2"></i>Batal Retensi</button>
-        <button type="button" onclick="bulkDelete()" class="btn btn-danger btn-sm fw-bold"><i class="fas fa-trash me-2"></i>Hapus</button>
-        <div class="ms-auto d-flex gap-2">
-            <button type="button" onclick="exportExcel()" class="btn btn-outline-success btn-sm fw-bold"><i class="fas fa-file-excel me-2"></i>Export</button>
-            <button type="button" onclick="printData()" class="btn btn-outline-primary btn-sm fw-bold"><i class="fas fa-print me-2"></i>Print</button>
-        </div>
+        <button type="button" onclick="bulkDelete()" class="btn btn-danger btn-sm fw-bold" style="background: linear-gradient(135deg, #ef4444, #dc2626); border: none; font-weight: 600; border-radius: 8px; box-shadow: 0 2px 6px rgba(239, 68, 68, 0.25); color: white;"><i class="fas fa-trash me-2"></i>Hapus</button>
     </div>
 </div>
 
@@ -67,7 +61,14 @@
             </select>
             <span style="color: #64748b; font-size: 0.8rem;">per halaman</span>
         </div>
-            <span style="color: #64748b; font-size: 0.8rem;">Data retensi</span>
+        <div class="d-flex gap-2">
+            <button onclick="exportExcel()" class="btn btn-success btn-sm" style="background: linear-gradient(135deg, #10b981, #059669); border: none; font-weight: 600; border-radius: 8px; box-shadow: 0 2px 6px rgba(16, 185, 129, 0.25);">
+                <i class="fas fa-file-excel me-1"></i> Export Excel
+            </button>
+            <button onclick="exportPDF()" class="btn btn-danger btn-sm" style="background: linear-gradient(135deg, #ef4444, #dc2626); border: none; font-weight: 600; border-radius: 8px; box-shadow: 0 2px 6px rgba(239, 68, 68, 0.25);">
+                <i class="fas fa-file-pdf me-1"></i> Export PDF
+            </button>
+        </div>
     </div>
     
     <div class="table-responsive">
@@ -79,6 +80,8 @@
                     <th>Tanggal Surat</th>
                     <th>Nama Arsip</th>
                     <th>Kategori</th>
+                    <th>Lokasi Arsip</th>
+                    <th>Status Dokumen</th>
                     <th>Tgl Retensi</th>
                     <th>Status</th>
                     <th class="text-center">Aksi</th>
@@ -92,14 +95,32 @@
                     <td>{{ $archive->tanggal_arsip ? \Carbon\Carbon::parse($archive->tanggal_arsip)->format('d-m-Y') : '—' }}</td>
                     <td class="text-truncate">{{ $archive->nama_arsip ?? '—' }}</td>
                     <td>{{ $archive->nama_jenis ?? '—' }}</td>
+                    <td>
+                        @php
+                            $locationParts = [];
+                            if ($archive->ruangan) $locationParts[] = $archive->ruangan;
+                            if ($archive->lemari_nama) $locationParts[] = $archive->lemari_nama;
+                            if ($archive->rak_nama) $locationParts[] = $archive->rak_nama;
+                            $locationDisplay = $locationParts ? implode(' → ', $locationParts) : '—';
+                        @endphp
+                        <span style="font-size: 0.85rem;">{{ $locationDisplay }}</span>
+                    </td>
+                    <td>
+                        @php
+                            $status = $archive->status ?? '—';
+                            $badgeClass = 'bg-secondary';
+                            if ($status === 'Aktif') $badgeClass = 'bg-success';
+                            elseif ($status === 'Inaktif') $badgeClass = 'bg-danger';
+                        @endphp
+                        <span class="badge {{ $badgeClass }}">{{ $status }}</span>
+                    </td>
                     <td>{{ $archive->tanggal_retensi ? \Carbon\Carbon::parse($archive->tanggal_retensi)->format('d-m-Y') : '—' }}</td>
                     <td>
                         @php
-                            $sr = $archive->status_retensi ?? 'Belum Masuk Masa Retensi';
+                            $sr = $archive->status_retensi;
                             // Map DB values to display values
                             $displayStatus = $sr;
-                            if ($sr === 'Belum Memasuki Masa Retensi') $displayStatus = 'Belum Masuk Masa Retensi';
-                            elseif ($sr === 'Sudah Retensi') $displayStatus = 'Selesai Retensi';
+                            if ($sr === 'Sudah Retensi') $displayStatus = 'Selesai Retensi';
                             // Badge class mapping
                             $class = 'bg-secondary';
                             if ($sr === 'Masuk Masa Retensi') $class = 'bg-danger';
@@ -109,16 +130,11 @@
                         <span class="badge {{ $class }}">{{ $displayStatus }}</span>
                     </td>
                     <td class="text-center" style="white-space: nowrap;">
-                        <a href="{{ route('arsip.show', $archive->id) }}" class="btn btn-sm me-1" style="background:linear-gradient(135deg,#d4af37,#aa7c11);color:#1d2127;border:none;font-weight:700;border-radius:8px;box-shadow:0 2px 6px rgba(212,175,55,0.25);">Lihat</a>
-                        <a href="{{ route('arsip.edit', $archive->id) }}" class="btn btn-sm me-1" style="background:#fffbeb;color:#b45309;border:1.5px solid #fcd34d;font-weight:600;border-radius:8px;">Edit</a>
-                        <form action="{{ route('arsip.destroy', $archive->id) }}" method="POST" style="display:inline;">
-                            @csrf @method('DELETE')
-                            <button type="submit" class="btn btn-sm" style="background:#fee2e2;color:#dc2626;border:1.5px solid #fecaca;font-weight:600;border-radius:8px;" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
-                        </form>
+                        <a href="{{ route('arsip.show', $archive->id) }}" class="btn btn-sm" style="background:linear-gradient(135deg,#d4af37,#aa7c11);color:#1d2127;border:none;font-weight:700;border-radius:8px;box-shadow:0 2px 6px rgba(212,175,55,0.25);">Lihat</a>
                     </td>
                 </tr>
                 @empty
-                <tr><td colspan="8" class="text-center py-5">Data tidak ditemukan.</td></tr>
+                <tr><td colspan="10" class="text-center py-5">Data tidak ditemukan.</td></tr>
                 @endforelse
             </tbody>
         </table>
@@ -165,7 +181,7 @@
             </div>
             <div class="modal-footer border-0 justify-content-center">
                 <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
-                <button type="button" class="btn btn-danger btn-sm" onclick="confirmBulkDelete()">Ya, Hapus</button>
+                <button type="button" class="btn btn-danger btn-sm" onclick="confirmBulkDelete()" style="background: linear-gradient(135deg, #ef4444, #dc2626); border: none; font-weight: 600; border-radius: 8px; box-shadow: 0 2px 6px rgba(239, 68, 68, 0.25); color: white;">Ya, Hapus</button>
             </div>
         </div>
     </div>
@@ -233,8 +249,36 @@
     function exportExcel() {
         let ids = getSelected();
         if(ids) {
-            document.getElementById('exportExcelIds').value = ids;
-            document.getElementById('exportExcelForm').submit();
+            const url = new URL('{{ route('retensi.exportExcel') }}', window.location.origin);
+            url.searchParams.append('ids', ids);
+            
+            // Add existing filters
+            const params = new URLSearchParams(window.location.search);
+            params.forEach((value, key) => {
+                if (key !== 'page') {
+                    url.searchParams.append(key, value);
+                }
+            });
+            
+            window.open(url.toString(), '_blank');
+        }
+    }
+
+    function exportPDF() {
+        let ids = getSelected();
+        if(ids) {
+            const url = new URL('{{ route('retensi.exportPDF') }}', window.location.origin);
+            url.searchParams.append('ids', ids);
+            
+            // Add existing filters
+            const params = new URLSearchParams(window.location.search);
+            params.forEach((value, key) => {
+                if (key !== 'page') {
+                    url.searchParams.append(key, value);
+                }
+            });
+            
+            window.open(url.toString(), '_blank');
         }
     }
 

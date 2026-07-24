@@ -34,8 +34,6 @@ class LokasiController extends Controller
 
         $data = [
             'ruangan' => $request->input('ruangan'),
-            'lemari' => '-',
-            'rak' => '-',
         ];
 
         if (Schema::hasColumn('lokasi_simpan', 'keterangan')) {
@@ -106,5 +104,53 @@ class LokasiController extends Controller
         ]);
 
         return redirect()->route('lokasi.index')->with('success', 'Lokasi arsip berhasil dihapus.');
+    }
+
+    public function exportExcel(Request $request)
+    {
+        $locations = Location::withCount(['cabinets', 'archives'])
+            ->with(['cabinets' => function ($q) {
+                $q->withCount('racks');
+            }])
+            ->orderBy('ruangan')
+            ->get();
+
+        $filename = 'lokasi_arsip_' . date('Y-m-d_His') . '.csv';
+        $handle = fopen('php://temp', 'r+');
+
+        // Header
+        fputcsv($handle, [
+            'Nama Ruangan',
+            'Jumlah Lemari',
+            'Jumlah Rak',
+            'Jumlah Arsip',
+            'Keterangan'
+        ]);
+
+        // Data
+        foreach ($locations as $location) {
+            $totalRak = $location->cabinets->sum('racks_count');
+            fputcsv($handle, [
+                $location->ruangan,
+                $location->cabinets_count,
+                $totalRak,
+                $location->archives_count,
+                $location->keterangan ?? '—'
+            ]);
+        }
+
+        rewind($handle);
+        $content = stream_get_contents($handle);
+        fclose($handle);
+
+        return response($content)
+            ->header('Content-Type', 'text/csv')
+            ->header('Content-Disposition', 'attachment; filename="' . $filename . '"');
+    }
+
+    public function exportPDF(Request $request)
+    {
+        // For PDF export, redirect to index with print parameter
+        return redirect()->route('lokasi.index', $request->all());
     }
 }

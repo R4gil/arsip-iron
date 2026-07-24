@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             if (!Schema::hasColumn('users', 'username')) {
-                $table->string('username')->unique()->after('nama');
+                $table->string('username')->unique();
             }
         });
     }

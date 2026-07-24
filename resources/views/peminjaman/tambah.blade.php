@@ -37,7 +37,7 @@
                 <div class="d-flex justify-content-between align-items-center px-3 py-2 border-bottom" style="background: #f8fafc; border-radius: 12px 12px 0 0;">
                     <div class="d-flex align-items-center gap-2">
                         <span style="color: #64748b; font-size: 0.8rem;">Tampilkan</span>
-                        <select class="form-select form-select-sm" style="width: auto; min-width: 70px; border-radius: 6px; border: 1.5px solid #e2e8f0; font-size: 0.8rem; background-color: #fff;" onchange="window.location.href='{{ route('arsip.index') }}?per_page='+this.value+'&search={{ request('search') }}&tanggal_mulai={{ request('tanggal_mulai') }}&tanggal_selesai={{ request('tanggal_selesai') }}&lokasi_id={{ request('lokasi_id') }}&status={{ request('status') }}'">
+                        <select class="form-select form-select-sm" style="width: auto; min-width: 70px; border-radius: 6px; border: 1.5px solid #e2e8f0; font-size: 0.8rem; background-color: #fff;" onchange="window.location.href='{{ route('peminjaman.create') }}?per_page='+this.value+'&search={{ request('search') }}'">
                             <option value="10" {{ request('per_page', 15) == 10 ? 'selected' : '' }}>10</option>
                             <option value="25" {{ request('per_page', 15) == 25 ? 'selected' : '' }}>25</option>
                             <option value="50" {{ request('per_page', 15) == 50 ? 'selected' : '' }}>50</option>
@@ -58,7 +58,7 @@
                                     <div class="fw-bold">{{ $arsip->nama_arsip }}</div>
                                     <div class="text-muted small">{{ $arsip->perihal_surat ?? 'Tanpa perihal' }}</div>
                                 </td>
-                                <td>{{ $arsip->jenisArsip->nama_jenis ?? '—' }}</td>
+                                <td>{{ $arsip->jenisArsip->nama ?? '—' }}</td>
                                 <td>
                                     @php
                                         $locationParts = [];
@@ -105,7 +105,7 @@
                 <div class="d-flex align-items-center justify-content-between mb-3">
                     <div class="d-flex align-items-center gap-2">
                         <span style="color: #64748b; font-size: 0.8rem;">Tampilkan</span>
-                        <select class="form-select form-select-sm" style="width: auto; min-width: 70px; border-radius: 6px; border: 1.5px solid #e2e8f0; font-size: 0.8rem; background-color: #fff;" onchange="window.location.href='{{ route('peminjaman.create') }}?per_page='+this.value+'&search={{ request('search') }}&tanggal_mulai={{ request('tanggal_mulai') }}&tanggal_selesai={{ request('tanggal_selesai') }}&lokasi_id={{ request('lokasi_id') }}&status={{ request('status') }}'">
+                        <select class="form-select form-select-sm" style="width: auto; min-width: 70px; border-radius: 6px; border: 1.5px solid #e2e8f0; font-size: 0.8rem; background-color: #fff;" onchange="window.location.href='{{ route('peminjaman.create') }}?per_page='+this.value+'&search={{ request('search') }}'">
                             <option value="10" {{ request('per_page', 15) == 10 ? 'selected' : '' }}>10</option>
                             <option value="25" {{ request('per_page', 15) == 25 ? 'selected' : '' }}>25</option>
                             <option value="50" {{ request('per_page', 15) == 50 ? 'selected' : '' }}>50</option>
@@ -129,7 +129,7 @@
                                 <td>{{ $pinjam->nama_peminjam }}@if($pinjam->divisi_peminjam)<br><small class="text-muted">{{ $pinjam->divisi_peminjam }}</small>@endif</td>
                                 <td>{{ $pinjam->tanggal_keluar ? \Carbon\Carbon::parse($pinjam->tanggal_keluar)->format('d-m-Y') : '—' }}</td>
                                 <td class="text-center">
-                                    <form action="{{ route('peminjaman.return', $pinjam->arsip_id) }}" method="POST" class="d-inline" onsubmit="return confirm('Kembalikan arsip ini?')">
+                                    <form action="{{ route('peminjaman.kembalikan', $pinjam->arsip_id) }}" method="POST" class="d-inline" onsubmit="return confirm('Kembalikan arsip ini?')">
                                         @csrf @method('PATCH')
                                         <button type="submit" class="btn btn-sm fw-bold" style="background: linear-gradient(135deg, #d4af37, #aa7c11); color: #1e293b; border: none; border-radius: 6px; padding: 0.4rem 1rem;">
                                             <i class="fas fa-undo me-1"></i>Kembalikan

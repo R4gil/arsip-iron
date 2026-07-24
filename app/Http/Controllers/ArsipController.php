@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Archive;
-use App\Models\JenisArsip;
 use App\Models\Location;
 use App\Services\RetensiService;
+use App\Services\LayananEkstraksiDokumen;
+use App\Services\LayananEmbedding;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -15,50 +16,31 @@ class ArsipController extends Controller
 {
     public function create()
     {
-        $jenis_arsips = $this->getJenisDokumenOptions();
         $locations = Location::orderBy('ruangan')->get();
 
         return view('arsip.tambah', [
-            'jenis_arsips' => $jenis_arsips,
+            'jenis_dokumen_list' => self::JENIS_DOKUMEN,
             'locations' => $locations,
             'retensiTersedia' => RetensiService::kolomRetensiTersedia(),
         ]);
     }
 
-    private function getJenisDokumenOptions($currentJenisId = null)
-    {
-        $defaultJenis = [
-            'Dokumen Tata Usaha',
-            'Dokumen Keimigrasian',
-            'Dokumen Pengawasan dan Penindakan',
-        ];
-
-        foreach ($defaultJenis as $namaJenis) {
-            DB::table('jenis_arsip')->updateOrInsert(
-                ['nama_jenis' => $namaJenis],
-                ['masa_retensi_tahun' => 10, 'keterangan' => '']
-            );
-        }
-
-        $query = JenisArsip::whereIn('nama_jenis', $defaultJenis);
-
-        if ($currentJenisId) {
-            $query->orWhere('id', $currentJenisId);
-        }
-
-        return $query->orderBy('nama_jenis')->get();
-    }
+    public const JENIS_DOKUMEN = [
+        'Dokumen Tata Usaha',
+        'Dokumen Keimigrasian',
+        'Dokumen Pengawasan dan Penindakan',
+    ];
 
     public function index(Request $request)
     {
         $query = DB::table('arsip')
-            ->leftJoin('jenis_arsip', 'arsip.jenis_arsip_id', '=', 'jenis_arsip.id')
+            ->leftJoin('klasifikasi', 'arsip.jenis_arsip_id', '=', 'klasifikasi.id')
             ->leftJoin('lokasi_simpan', 'arsip.lokasi_id', '=', 'lokasi_simpan.id')
             ->leftJoin('lemari', 'arsip.cabinet_id', '=', 'lemari.lemari_id')
             ->leftJoin('rak', 'arsip.rack_id', '=', 'rak.rak_id')
             ->select(
                 'arsip.*',
-                'jenis_arsip.nama_jenis as nama_jenis',
+                'klasifikasi.nama as nama_jenis',
                 'lokasi_simpan.ruangan',
                 'lemari.lemari_nama',
                 'rak.rak_nama'
@@ -89,7 +71,33 @@ class ArsipController extends Controller
             $query->where('arsip.status', $request->status);
         }
 
-        $archives = $query->latest('arsip.id')->simplePaginate($request->get('per_page', 10))->withQueryString();
+        // Sorting
+        $sortableColumns = [
+            'nomor_surat' => 'arsip.nomor_surat',
+            'tanggal_arsip' => 'arsip.tanggal_arsip',
+            'nama_arsip' => 'arsip.nama_arsip',
+            'nama_jenis' => 'klasifikasi.nama',
+            'status' => 'arsip.status',
+            'status_ketersediaan' => 'arsip.status_ketersediaan',
+            'masa_retensi' => 'arsip.masa_retensi',
+            'tanggal_retensi' => 'arsip.tanggal_retensi',
+            'status_retensi' => 'arsip.status_retensi',
+        ];
+
+        $sortBy = $request->get('sort_by', 'arsip.id');
+        $sortOrder = $request->get('sort_order', 'desc');
+
+        if (isset($sortableColumns[$sortBy])) {
+            $sortBy = $sortableColumns[$sortBy];
+        } elseif ($sortBy !== 'arsip.id') {
+            $sortBy = 'arsip.id';
+        }
+
+        $sortOrder = strtolower($sortOrder) === 'asc' ? 'asc' : 'desc';
+
+        $query->orderBy($sortBy, $sortOrder);
+
+        $archives = $query->paginate($request->get('per_page', 10))->withQueryString();
 
         $locations = Location::orderBy('ruangan')->get();
 
@@ -97,15 +105,23 @@ class ArsipController extends Controller
             'archives' => $archives,
             'locations' => $locations,
             'retensiTersedia' => RetensiService::kolomRetensiTersedia(),
+            'sortBy' => $request->get('sort_by', 'arsip.id'),
+            'sortOrder' => $sortOrder,
         ]);
     }
 
     public function store(Request $request)
     {
+        \Log::info('=== Mulai proses simpan arsip ===', [
+            'input' => $request->all(),
+            'has_file' => $request->hasFile('file_arsip'),
+        ]);
+
         $rules = [
             'nomor_surat' => 'required|string|max:191|unique:arsip,nomor_surat',
             'nama_arsip' => 'required|string',
-            'jenis_arsip_id' => 'required|exists:jenis_arsip,id',
+            'jenis_dokumen' => 'required|in:Dokumen Tata Usaha,Dokumen Keimigrasian,Dokumen Pengawasan dan Penindakan',
+            'jenis_arsip_id' => 'nullable|exists:klasifikasi,id',
             'lokasi_id' => 'required|exists:lokasi_simpan,id',
             'cabinet_id' => 'nullable|exists:lemari,lemari_id',
             'rack_id' => 'nullable|exists:rak,rak_id',
@@ -117,10 +133,16 @@ class ArsipController extends Controller
         ];
 
         if (RetensiService::kolomRetensiTersedia()) {
-            $rules['masa_retensi'] = 'required|in:3 Tahun,5 Tahun,10 Tahun';
+            $rules['masa_retensi'] = 'required|in:3 Tahun,5 Tahun,10 Tahun,Permanen';
         }
 
-        $data = $request->validate($rules);
+        try {
+            $data = $request->validate($rules);
+            \Log::info('Validation passed', ['data' => $data]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            \Log::error('Validation failed', ['errors' => $e->errors()]);
+            throw $e;
+        }
 
         // Set tahun_arsip from tanggal_arsip for backward compatibility
         if (isset($data['tanggal_arsip'])) {
@@ -130,8 +152,34 @@ class ArsipController extends Controller
         if ($request->hasFile('file_arsip')) {
             $file = $request->file('file_arsip');
             $fileName = time() . '_' . $file->getClientOriginalName();
-            $file->storeAs('arsip_dokumen', $fileName, 'nas_storage');
-            $data['file_arsip'] = $fileName;
+            \Log::info('Uploading file', ['filename' => $fileName]);
+            
+            try {
+                $file->storeAs('arsip_dokumen', $fileName, 'nas_storage');
+                $data['file_arsip'] = $fileName;
+                \Log::info('File uploaded successfully');
+                
+                // Ekstrak isi dokumen secara otomatis
+                $layananEkstraksi = new LayananEkstraksiDokumen();
+                $isiDokumen = $layananEkstraksi->ekstrakIsiDokumen($fileName, $file->getClientOriginalName());
+                if ($isiDokumen) {
+                    $data['isi_dokumen'] = $isiDokumen;
+                    \Log::info('[Ingest] Ekstraksi PDF berhasil', [
+                        'file' => $fileName,
+                        'jumlah_karakter' => strlen($isiDokumen),
+                        'preview' => substr($isiDokumen, 0, 200),
+                    ]);
+                } else {
+                    \Log::warning('[Ingest] Ekstraksi PDF gagal atau kosong', [
+                        'file' => $fileName,
+                        'original_name' => $file->getClientOriginalName(),
+                        'ekstensi' => $file->getClientOriginalExtension(),
+                    ]);
+                }
+            } catch (\Exception $e) {
+                \Log::error('File upload failed', ['error' => $e->getMessage()]);
+                throw $e;
+            }
         }
 
         if (RetensiService::kolomRetensiTersedia()) {
@@ -139,31 +187,80 @@ class ArsipController extends Controller
                 $data['tanggal_arsip'],
                 $data['masa_retensi']
             );
+            
+            // Set status_retensi to Permanen when masa_retensi is Permanen
+            if ($data['masa_retensi'] === 'Permanen') {
+                $data['status_retensi'] = 'Permanen';
+            } else {
+                // Calculate initial status_retensi for non-permanent
+                $data['status_retensi'] = RetensiService::statusRetensi(
+                    $data['masa_retensi'],
+                    $data['tanggal_retensi']
+                );
+            }
         } else {
             unset($data['masa_retensi']);
         }
 
-        $archive = Archive::create($data);
+        try {
+            \Log::info('Creating archive record', ['data' => $data]);
+            $archive = Archive::create($data);
+            \Log::info('[Ingest] Arsip berhasil disimpan ke database', [
+                'archive_id' => $archive->id,
+                'nomor_surat' => $archive->nomor_surat,
+                'text_content_tersimpan' => !empty($archive->isi_dokumen),
+                'panjang_text_content' => strlen($archive->isi_dokumen ?? ''),
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Failed to create archive', ['error' => $e->getMessage()]);
+            return redirect()->back()->with('error', 'Gagal menyimpan arsip: ' . $e->getMessage())->withInput();
+        }
 
+        // Generate embedding untuk arsip yang baru dibuat
+        if (!empty($archive->isi_dokumen) || !empty($archive->nama_arsip)) {
+            try {
+                $layananEmbedding = new LayananEmbedding();
+                if ($layananEmbedding->cekKetersediaan()) {
+                    $embedding = $layananEmbedding->generateEmbeddingArsip($archive);
+                    
+                    if ($embedding) {
+                        DB::table('arsip_embeddings')->insert([
+                            'arsip_id' => $archive->id,
+                            'embedding' => json_encode($embedding),
+                            'model' => $layananEmbedding->dapatkanModel(),
+                            'dimension' => $layananEmbedding->dapatkanDimensi(),
+                            'created_at' => now(),
+                            'updated_at' => now(),
+                        ]);
+                        \Log::info('Embedding created successfully');
+                    }
+                }
+            } catch (\Exception $e) {
+                \Log::error('Gagal generate embedding untuk arsip ' . $archive->id . ': ' . $e->getMessage());
+            }
+        }
+
+        \Log::info('Creating activity log');
         \App\Models\AktivitasLog::create([
             'user_id' => auth()->id(),
             'aktivitas' => 'Tambah Arsip',
             'detail' => "Menambahkan arsip baru: {$archive->nomor_surat} - {$archive->nama_arsip}",
             'ip_address' => request()->ip(),
         ]);
+        \Log::info('Activity log created');
 
+        \Log::info('Redirecting to arsip.index with success message');
         return redirect()->route('arsip.index')->with('success', 'Arsip berhasil disimpan!');
     }
 
     public function edit($id)
     {
         $arsip = Archive::findOrFail($id);
-        $jenis_arsips = $this->getJenisDokumenOptions($arsip->jenis_arsip_id);
         $locations = Location::orderBy('ruangan')->get();
 
         return view('arsip.ubah', [
             'arsip' => $arsip,
-            'jenis_arsips' => $jenis_arsips,
+            'jenis_dokumen_list' => self::JENIS_DOKUMEN,
             'locations' => $locations,
             'retensiTersedia' => RetensiService::kolomRetensiTersedia(),
         ]);
@@ -176,7 +273,8 @@ class ArsipController extends Controller
         $rules = [
             'nomor_surat' => ['required', 'string', 'max:191', Rule::unique('arsip', 'nomor_surat')->ignore($archive->id)],
             'nama_arsip' => 'required|string',
-            'jenis_arsip_id' => 'required|exists:jenis_arsip,id',
+            'jenis_dokumen' => 'required|in:Dokumen Tata Usaha,Dokumen Keimigrasian,Dokumen Pengawasan dan Penindakan',
+            'jenis_arsip_id' => 'nullable|exists:klasifikasi,id',
             'lokasi_id' => 'required|exists:lokasi_simpan,id',
             'cabinet_id' => 'nullable|exists:lemari,lemari_id',
             'rack_id' => 'nullable|exists:rak,rak_id',
@@ -188,7 +286,7 @@ class ArsipController extends Controller
         ];
 
         if (RetensiService::kolomRetensiTersedia()) {
-            $rules['masa_retensi'] = 'required|in:3 Tahun,5 Tahun,10 Tahun';
+            $rules['masa_retensi'] = 'required|in:3 Tahun,5 Tahun,10 Tahun,Permanen';
         }
 
         $data = $request->validate($rules);
@@ -210,6 +308,23 @@ class ArsipController extends Controller
             // Simpan file baru ke NAS
             $file->storeAs('arsip_dokumen', $fileName, 'nas_storage');
             $data['file_arsip'] = $fileName;
+            
+            // Ekstrak isi dokumen secara otomatis
+            $layananEkstraksi = new LayananEkstraksiDokumen();
+            $isiDokumen = $layananEkstraksi->ekstrakIsiDokumen($fileName, $file->getClientOriginalName());
+            if ($isiDokumen) {
+                $data['isi_dokumen'] = $isiDokumen;
+                \Log::info('[Ingest] Ekstraksi PDF berhasil (update)', [
+                    'file' => $fileName,
+                    'jumlah_karakter' => strlen($isiDokumen),
+                    'preview' => substr($isiDokumen, 0, 200),
+                ]);
+            } else {
+                \Log::warning('[Ingest] Ekstraksi PDF gagal atau kosong (update)', [
+                    'file' => $fileName,
+                    'original_name' => $file->getClientOriginalName(),
+                ]);
+            }
         }
 
         if (RetensiService::kolomRetensiTersedia()) {
@@ -217,11 +332,52 @@ class ArsipController extends Controller
                 $data['tanggal_arsip'],
                 $data['masa_retensi']
             );
+            
+            // Set status_retensi to Permanen when masa_retensi is Permanen
+            if ($data['masa_retensi'] === 'Permanen') {
+                $data['status_retensi'] = 'Permanen';
+            } else {
+                // Recalculate status_retensi for non-permanent
+                $data['status_retensi'] = RetensiService::statusRetensi(
+                    $data['masa_retensi'],
+                    $data['tanggal_retensi']
+                );
+            }
         } else {
             unset($data['masa_retensi']);
         }
 
-        $archive->update($data);
+        try {
+            $archive->update($data);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal memperbarui arsip: ' . $e->getMessage())->withInput();
+        }
+
+        // Regenerate embedding jika isi dokumen atau nama arsip berubah
+        if (!empty($archive->isi_dokumen) || !empty($archive->nama_arsip)) {
+            try {
+                $layananEmbedding = new LayananEmbedding();
+                if ($layananEmbedding->cekKetersediaan()) {
+                    $embedding = $layananEmbedding->generateEmbeddingArsip($archive);
+                    
+                    if ($embedding) {
+                        // Update atau insert embedding
+                        DB::table('arsip_embeddings')
+                            ->updateOrInsert(
+                                ['arsip_id' => $archive->id],
+                                [
+                                    'embedding' => json_encode($embedding),
+                                    'model' => $layananEmbedding->dapatkanModel(),
+                                    'dimension' => $layananEmbedding->dapatkanDimensi(),
+                                    'updated_at' => now(),
+                                ]
+                            );
+                    }
+                }
+            } catch (\Exception $e) {
+                \Log::error('Gagal regenerate embedding untuk arsip ' . $archive->id . ': ' . $e->getMessage());
+            }
+        }
 
         \App\Models\AktivitasLog::create([
             'user_id' => auth()->id(),
@@ -236,13 +392,13 @@ class ArsipController extends Controller
     public function show($id)
     {
         $archive = DB::table('arsip')
-            ->leftJoin('jenis_arsip', 'arsip.jenis_arsip_id', '=', 'jenis_arsip.id')
+            ->leftJoin('klasifikasi', 'arsip.jenis_arsip_id', '=', 'klasifikasi.id')
             ->leftJoin('lokasi_simpan', 'arsip.lokasi_id', '=', 'lokasi_simpan.id')
             ->leftJoin('lemari', 'arsip.cabinet_id', '=', 'lemari.lemari_id')
             ->leftJoin('rak', 'arsip.rack_id', '=', 'rak.rak_id')
             ->select(
                 'arsip.*',
-                'jenis_arsip.nama_jenis as nama_jenis',
+                'klasifikasi.nama as nama_jenis',
                 'lokasi_simpan.ruangan',
                 'lemari.lemari_nama',
                 'rak.rak_nama'
@@ -454,7 +610,7 @@ class ArsipController extends Controller
     public function exportExcel(Request $request)
     {
         $query = DB::table('arsip')
-            ->leftJoin('jenis_arsip', 'arsip.jenis_arsip_id', '=', 'jenis_arsip.id')
+            ->leftJoin('klasifikasi', 'arsip.jenis_arsip_id', '=', 'klasifikasi.id')
             ->leftJoin('lokasi_simpan', 'arsip.lokasi_id', '=', 'lokasi_simpan.id')
             ->leftJoin('lemari', 'arsip.cabinet_id', '=', 'lemari.lemari_id')
             ->leftJoin('rak', 'arsip.rack_id', '=', 'rak.rak_id')
@@ -462,7 +618,7 @@ class ArsipController extends Controller
                 'arsip.nomor_surat',
                 'arsip.nama_arsip',
                 'arsip.perihal_surat',
-                'jenis_arsip.nama_jenis',
+                'klasifikasi.nama as nama_jenis',
                 'arsip.tanggal_arsip',
                 'lokasi_simpan.ruangan',
                 'lemari.lemari_nama',
@@ -483,9 +639,9 @@ class ArsipController extends Controller
             if ($request->filled('search')) {
                 $search = $request->search;
                 $query->where(function ($q) use ($search) {
-                    $q->whereraw('arsip.nomor_surat like ?', "%{$search}%")
-                        ->orWhereRaw('arsip.nama_arsip like ?', "%{$search}%")
-                        ->orWhereRaw('arsip.perihal_surat like ?', "%{$search}%");
+                    $q->whereRaw('arsip.nomor_surat like ?', ["%{$search}%"])
+                        ->orWhereRaw('arsip.nama_arsip like ?', ["%{$search}%"])
+                        ->orWhereRaw('arsip.perihal_surat like ?', ["%{$search}%"]);
                 });
             }
 
@@ -558,15 +714,64 @@ class ArsipController extends Controller
 
     public function exportPDF(Request $request)
     {
-        // For PDF export, we'll redirect to print view for now
-        // In production, you'd use a PDF library like dompdf or snappy
-        return redirect()->route('arsip.print', $request->all());
+        $query = DB::table('arsip')
+            ->leftJoin('klasifikasi', 'arsip.jenis_arsip_id', '=', 'klasifikasi.id')
+            ->leftJoin('lokasi_simpan', 'arsip.lokasi_id', '=', 'lokasi_simpan.id')
+            ->leftJoin('lemari', 'arsip.cabinet_id', '=', 'lemari.lemari_id')
+            ->leftJoin('rak', 'arsip.rack_id', '=', 'rak.rak_id')
+            ->select(
+                'arsip.*',
+                'klasifikasi.nama as nama_jenis',
+                'lokasi_simpan.ruangan',
+                'lemari.lemari_nama',
+                'rak.rak_nama'
+            );
+
+        // If specific IDs are provided (from checklist)
+        if ($request->filled('ids')) {
+            $ids = explode(',', $request->ids);
+            $query->whereIn('arsip.id', $ids);
+        } else {
+            // Apply same filters as index
+            if ($request->filled('search')) {
+                $search = $request->search;
+                $query->where(function ($q) use ($search) {
+                    $q->whereRaw('arsip.nomor_surat like ?', ["%{$search}%"])
+                        ->orWhereRaw('arsip.nama_arsip like ?', ["%{$search}%"])
+                        ->orWhereRaw('arsip.perihal_surat like ?', ["%{$search}%"]);
+                });
+            }
+
+            if ($request->filled('lokasi_id')) {
+                $query->where('arsip.lokasi_id', $request->lokasi_id);
+            }
+
+            if ($request->filled('tanggal_mulai')) {
+                $query->whereDate('arsip.tanggal_arsip', '>=', $request->tanggal_mulai);
+            }
+
+            if ($request->filled('tanggal_selesai')) {
+                $query->whereDate('arsip.tanggal_arsip', '<=', $request->tanggal_selesai);
+            }
+
+            if ($request->filled('status')) {
+                $query->where('arsip.status', $request->status);
+            }
+        }
+
+        $archives = $query->latest('arsip.id')->get();
+
+        $pdf = app('dompdf.wrapper');
+        $pdf->loadView('arsip.pdf', compact('archives'))
+            ->setPaper('a4', 'landscape');
+
+        return $pdf->download('arsip_' . date('Y-m-d_His') . '.pdf');
     }
 
     public function getFileInfo($id)
     {
         $archive = DB::table('arsip')
-            ->leftJoin('jenis_arsip', 'arsip.jenis_arsip_id', '=', 'jenis_arsip.id')
+            ->leftJoin('klasifikasi', 'arsip.jenis_arsip_id', '=', 'klasifikasi.id')
             ->select(
                 'arsip.id',
                 'arsip.nomor_surat',
@@ -575,7 +780,7 @@ class ArsipController extends Controller
                 'arsip.masa_retensi',
                 'arsip.tanggal_retensi',
                 'arsip.status_retensi',
-                'jenis_arsip.nama_jenis as nama_jenis'
+                'klasifikasi.nama as nama_jenis'
             )
             ->where('arsip.id', $id)
             ->first();
@@ -608,13 +813,13 @@ class ArsipController extends Controller
     public function print(Request $request)
     {
         $query = DB::table('arsip')
-            ->leftJoin('jenis_arsip', 'arsip.jenis_arsip_id', '=', 'jenis_arsip.id')
+            ->leftJoin('klasifikasi', 'arsip.jenis_arsip_id', '=', 'klasifikasi.id')
             ->leftJoin('lokasi_simpan', 'arsip.lokasi_id', '=', 'lokasi_simpan.id')
             ->leftJoin('lemari', 'arsip.cabinet_id', '=', 'lemari.lemari_id')
             ->leftJoin('rak', 'arsip.rack_id', '=', 'rak.rak_id')
             ->select(
                 'arsip.*',
-                'jenis_arsip.nama_jenis as nama_jenis',
+                'klasifikasi.nama as nama_jenis',
                 'lokasi_simpan.ruangan',
                 'lemari.lemari_nama',
                 'rak.rak_nama'
@@ -629,9 +834,9 @@ class ArsipController extends Controller
             if ($request->filled('search')) {
                 $search = $request->search;
                 $query->where(function ($q) use ($search) {
-                    $q->whereraw('arsip.nomor_surat like ?', "%{$search}%")
-                        ->orWhereRaw('arsip.nama_arsip like ?', "%{$search}%")
-                        ->orWhereRaw('arsip.perihal_surat like ?', "%{$search}%");
+                    $q->whereRaw('arsip.nomor_surat like ?', ["%{$search}%"])
+                        ->orWhereRaw('arsip.nama_arsip like ?', ["%{$search}%"])
+                        ->orWhereRaw('arsip.perihal_surat like ?', ["%{$search}%"]);
                 });
             }
 

@@ -138,4 +138,54 @@ class RakController extends Controller
             'lemari_id' => $lemariId,
         ])->with('success', 'Rak berhasil dihapus.');
     }
+
+    public function exportExcel(Request $request)
+    {
+        $query = Rack::with(['cabinet.location']);
+
+        if ($request->filled('lokasi_id')) {
+            $query->whereHas('cabinet', fn ($q) => $q->where('ruangarsip_id', $request->lokasi_id));
+        }
+
+        if ($request->filled('lemari_id')) {
+            $query->where('lemari_id', $request->lemari_id);
+        }
+
+        $racks = $query->orderBy('rak_nama')->get();
+
+        $filename = 'rak_arsip_' . date('Y-m-d_His') . '.csv';
+        $handle = fopen('php://temp', 'r+');
+
+        // Header
+        fputcsv($handle, [
+            'Lokasi',
+            'Lemari',
+            'Nama Rak',
+            'Keterangan'
+        ]);
+
+        // Data
+        foreach ($racks as $rack) {
+            fputcsv($handle, [
+                $rack->cabinet?->location?->ruangan ?? '—',
+                $rack->cabinet?->lemari_nama ?? '—',
+                $rack->rak_nama,
+                $rack->rak_keterangan ?? '—'
+            ]);
+        }
+
+        rewind($handle);
+        $content = stream_get_contents($handle);
+        fclose($handle);
+
+        return response($content)
+            ->header('Content-Type', 'text/csv')
+            ->header('Content-Disposition', 'attachment; filename="' . $filename . '"');
+    }
+
+    public function exportPDF(Request $request)
+    {
+        // For PDF export, redirect to index with print parameter
+        return redirect()->route('rak.index', $request->all());
+    }
 }

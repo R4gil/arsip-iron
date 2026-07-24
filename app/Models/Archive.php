@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-#[Fillable(['nomor_surat', 'nama_arsip', 'perihal_surat', 'jenis_arsip_id', 'lokasi_id', 'cabinet_id', 'rack_id', 'tanggal_arsip', 'tahun_arsip', 'status', 'status_ketersediaan', 'file_arsip', 'masa_retensi', 'tanggal_retensi', 'status_retensi'])]
+#[Fillable(['nomor_surat', 'nama_arsip', 'perihal_surat', 'jenis_arsip_id', 'jenis_dokumen', 'lokasi_id', 'cabinet_id', 'rack_id', 'tanggal_arsip', 'tahun_arsip', 'status', 'status_ketersediaan', 'file_arsip', 'masa_retensi', 'tanggal_retensi', 'status_retensi', 'isi_dokumen'])]
 class Archive extends Model
 {
     use HasFactory;
@@ -43,7 +43,7 @@ class Archive extends Model
         return $this->belongsTo(Rack::class, 'rack_id');
     }
 
-    public function borrowings()
+    public function peminjaman()
     {
         return $this->hasMany(Peminjaman::class, 'arsip_id');
     }

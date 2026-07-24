@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Peminjaman;
 use App\Services\NotifikasiService;
 use App\Services\RetensiService;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
@@ -40,5 +41,6 @@ class AppServiceProvider extends ServiceProvider
                 $view->with('notifikasiCount', $notifikasiList->count());
             }
         });
+
     }
 }

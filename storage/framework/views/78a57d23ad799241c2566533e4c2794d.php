@@ -6,15 +6,6 @@
     'subtitle' => 'Riwayat aktivitas seluruh pengguna sistem.',
 ], array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <form action="<?php echo e(route('activity-log.clear')); ?>" method="POST" style="display: inline;" onsubmit="return confirm('Yakin ingin menghapus semua log aktivitas? Aksi ini tidak dapat dibatalkan.')">
-        <?php echo csrf_field(); ?>
-        <button type="submit" class="btn btn-danger">
-            <i class="fas fa-trash-alt me-1"></i> Clear Log
-        </button>
-    </form>
-</div>
-
 <div class="is-card mb-3">
     <div class="is-card-body is-form py-3">
         <form method="GET" action="<?php echo e(route('activity-log.index')); ?>">
@@ -49,6 +40,22 @@
 </div>
 
 <div class="is-card">
+    <div class="d-flex justify-content-between align-items-center px-3 py-2 border-bottom" style="background: #f8fafc;">
+        <form action="<?php echo e(route('activity-log.clear')); ?>" method="POST" style="display: inline;" onsubmit="return confirm('Yakin ingin menghapus semua log aktivitas? Aksi ini tidak dapat dibatalkan.')">
+            <?php echo csrf_field(); ?>
+            <button type="submit" class="btn btn-danger btn-sm" style="background: linear-gradient(135deg, #ef4444, #dc2626); border: none; font-weight: 600; border-radius: 8px; box-shadow: 0 2px 6px rgba(239, 68, 68, 0.25);">
+                <i class="fas fa-trash-alt me-1"></i> Clear Log
+            </button>
+        </form>
+        <div class="d-flex gap-2">
+            <a href="<?php echo e(route('activity-log.exportExcel', request()->all())); ?>" class="btn btn-success btn-sm" style="background: linear-gradient(135deg, #10b981, #059669); border: none; font-weight: 600; border-radius: 8px; box-shadow: 0 2px 6px rgba(16, 185, 129, 0.25);">
+                <i class="fas fa-file-excel me-1"></i> Export Excel
+            </a>
+            <a href="<?php echo e(route('activity-log.exportPDF', request()->all())); ?>" class="btn btn-danger btn-sm" style="background: linear-gradient(135deg, #ef4444, #dc2626); border: none; font-weight: 600; border-radius: 8px; box-shadow: 0 2px 6px rgba(239, 68, 68, 0.25);">
+                <i class="fas fa-file-pdf me-1"></i> Export PDF
+            </a>
+        </div>
+    </div>
     <div class="table-responsive">
         <table class="table is-table mb-0">
             <thead>

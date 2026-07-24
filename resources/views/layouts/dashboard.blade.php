@@ -224,6 +224,7 @@
         }
     </style>
     @stack('styles')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 <body>
     <section class="body">
@@ -254,7 +255,7 @@
                             <i class="fas fa-user-circle text-muted" style="font-size: 28px; margin-top: 4px;"></i>
                         </figure>
                         <div class="profile-info">
-                            <span class="name" style="font-weight: 600; color: #2d3748;">{{ auth()->user()->name ?? 'Administrator' }}</span>
+<span class="name" style="font-weight: 600; color: #2d3748;">{{ auth()->user()->nama_pengguna ?? 'Administrator' }}</span>
                             <span class="role text-muted" style="font-size: 10px; text-transform: capitalize;">{{ auth()->user()->role ?? 'Admin' }}</span>
                         </div>
                         <i class="fa custom-caret"></i>
@@ -323,6 +324,9 @@
                                     </ul>
                                 </li>
 
+                                @php $role = auth()->user()->role ?? 'pengguna'; @endphp
+
+                                @if($role !== 'pengguna')
                                 <li class="nav-parent {{ request()->routeIs('peminjaman.*') ? 'nav-expanded nav-active' : '' }}">
                                         <a class="nav-link" href="#">
                                             <i class="fas fa-book" aria-hidden="true"></i>
@@ -346,7 +350,9 @@
                                         </li>
                                     </ul>
                                 </li>
+                                @endif
 
+                                @if($role === 'Admin')
                                 <li class="nav-parent {{ request()->routeIs('pengguna.*') || request()->routeIs('activity-log.*') ? 'nav-expanded nav-active' : '' }}">
                                     <a class="nav-link" href="#">
                                         <i class="fas fa-users" aria-hidden="true"></i>
@@ -365,6 +371,7 @@
                                         </li>
                                     </ul>
                                 </li>
+                                @endif
 
 
                                 @if(auth()->user() && auth()->user()->role === 'Admin')
@@ -396,6 +403,14 @@
                                         </li>
                                     </ul>
                                 </li>
+
+                                <li class="{{ request()->routeIs('ai-arsip.*') ? 'nav-active' : '' }}">
+                                    <a class="nav-link" href="{{ route('ai-arsip.index') }}">
+                                        <i class="fas fa-robot" aria-hidden="true"></i>
+                                        <span>AI Arsip</span>
+                                    </a>
+                                </li>
+                                
                                 @endif
                             </ul>
                         </nav>
@@ -447,6 +462,52 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('input[type="date"]').forEach(function (el) {
+            var currentVal = el.value; // format Y-m-d dari server
+            el.type = 'text';
+            flatpickr(el, {
+                locale: 'id',
+                dateFormat: 'd/m/Y',
+                altInput: false,
+                allowInput: true,
+                defaultDate: currentVal || null,
+                onChange: function(selectedDates, dateStr, instance) {
+                    // Simpan nilai Y-m-d ke hidden input untuk dikirim ke server
+                    var hidden = instance.element.nextElementSibling;
+                    if (hidden && hidden.classList.contains('fp-hidden-date')) {
+                        if (selectedDates.length > 0) {
+                            var d = selectedDates[0];
+                            var ymd = d.getFullYear() + '-' +
+                                String(d.getMonth()+1).padStart(2,'0') + '-' +
+                                String(d.getDate()).padStart(2,'0');
+                            hidden.value = ymd;
+                        } else {
+                            hidden.value = '';
+                        }
+                    }
+                },
+                onReady: function(selectedDates, dateStr, instance) {
+                    // Buat hidden input untuk nilai Y-m-d
+                    var el = instance.element;
+                    var originalName = el.name;
+                    if (originalName) {
+                        el.removeAttribute('name');
+                        var hidden = document.createElement('input');
+                        hidden.type = 'hidden';
+                        hidden.name = originalName;
+                        hidden.classList.add('fp-hidden-date');
+                        hidden.value = currentVal || '';
+                        el.parentNode.insertBefore(hidden, el.nextSibling);
+                    }
+                }
+            });
+        });
+    });
+    </script>
     @stack('scripts')
 </body>
 </html>

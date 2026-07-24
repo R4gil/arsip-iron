@@ -28,14 +28,19 @@ class DasborController extends Controller
 
             $lokasiData = DB::table('arsip')
                 ->leftJoin('lokasi_simpan', 'arsip.lokasi_id', '=', 'lokasi_simpan.id')
-                ->select(DB::raw(Location::labelSql('lokasi_simpan') . ' as label'), DB::raw('count(*) as total'))
-                ->groupBy('lokasi_simpan.ruangan', 'lokasi_simpan.lemari', 'lokasi_simpan.rak', 'lokasi_simpan.keterangan')
+                ->select(
+                    DB::raw(Location::labelSql('lokasi_simpan') . ' as label'),
+                    DB::raw('SUM(CASE WHEN arsip.status = "Aktif" THEN 1 ELSE 0 END) as aktif'),
+                    DB::raw('SUM(CASE WHEN arsip.status = "Inaktif" THEN 1 ELSE 0 END) as inaktif'),
+                    DB::raw('count(*) as total')
+                )
+                ->groupBy('lokasi_simpan.ruangan', 'lokasi_simpan.keterangan')
                 ->get();
 
             $jenisData = DB::table('arsip')
-                ->leftJoin('jenis_arsip', 'arsip.jenis_arsip_id', '=', 'jenis_arsip.id')
-                ->select('jenis_arsip.nama_jenis as label', DB::raw('count(*) as total'))
-                ->groupBy('jenis_arsip.nama_jenis')
+                ->leftJoin('klasifikasi', 'arsip.jenis_arsip_id', '=', 'klasifikasi.id')
+                ->select('klasifikasi.nama as label', DB::raw('count(*) as total'))
+                ->groupBy('klasifikasi.nama')
                 ->get();
 
             $arsipPerBulan = DB::table('arsip')

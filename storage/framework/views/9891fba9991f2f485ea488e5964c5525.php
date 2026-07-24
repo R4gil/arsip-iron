@@ -12,11 +12,11 @@
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label class="form-label fw-semibold" style="color: #334155; font-size: 0.85rem;">Jenis Dokumen <span class="text-danger">*</span></label>
-                        <select name="jenis_arsip_id" class="form-select" required
+                        <select name="jenis_dokumen" class="form-select" required
                             style="border-radius: 8px; border: 1.5px solid #e2e8f0; padding: 0.6rem 0.75rem; font-size: 0.9rem; background-color: #f8fafc; transition: border-color 0.2s;">
                             <option value="">Pilih jenis dokumen...</option>
-                            <?php $__currentLoopData = $jenis_arsips; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <option value="<?php echo e($item->id); ?>" <?php echo e(old('jenis_arsip_id', optional($arsip)->jenis_arsip_id ?? '') == $item->id ? 'selected' : ''); ?>><?php echo e($item->nama_jenis); ?></option>
+                            <?php $__currentLoopData = $jenis_dokumen_list; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $jenis): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <option value="<?php echo e($jenis); ?>" <?php echo e(old('jenis_dokumen', optional($arsip)->jenis_dokumen ?? '') == $jenis ? 'selected' : ''); ?>><?php echo e($jenis); ?></option>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </select>
                     </div>
@@ -58,15 +58,19 @@
                     <?php if($retensiTersedia ?? false): ?>
                     <div class="col-md-6">
                         <label class="form-label fw-semibold" style="color: #334155; font-size: 0.85rem;">Masa Retensi <span class="text-danger">*</span></label>
-                        <select name="masa_retensi" class="form-select" required
+                        <select name="masa_retensi" id="masa_retensi" class="form-select" required
                             style="border-radius: 8px; border: 1.5px solid #e2e8f0; padding: 0.6rem 0.75rem; font-size: 0.9rem; background-color: #f8fafc; transition: border-color 0.2s;">
                             <option value="">Pilih masa retensi...</option>
-                            <?php $__currentLoopData = ['3 Tahun', '5 Tahun', '10 Tahun']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $opsi): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <?php $__currentLoopData = ['3 Tahun', '5 Tahun', '10 Tahun', 'Permanen']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $opsi): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <option value="<?php echo e($opsi); ?>" <?php echo e(old('masa_retensi', $arsip->masa_retensi ?? '') == $opsi ? 'selected' : ''); ?>><?php echo e($opsi); ?></option>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </select>
                         <div class="mt-2 p-2 rounded" id="preview_tanggal_retensi"
                             style="display: none; background: linear-gradient(135deg, #fefce8, #fef9c3); color: #854d0e; font-weight: 600; font-size: 0.85rem; border-left: 3px solid #d4af37;">
+                        </div>
+                        <div class="mt-2 p-2 rounded" id="preview_permanen"
+                            style="display: none; background: linear-gradient(135deg, #dbeafe, #bfdbfe); color: #1e40af; font-weight: 600; font-size: 0.85rem; border-left: 3px solid #3b82f6;">
+                            <i class="fas fa-infinity me-1"></i>Arsip ini bersifat permanen dan tidak memiliki masa retensi
                         </div>
                     </div>
                     <?php endif; ?>
@@ -446,19 +450,33 @@
         <?php endif; ?>
 
         function updatePreviewRetensi() {
+            const previewPermanen = document.getElementById('preview_permanen');
+            
             if (!previewRetensi || !tanggalArsip || !masaRetensi || !masaRetensi.value) {
                 if (previewRetensi) { previewRetensi.textContent = ''; previewRetensi.style.display = 'none'; }
+                if (previewPermanen) { previewPermanen.style.display = 'none'; }
                 return;
             }
 
+            if (masaRetensi.value === 'Permanen') {
+                previewRetensi.style.display = 'none';
+                if (previewPermanen) previewPermanen.style.display = 'block';
+                return;
+            }
+            if (previewPermanen) previewPermanen.style.display = 'none';
+
             const tahunMap = { '3 Tahun': 3, '5 Tahun': 5, '10 Tahun': 10 };
             const tambah = tahunMap[masaRetensi.value];
-            if (!tambah || !tanggalArsip.value) {
+            // Baca dari hidden input Y-m-d yang dibuat Flatpickr
+            const hiddenTanggal = tanggalArsip.nextElementSibling;
+            const ymdVal = (hiddenTanggal && hiddenTanggal.classList.contains('fp-hidden-date'))
+                ? hiddenTanggal.value : tanggalArsip.value;
+            if (!tambah || !ymdVal) {
                 previewRetensi.style.display = 'none';
                 return;
             }
 
-            const tgl = new Date(tanggalArsip.value);
+            const tgl = new Date(ymdVal);
             tgl.setFullYear(tgl.getFullYear() + tambah);
             const formatted = tgl.toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' });
             previewRetensi.textContent = '🗓️ Tanggal retensi: ' + formatted;
@@ -466,10 +484,12 @@
         }
 
         function updateNomor() {
-            const tahun = tanggalArsip.value ? new Date(tanggalArsip.value).getFullYear() : new Date().getFullYear();
+            // Baca dari hidden input Y-m-d yang dibuat Flatpickr
+            const hiddenTanggal = tanggalArsip.nextElementSibling;
+            const ymdVal = (hiddenTanggal && hiddenTanggal.classList.contains('fp-hidden-date'))
+                ? hiddenTanggal.value : tanggalArsip.value;
+            const tahun = ymdVal ? new Date(ymdVal).getFullYear() : new Date().getFullYear();
             labelTahun.textContent = '/' + tahun;
-            
-            // Only update if in automatic mode
             if (modeOtomatis && modeOtomatis.checked) {
                 if (inputNomorInti.value.trim()) {
                     hiddenNomorSurat.value = `WIM.11.IMI.2-${inputNomorInti.value.trim()}/${tahun}`;

@@ -12,16 +12,11 @@
 
 <div class="card border-0 shadow-sm mb-3" style="border-radius: 12px;">
     <div class="card-body p-3">
-        <form action="{{ route('klasifikasi.import') }}" method="POST" enctype="multipart/form-data" class="row g-3 align-items-end">
+        <form action="{{ route('klasifikasi.import') }}" method="POST" enctype="multipart/form-data" class="d-flex align-items-center gap-2">
             @csrf
-            <div class="col-md-8">
-                <label class="form-label fw-semibold" style="color: #334155; font-size: 0.85rem;">Impor Klasifikasi dari CSV</label>
-                <input type="file" name="file_csv" class="form-control" accept=".csv,text/csv" required style="border-radius: 8px; border: 1.5px solid #e2e8f0; font-size: 0.9rem; background-color: #f8fafc;">
-                <div class="form-text" style="color: #64748b; font-size: 0.8rem;">Format: kolom kode dan nama/keterangan (UTF-8).</div>
-            </div>
-            <div class="col-md-4">
-                <button type="submit" class="btn fw-bold w-100 py-2" style="border-radius: 8px; background: linear-gradient(135deg, #d4af37, #aa7c11); color: #1e293b; border: none; box-shadow: 0 3px 10px rgba(212, 175, 55, 0.3);">Impor CSV</button>
-            </div>
+            <span class="fw-semibold text-nowrap" style="color: #334155; font-size: 0.85rem;">Impor CSV:</span>
+            <input type="file" name="file_csv" class="form-control" accept=".csv,text/csv" required style="border-radius: 8px; border: 1.5px solid #e2e8f0; font-size: 0.9rem; background-color: #f8fafc;">
+            <button type="submit" class="btn fw-bold text-nowrap" style="border-radius: 8px; background: linear-gradient(135deg, #d4af37, #aa7c11); color: #1e293b; border: none; box-shadow: 0 3px 10px rgba(212, 175, 55, 0.3);">Impor CSV</button>
         </form>
     </div>
 </div>
@@ -39,7 +34,14 @@
                 </select>
                 <span style="color: #64748b; font-size: 0.8rem;">per halaman</span>
             </div>
-            <span style="color: #64748b; font-size: 0.8rem;">Data klasifikasi</span>
+            <div class="d-flex gap-2">
+                <a href="{{ route('klasifikasi.exportExcel') }}" class="btn btn-success btn-sm" style="background: linear-gradient(135deg, #10b981, #059669); border: none; font-weight: 600; border-radius: 8px; box-shadow: 0 2px 6px rgba(16, 185, 129, 0.25);">
+                    <i class="fas fa-file-excel me-1"></i> Export Excel
+                </a>
+                <a href="{{ route('klasifikasi.exportPDF') }}" class="btn btn-danger btn-sm" style="background: linear-gradient(135deg, #ef4444, #dc2626); border: none; font-weight: 600; border-radius: 8px; box-shadow: 0 2px 6px rgba(239, 68, 68, 0.25);">
+                    <i class="fas fa-file-pdf me-1"></i> Export PDF
+                </a>
+            </div>
         </div>
         <div class="table-responsive">
             <table class="table is-table mb-0">
@@ -61,7 +63,7 @@
                             <a href="{{ route('klasifikasi.edit', $classification) }}" class="btn btn-sm me-1" style="background:#fffbeb;color:#b45309;border:1.5px solid #fcd34d;font-weight:600;border-radius:8px;">Edit</a>
                             <form action="{{ route('klasifikasi.destroy', $classification) }}" method="POST" class="d-inline" onsubmit="return confirm('Hapus klasifikasi ini?');">
                                 @csrf @method('DELETE')
-                                <button class="btn btn-sm" style="background:#fee2e2;color:#dc2626;border:1.5px solid #fecaca;font-weight:600;border-radius:8px;">Hapus</button>
+                                <button class="btn btn-sm" style="background: linear-gradient(135deg, #ef4444, #dc2626); border: none; font-weight: 600; border-radius: 8px; box-shadow: 0 2px 6px rgba(239, 68, 68, 0.25); color: white;">Hapus</button>
                             </form>
                         </td>
                     </tr>

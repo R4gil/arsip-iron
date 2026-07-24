@@ -64,39 +64,48 @@
                 </select>
                 <span style="color: #64748b; font-size: 0.8rem;">per halaman</span>
             </div>
-            <span style="color: #64748b; font-size: 0.8rem;">Data arsip</span>
+            <div class="d-flex gap-2">
+                <a href="{{ route('arsip.exportExcel', request()->all()) }}" class="btn btn-success btn-sm" style="background: linear-gradient(135deg, #10b981, #059669); border: none; font-weight: 600; border-radius: 8px; box-shadow: 0 2px 6px rgba(16, 185, 129, 0.25);">
+                    <i class="fas fa-file-excel me-1"></i> Export Excel
+                </a>
+                <button onclick="exportPDF()" class="btn btn-danger btn-sm" style="background: linear-gradient(135deg, #ef4444, #dc2626); border: none; font-weight: 600; border-radius: 8px; box-shadow: 0 2px 6px rgba(239, 68, 68, 0.25);">
+                    <i class="fas fa-file-pdf me-1"></i> Export PDF
+                </button>
+            </div>
         </div>
         <div class="table-responsive">
             <table class="table is-table mb-0">
                 <thead>
                     <tr>
+                        <th class="ps-3" style="width: 50px;"><input type="checkbox" id="selectAll" onclick="toggleSelectAll()"></th>
                         <th class="ps-3" style="width: 50px;">No</th>
-                        <th>Nomor Surat</th>
-                        <th>Tanggal</th>
-                        <th>Nama Arsip</th>
-                        <th>Jenis</th>
+                        <th><a href="{{ sortUrl('nomor_surat') }}" class="sort-link">No. Surat {!! sortIcon('nomor_surat') !!}</a></th>
+                        <th><a href="{{ sortUrl('tanggal_arsip') }}" class="sort-link">Tanggal {!! sortIcon('tanggal_arsip') !!}</a></th>
+                        <th><a href="{{ sortUrl('nama_arsip') }}" class="sort-link">Nama Arsip {!! sortIcon('nama_arsip') !!}</a></th>
+                        <th><a href="{{ sortUrl('nama_jenis') }}" class="sort-link">Jenis {!! sortIcon('nama_jenis') !!}</a></th>
                         <th>Lokasi</th>
                         @if($retensiTersedia ?? false)
-                        <th>Masa Retensi</th>
-                        <th>Tgl Retensi</th>
+                        <th><a href="{{ sortUrl('masa_retensi') }}" class="sort-link">Masa Retensi {!! sortIcon('masa_retensi') !!}</a></th>
+                        <th><a href="{{ sortUrl('tanggal_retensi') }}" class="sort-link">Tgl Retensi {!! sortIcon('tanggal_retensi') !!}</a></th>
                         @endif
-                        <th>Status</th>
-                        <th>Ketersediaan</th>
-                        <th>Status Retensi</th>
+                        <th><a href="{{ sortUrl('status') }}" class="sort-link">Status {!! sortIcon('status') !!}</a></th>
+                        <th><a href="{{ sortUrl('status_ketersediaan') }}" class="sort-link">Ketersediaan {!! sortIcon('status_ketersediaan') !!}</a></th>
+                        <th><a href="{{ sortUrl('status_retensi') }}" class="sort-link">Status Retensi {!! sortIcon('status_retensi') !!}</a></th>
                         <th class="text-center pe-3" style="width: 180px;">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($archives as $key => $archive)
                     <tr>
-                        <td class="ps-3 text-muted">{{ $loop->iteration }}</td>
+                        <td class="ps-3"><input type="checkbox" class="archive-checkbox" value="{{ $archive->id }}"></td>
+                        <td class="ps-3 text-muted">{{ $archives->firstItem() + $loop->index }}</td>
                         <td class="fw-bold">{{ $archive->nomor_surat ?? '—' }}</td>
                         <td style="white-space: nowrap;">{{ $archive->tanggal_arsip ? \Carbon\Carbon::parse($archive->tanggal_arsip)->format('d-m-Y') : '—' }}</td>
                         <td>
                             <div class="fw-bold" style="font-size: 0.85rem;">{{ $archive->nama_arsip }}</div>
                             <div class="text-muted" style="font-size: 0.75rem !important;">{{ $archive->perihal_surat ?? '' }}</div>
                         </td>
-                        <td style="font-size: 0.8rem;">{{ $archive->nama_jenis ?? '—' }}</td>
+                        <td style="font-size: 0.8rem;">{{ $archive->nama_jenis ?? ($archive->jenis_dokumen ?? '—') }}</td>
                         <td style="font-size: 0.8rem;">
                             @php
                                 $parts = array_filter([$archive->ruangan ?? '', $archive->lemari_nama ?? '', $archive->rak_nama ?? '']);
@@ -124,23 +133,30 @@
                             <a href="{{ route('arsip.edit', $archive->id) }}" class="btn btn-sm me-1" style="background:#fffbeb;color:#b45309;border:1.5px solid #fcd34d;font-weight:600;border-radius:8px;">Edit</a>
                             <form action="{{ route('arsip.destroy', $archive->id) }}" method="POST" style="display:inline;">
                                 @csrf @method('DELETE')
-                                <button type="submit" class="btn btn-sm" style="background:#fee2e2;color:#dc2626;border:1.5px solid #fecaca;font-weight:600;border-radius:8px;" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
+                                <button type="submit" class="btn btn-sm" style="background: linear-gradient(135deg, #ef4444, #dc2626); border: none; font-weight: 600; border-radius: 8px; box-shadow: 0 2px 6px rgba(239, 68, 68, 0.25); color: white;" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
                             </form>
                         </td>
                     </tr>
                     @empty
-                    <tr><td colspan="{{ ($retensiTersedia ?? false) ? 12 : 10 }}" class="is-empty">Data tidak ditemukan</td></tr>
+                    <tr><td colspan="{{ ($retensiTersedia ?? false) ? 13 : 11 }}" class="is-empty">Data tidak ditemukan</td></tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
     </div>
-    @if($archives->hasPages())
     <div class="card-body border-top d-flex justify-content-between align-items-center" style="background: #f8fafc; border-radius: 0 0 12px 12px;">
-        <span style="color: #64748b; font-size: 0.8rem;">&nbsp;</span>
-        {{ $archives->withQueryString()->links('pagination::simple-bootstrap-4') }}
+        <span style="color: #64748b; font-size: 0.85rem;">
+            <strong>Total:</strong> {{ $archives->total() }} arsip
+            @if($archives->total() > 0)
+                <span style="color: #94a3b8;">&mdash; Halaman {{ $archives->currentPage() }} dari {{ $archives->lastPage() }}</span>
+            @endif
+        </span>
+        @if($archives->hasPages())
+        <div>
+            {{ $archives->withQueryString()->links('pagination::simple-bootstrap-4') }}
+        </div>
+        @endif
     </div>
-    @endif
 </div>
 
 <style>
@@ -153,5 +169,40 @@
     .table tbody tr:hover { background: #f8fafc !important; }
     .table tbody tr:not(:last-child) td { border-bottom: 1px solid #f1f5f9 !important; }
     .is-badge { font-size: 0.72rem !important; padding: 0.25rem 0.55rem !important; border-radius: 6px !important; font-weight: 600 !important; }
+    .sort-link { color: #334155 !important; text-decoration: none !important; display: inline-flex; align-items: center; gap: 2px; }
+    .sort-link:hover { color: #d4af37 !important; }
 </style>
+
+<script>
+function toggleSelectAll() {
+    const selectAll = document.getElementById('selectAll');
+    const checkboxes = document.querySelectorAll('.archive-checkbox');
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = selectAll.checked;
+    });
+}
+
+function exportPDF() {
+    const checkboxes = document.querySelectorAll('.archive-checkbox:checked');
+    const ids = Array.from(checkboxes).map(cb => cb.value);
+    
+    if (ids.length === 0) {
+        alert('Pilih arsip terlebih dahulu dengan checklist');
+        return;
+    }
+    
+    const url = new URL('{{ route('arsip.exportPDF') }}', window.location.origin);
+    url.searchParams.append('ids', ids.join(','));
+    
+    // Add existing filters
+    const params = new URLSearchParams(window.location.search);
+    params.forEach((value, key) => {
+        if (key !== 'page') {
+            url.searchParams.append(key, value);
+        }
+    });
+    
+    window.open(url.toString(), '_blank');
+}
+</script>
 @endsection

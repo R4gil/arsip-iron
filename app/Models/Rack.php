@@ -15,11 +15,6 @@ class Rack extends Model
     protected $primaryKey = 'rak_id';
     public $timestamps = true;
 
-    public function getKeyName()
-    {
-        return 'rak_id';
-    }
-
     public function cabinet()
     {
         return $this->belongsTo(Cabinet::class, 'lemari_id');

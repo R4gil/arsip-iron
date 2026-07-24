@@ -37,7 +37,7 @@
                 <div class="d-flex justify-content-between align-items-center px-3 py-2 border-bottom" style="background: #f8fafc; border-radius: 12px 12px 0 0;">
                     <div class="d-flex align-items-center gap-2">
                         <span style="color: #64748b; font-size: 0.8rem;">Tampilkan</span>
-                        <select class="form-select form-select-sm" style="width: auto; min-width: 70px; border-radius: 6px; border: 1.5px solid #e2e8f0; font-size: 0.8rem; background-color: #fff;" onchange="window.location.href='<?php echo e(route('arsip.index')); ?>?per_page='+this.value+'&search=<?php echo e(request('search')); ?>&tanggal_mulai=<?php echo e(request('tanggal_mulai')); ?>&tanggal_selesai=<?php echo e(request('tanggal_selesai')); ?>&lokasi_id=<?php echo e(request('lokasi_id')); ?>&status=<?php echo e(request('status')); ?>'">
+                        <select class="form-select form-select-sm" style="width: auto; min-width: 70px; border-radius: 6px; border: 1.5px solid #e2e8f0; font-size: 0.8rem; background-color: #fff;" onchange="window.location.href='<?php echo e(route('peminjaman.create')); ?>?per_page='+this.value+'&search=<?php echo e(request('search')); ?>'">
                             <option value="10" <?php echo e(request('per_page', 15) == 10 ? 'selected' : ''); ?>>10</option>
                             <option value="25" <?php echo e(request('per_page', 15) == 25 ? 'selected' : ''); ?>>25</option>
                             <option value="50" <?php echo e(request('per_page', 15) == 50 ? 'selected' : ''); ?>>50</option>
@@ -58,7 +58,7 @@
                                     <div class="fw-bold"><?php echo e($arsip->nama_arsip); ?></div>
                                     <div class="text-muted small"><?php echo e($arsip->perihal_surat ?? 'Tanpa perihal'); ?></div>
                                 </td>
-                                <td><?php echo e($arsip->jenisArsip->nama_jenis ?? '—'); ?></td>
+                                <td><?php echo e($arsip->jenisArsip->nama ?? '—'); ?></td>
                                 <td>
                                     <?php
                                         $locationParts = [];
@@ -107,7 +107,7 @@
                 <div class="d-flex align-items-center justify-content-between mb-3">
                     <div class="d-flex align-items-center gap-2">
                         <span style="color: #64748b; font-size: 0.8rem;">Tampilkan</span>
-                        <select class="form-select form-select-sm" style="width: auto; min-width: 70px; border-radius: 6px; border: 1.5px solid #e2e8f0; font-size: 0.8rem; background-color: #fff;" onchange="window.location.href='<?php echo e(route('peminjaman.create')); ?>?per_page='+this.value+'&search=<?php echo e(request('search')); ?>&tanggal_mulai=<?php echo e(request('tanggal_mulai')); ?>&tanggal_selesai=<?php echo e(request('tanggal_selesai')); ?>&lokasi_id=<?php echo e(request('lokasi_id')); ?>&status=<?php echo e(request('status')); ?>'">
+                        <select class="form-select form-select-sm" style="width: auto; min-width: 70px; border-radius: 6px; border: 1.5px solid #e2e8f0; font-size: 0.8rem; background-color: #fff;" onchange="window.location.href='<?php echo e(route('peminjaman.create')); ?>?per_page='+this.value+'&search=<?php echo e(request('search')); ?>'">
                             <option value="10" <?php echo e(request('per_page', 15) == 10 ? 'selected' : ''); ?>>10</option>
                             <option value="25" <?php echo e(request('per_page', 15) == 25 ? 'selected' : ''); ?>>25</option>
                             <option value="50" <?php echo e(request('per_page', 15) == 50 ? 'selected' : ''); ?>>50</option>
@@ -131,7 +131,7 @@
                                 <td><?php echo e($pinjam->nama_peminjam); ?><?php if($pinjam->divisi_peminjam): ?><br><small class="text-muted"><?php echo e($pinjam->divisi_peminjam); ?></small><?php endif; ?></td>
                                 <td><?php echo e($pinjam->tanggal_keluar ? \Carbon\Carbon::parse($pinjam->tanggal_keluar)->format('d-m-Y') : '—'); ?></td>
                                 <td class="text-center">
-                                    <form action="<?php echo e(route('peminjaman.return', $pinjam->arsip_id)); ?>" method="POST" class="d-inline" onsubmit="return confirm('Kembalikan arsip ini?')">
+                                    <form action="<?php echo e(route('peminjaman.kembalikan', $pinjam->arsip_id)); ?>" method="POST" class="d-inline" onsubmit="return confirm('Kembalikan arsip ini?')">
                                         <?php echo csrf_field(); ?> <?php echo method_field('PATCH'); ?>
                                         <button type="submit" class="btn btn-sm fw-bold" style="background: linear-gradient(135deg, #d4af37, #aa7c11); color: #1e293b; border: none; border-radius: 6px; padding: 0.4rem 1rem;">
                                             <i class="fas fa-undo me-1"></i>Kembalikan

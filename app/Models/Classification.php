@@ -16,6 +16,6 @@ class Classification extends Model
 
     public function archives()
     {
-        return $this->hasMany(Archive::class, 'classification_id');
+        return $this->hasMany(Archive::class, 'jenis_arsip_id');
     }
 }

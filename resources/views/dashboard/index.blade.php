@@ -168,9 +168,36 @@
         type: 'bar',
         data: {
             labels: {!! json_encode($lokasiData->pluck('label')) !!},
-            datasets: [{ label: 'Jumlah', data: {!! json_encode($lokasiData->pluck('total')) !!}, backgroundColor: 'rgba(212,175,55,0.75)', borderRadius: 8 }]
+            datasets: [
+                { 
+                    label: 'Aktif', 
+                    data: {!! json_encode($lokasiData->pluck('aktif')) !!}, 
+                    backgroundColor: 'rgba(212,175,55,0.8)', 
+                    borderRadius: 8 
+                },
+                { 
+                    label: 'Inaktif', 
+                    data: {!! json_encode($lokasiData->pluck('inaktif')) !!}, 
+                    backgroundColor: 'rgba(100,116,139,0.8)', 
+                    borderRadius: 8 
+                }
+            ]
         },
-        options: { maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: '#f1f5f9' } }, x: { grid: { display: false } } } }
+        options: { 
+            maintainAspectRatio: false, 
+            plugins: { legend: { display: true, position: 'bottom' } }, 
+            scales: { 
+                x: { 
+                    stacked: true, 
+                    grid: { display: false } 
+                }, 
+                y: { 
+                    stacked: true, 
+                    beginAtZero: true, 
+                    grid: { color: '#f1f5f9' } 
+                } 
+            } 
+        }
     });
 </script>
 @endpush

@@ -46,8 +46,10 @@ class PenggunaController extends Controller
             'profile_photo' => 'nullable|image|max:2048',
         ]);
 
-        $data['password'] = bcrypt($data['password']);
+        // Set 'name' field to same value as 'nama_pengguna' (required by database)
+        $data['name'] = $data['nama_pengguna'];
 
+        // Password akan di-hash otomatis oleh casts: 'hashed' di model User
         if ($request->hasFile('profile_photo')) {
             $file = $request->file('profile_photo');
             $fileName = time() . '_' . $file->getClientOriginalName();
@@ -92,8 +94,14 @@ class PenggunaController extends Controller
 
         $data = $request->validate($rules);
 
+        // Set 'name' field to same value as 'nama_pengguna' (required by database)
+        if (isset($data['nama_pengguna'])) {
+            $data['name'] = $data['nama_pengguna'];
+        }
+
+        // Password akan di-hash otomatis oleh casts: 'hashed' di model User
         if ($request->filled('password')) {
-            $data['password'] = bcrypt($data['password']);
+            // Tidak perlu bcrypt manual, akan di-hash otomatis
         } else {
             unset($data['password']);
         }
@@ -145,5 +153,64 @@ class PenggunaController extends Controller
         ]);
 
         return redirect()->route('pengguna.index')->with('success', 'Pengguna berhasil dihapus.');
+    }
+
+    public function exportExcel(Request $request)
+    {
+        $query = User::query();
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('nama_pengguna', 'like', "%{$search}%")
+                    ->orWhere('username', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('role')) {
+            $query->where('role', $request->role);
+        }
+
+        $users = $query->orderBy('created_at', 'desc')->get();
+
+        $filename = 'pengguna_' . date('Y-m-d_His') . '.csv';
+        $handle = fopen('php://temp', 'r+');
+
+        // Header
+        fputcsv($handle, [
+            'Nama',
+            'Username',
+            'Email',
+            'Unit Kerja',
+            'Role',
+            'Dibuat'
+        ]);
+
+        // Data
+        foreach ($users as $user) {
+            fputcsv($handle, [
+                $user->nama_pengguna,
+                $user->username,
+                $user->email,
+                $user->unit_kerja ?? '—',
+                ucfirst($user->role),
+                $user->created_at->format('d-m-Y')
+            ]);
+        }
+
+        rewind($handle);
+        $content = stream_get_contents($handle);
+        fclose($handle);
+
+        return response($content)
+            ->header('Content-Type', 'text/csv')
+            ->header('Content-Disposition', 'attachment; filename="' . $filename . '"');
+    }
+
+    public function exportPDF(Request $request)
+    {
+        // For PDF export, redirect to index with print parameter
+        return redirect()->route('pengguna.index', $request->all());
     }
 }

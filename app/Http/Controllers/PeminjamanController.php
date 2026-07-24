@@ -9,34 +9,20 @@ class PeminjamanController extends Controller
 {
     public function create(Request $request)
     {
-        $query = Archive::where('status_ketersediaan', 'Tersedia')
-            ->with(['jenisArsip', 'lokasi', 'cabinet', 'rack']);
+        $arsipTersedia = Archive::where('status_ketersediaan', 'Tersedia')
+            ->simplePaginate(10, ['*'], 'arsip_page')
+            ->withQueryString();
 
-        if ($request->filled('search')) {
-            $search = $request->search;
-            $query->where(function ($q) use ($search) {
-                $q->where('nomor_surat', 'like', "%{$search}%")
-                    ->orWhere('nama_arsip', 'like', "%{$search}%")
-                    ->orWhere('perihal_surat', 'like', "%{$search}%");
-            });
-        }
+        $peminjamanAktif = Peminjaman::with(['archive'])
+            ->where('status_pinjam', 'Dipinjam')
+            ->latest('tanggal_keluar')
+            ->simplePaginate(10, ['*'], 'pinjam_page')
+            ->withQueryString();
 
-        // Menggunakan simplePaginate
-    $arsipTersedia = Archive::where('status_ketersediaan', 'Tersedia')
-        ->simplePaginate(10, ['*'], 'arsip_page')
-        ->withQueryString();
+        $totalArsip = Archive::where('status_ketersediaan', 'Tersedia')->count();
+        $totalPinjam = Peminjaman::where('status_pinjam', 'Dipinjam')->count();
 
-    $peminjamanAktif = Peminjaman::with(['archive'])
-        ->where('status_pinjam', 'Dipinjam')
-        ->latest('tanggal_keluar')
-        ->simplePaginate(10, ['*'], 'pinjam_page')
-        ->withQueryString();
-
-    // Hitung manual untuk ditampilkan di View
-    $totalArsip = Archive::where('status_ketersediaan', 'Tersedia')->count();
-    $totalPinjam = Peminjaman::where('status_pinjam', 'Dipinjam')->count();
-
-    return view('peminjaman.tambah', compact('arsipTersedia', 'peminjamanAktif', 'totalArsip', 'totalPinjam'));
+        return view('peminjaman.tambah', compact('arsipTersedia', 'peminjamanAktif', 'totalArsip', 'totalPinjam'));
     }
 
     public function index(Request $request)
@@ -109,7 +95,7 @@ class PeminjamanController extends Controller
         return redirect()->route('peminjaman.index')->with('success', 'Peminjaman arsip berhasil dicatat.');
     }
 
-    public function return($id)
+    public function kembalikan($id)
     {
         $peminjaman = Peminjaman::where('arsip_id', $id)
             ->where('status_pinjam', 'Dipinjam')
@@ -173,5 +159,81 @@ class PeminjamanController extends Controller
         ]);
 
         return redirect()->route('peminjaman.index')->with('success', "Berhasil menghapus {$deletedCount} riwayat peminjaman yang sudah dikembalikan.");
+    }
+
+    public function exportExcel(Request $request)
+    {
+        $query = Peminjaman::with(['archive.jenisArsip', 'archive.lokasi', 'archive.cabinet', 'archive.rack'])
+            ->whereHas('archive');
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('nama_peminjam', 'like', "%{$search}%")
+                    ->orWhere('divisi_peminjam', 'like', "%{$search}%")
+                    ->orWhereHas('archive', function ($q) use ($search) {
+                        $q->where('nama_arsip', 'like', "%{$search}%")
+                            ->orWhere('nomor_surat', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status_pinjam', $request->status);
+        }
+
+        $borrowings = $query->latest('tanggal_keluar')->get();
+
+        $filename = 'peminjaman_arsip_' . date('Y-m-d_His') . '.csv';
+        $handle = fopen('php://temp', 'r+');
+
+        // Header
+        fputcsv($handle, [
+            'Nomor Arsip',
+            'Nama Arsip',
+            'Kategori',
+            'Lokasi',
+            'Peminjam',
+            'Divisi',
+            'Tgl Pinjam',
+            'Tgl Kembali',
+            'Status'
+        ]);
+
+        // Data
+        foreach ($borrowings as $borrowing) {
+            if ($borrowing->archive) {
+                $parts = [];
+                if ($borrowing->archive->lokasi) $parts[] = $borrowing->archive->lokasi->ruangan;
+                if ($borrowing->archive->cabinet) $parts[] = $borrowing->archive->cabinet->lemari_nama;
+                if ($borrowing->archive->rack) $parts[] = $borrowing->archive->rack->rak_nama;
+                
+                fputcsv($handle, [
+                    $borrowing->archive->nomor_surat ?? '—',
+                    $borrowing->archive->nama_arsip ?? '—',
+                    $borrowing->archive->jenisArsip->nama ?? '—',
+                    $parts ? implode(' → ', $parts) : '—',
+                    $borrowing->nama_peminjam,
+                    $borrowing->divisi_peminjam ?? '—',
+                    $borrowing->tanggal_keluar ? \Carbon\Carbon::parse($borrowing->tanggal_keluar)->format('d-m-Y') : '—',
+                    $borrowing->tanggal_masuk ? \Carbon\Carbon::parse($borrowing->tanggal_masuk)->format('d-m-Y') : '—',
+                    $borrowing->status_pinjam
+                ]);
+            }
+        }
+
+        rewind($handle);
+        $content = stream_get_contents($handle);
+        fclose($handle);
+
+        return response($content)
+            ->header('Content-Type', 'text/csv')
+            ->header('Content-Disposition', 'attachment; filename="' . $filename . '"');
+    }
+
+    public function exportPDF(Request $request)
+    {
+        // For PDF export, redirect to index with print parameter
+        return redirect()->route('peminjaman.index', $request->all());
     }
 }

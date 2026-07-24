@@ -6,17 +6,18 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-#[Fillable(['nama_jenis', 'masa_retensi_tahun', 'keterangan'])]
+#[Fillable(['nama', 'kode', 'masa_retensi_tahun', 'keterangan'])]
 class JenisArsip extends Model
 {
     use HasFactory;
 
     public $timestamps = false;
 
-    protected $table = 'jenis_arsip';
+    protected $table = 'klasifikasi';
 
     protected $fillable = [
-        'nama_jenis',
+        'nama',
+        'kode',
         'masa_retensi_tahun',
         'keterangan',
     ];
@@ -24,5 +25,15 @@ class JenisArsip extends Model
     public function archives()
     {
         return $this->hasMany(Archive::class, 'jenis_arsip_id');
+    }
+
+    /**
+     * Get the value of the model's name column (alias for compatibility)
+     *
+     * @return string
+     */
+    public function getNamaJenisAttribute()
+    {
+        return $this->nama;
     }
 }

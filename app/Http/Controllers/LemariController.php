@@ -106,4 +106,50 @@ class LemariController extends Controller
         return redirect()->route('lemari.index', ['lokasi_id' => $lokasiId])
             ->with('success', 'Lemari berhasil dihapus.');
     }
+
+    public function exportExcel(Request $request)
+    {
+        $query = Cabinet::with('location')->withCount('racks');
+
+        if ($request->filled('lokasi_id')) {
+            $query->where('ruangarsip_id', $request->lokasi_id);
+        }
+
+        $cabinets = $query->orderBy('lemari_nama')->get();
+
+        $filename = 'lemari_arsip_' . date('Y-m-d_His') . '.csv';
+        $handle = fopen('php://temp', 'r+');
+
+        // Header
+        fputcsv($handle, [
+            'Lokasi',
+            'Nama Lemari',
+            'Jumlah Rak',
+            'Keterangan'
+        ]);
+
+        // Data
+        foreach ($cabinets as $cabinet) {
+            fputcsv($handle, [
+                $cabinet->location?->ruangan ?? '—',
+                $cabinet->lemari_nama,
+                $cabinet->racks_count,
+                $cabinet->lemari_keterangan ?? '—'
+            ]);
+        }
+
+        rewind($handle);
+        $content = stream_get_contents($handle);
+        fclose($handle);
+
+        return response($content)
+            ->header('Content-Type', 'text/csv')
+            ->header('Content-Disposition', 'attachment; filename="' . $filename . '"');
+    }
+
+    public function exportPDF(Request $request)
+    {
+        // For PDF export, redirect to index with print parameter
+        return redirect()->route('lemari.index', $request->all());
+    }
 }
